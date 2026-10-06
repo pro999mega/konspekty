@@ -1,27 +1,27 @@
 # Конспекты Honer AI
 
-Оформленные конспекты: рамка-лист, спокойные блоки, таблицы, лента времени, шпаргалка и интерактивный тест с автопроверкой. Без картинок — страницы открываются быстро и работают без VPN.
+Оформленные конспекты: рамка-лист, спокойные блоки, таблицы, шпаргалка и интерактивный тест с автопроверкой. Без картинок — страницы открываются быстро и работают без VPN.
 
 ## Файлы
 
 | Файл | Тема |
 |:---|:---|
 | `index.html` | оглавление со ссылками на все конспекты |
-| `magnitny-puskatel.html` | Магнитный пускатель: НО/НЗ, самоподхват, тепловое реле, расчёт тока |
-| `trehfazny-tok.html` | Трёхфазный ток: звезда и треугольник |
-| `istoriya-ot-rusi-do-ordy.html` | История России: от Древней Руси до ордынского ига (IX–XV вв.) |
+| `elektrichestvo.html` | Электричество: ток, напряжение, сопротивление, закон Ома, мощность, соединения, безопасность |
 
 ## Как открыть
 
 Одной ссылкой — оглавление со всеми темами:
 
-https://cdn.jsdelivr.net/gh/pro999mega/konspekty@main/index.html
+https://raw.githack.com/pro999mega/konspekty/main/index.html
 
-Отдельные страницы:
+Отдельная страница:
 
-- https://cdn.jsdelivr.net/gh/pro999mega/konspekty@main/magnitny-puskatel.html
-- https://cdn.jsdelivr.net/gh/pro999mega/konspekty@main/trehfazny-tok.html
-- https://cdn.jsdelivr.net/gh/pro999mega/konspekty@main/istoriya-ot-rusi-do-ordy.html
+- https://raw.githack.com/pro999mega/konspekty/main/elektrichestvo.html
+
+Те же адреса через jsDelivr (с кэшем до нескольких часов):
+
+- https://cdn.jsdelivr.net/gh/pro999mega/konspekty@main/index.html
 
 GitHub Pages (если включены): https://pro999mega.github.io/konspekty/
 
@@ -33,4 +33,4 @@ GitHub Pages (если включены): https://pro999mega.github.io/konspekty
 
 - Репозиторий публичный, страницы доступны по ссылке.
 - Тест внизу страницы работает прямо в браузере и считает баллы.
-- Ссылка jsDelivr кэшируется: свежие правки могут появиться с задержкой до нескольких часов, Pages обновляются сразу.
+- Оглавление `index.html` содержит только те файлы, которые реально лежат в репозитории: удалённые темы в него не попадают.
