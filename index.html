@@ -6,36 +6,48 @@
 <title>Мои конспекты</title>
 <style>
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1b2437;line-height:1.5;
-    background:radial-gradient(1100px 560px at 12% -12%,#dbe9ff 0%,#eef2f9 46%,#e7ebf4 100%)}
-  .hd{position:sticky;top:0;z-index:10;padding:13px 11px 8px}
-  .card{max-width:800px;margin:0 auto;color:#fff;border-radius:24px;padding:15px 17px 13px;
-    background:linear-gradient(135deg,#1f3b8f 0%,#2f66c9 55%,#3f8ae0 100%);
-    box-shadow:0 14px 32px rgba(31,59,143,.30)}
-  h1{margin:0;font-size:17px;font-weight:700;letter-spacing:.2px}
-  .sub{margin:3px 0 0;font-size:12px;color:#cfe0ff}
-  .tabs{display:flex;gap:8px;overflow-x:auto;margin-top:11px;padding-bottom:2px;scrollbar-width:none}
+  html,body{margin:0}
+  body{min-height:100vh;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#eaf2ff;line-height:1.5;
+    background:
+      radial-gradient(900px 520px at 12% -12%,rgba(79,124,255,.38) 0%,rgba(8,19,38,0) 62%),
+      radial-gradient(760px 480px at 100% 2%,rgba(122,84,255,.26) 0%,rgba(8,19,38,0) 58%),
+      linear-gradient(165deg,#071224 0%,#0e1f3d 46%,#091731 100%);
+    background-attachment:fixed}
+  .hd{position:sticky;top:0;z-index:10;padding:14px 12px 8px}
+  .card{max-width:830px;margin:0 auto;border-radius:28px;padding:18px 20px 16px;
+    background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 22px 48px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.18)}
+  .kicker{margin:0 0 6px;font-size:10.5px;letter-spacing:2.6px;text-transform:uppercase;color:#8fb6f0}
+  h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.3px;color:#fff}
+  .sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+  .tabs{display:flex;gap:9px;overflow-x:auto;margin-top:14px;padding-bottom:2px;scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
   .tab{flex:0 0 auto;cursor:pointer;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;
-    padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.42);
-    background:rgba(255,255,255,.14);color:#eaf2ff;transition:transform .15s,background .2s}
-  .tab:active{transform:scale(.97)}
-  .tab.active{background:#fff;color:#1f3b8f;border-color:#fff;box-shadow:0 5px 14px rgba(0,0,0,.20)}
-  main{max-width:800px;margin:0 auto;padding:10px 11px 30px}
-  .frame{width:100%;border:0;display:block;background:#fff;border-radius:24px;
-    box-shadow:0 12px 28px rgba(27,36,55,.13)}
-  .links{margin-top:13px;text-align:center;font-size:12px;color:#5a6b86}
-  .links a{color:#2f66c9;text-decoration:none;font-weight:600}
+    padding:10px 18px;border-radius:999px;color:#dfeaff;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+    transition:transform .18s ease,background .2s ease,color .2s ease}
+  .tab:active{transform:scale(.96)}
+  .tab.active{background:linear-gradient(135deg,#ffffff,#e6efff);color:#12305f;border-color:rgba(255,255,255,.9);
+    box-shadow:0 10px 22px rgba(0,0,0,.36)}
+  main{max-width:830px;margin:0 auto;padding:10px 12px 40px}
+  .frame{width:100%;border:1px solid rgba(255,255,255,.14);display:block;background:#fff;border-radius:28px;
+    box-shadow:0 26px 60px rgba(0,0,0,.46)}
+  .links{margin-top:14px;text-align:center;font-size:12px;color:#9db4d6}
+  .links a{color:#9ec8ff;text-decoration:none;font-weight:600}
+  .foot{max-width:830px;margin:16px auto 0;text-align:center;font-size:11px;color:#6f86a8;letter-spacing:.3px}
   @media(max-width:430px){
     .hd{padding:10px 9px 6px}
-    .card{border-radius:18px;padding:12px 13px 10px}
-    .frame{border-radius:18px}
+    .card{border-radius:22px;padding:14px 15px 13px}
+    h1{font-size:17px}
+    .frame{border-radius:22px}
   }
 </style>
 </head>
 <body>
   <header class="hd">
     <div class="card">
+      <p class="kicker">Личный сборник</p>
       <h1>📚 Мои конспекты</h1>
       <p class="sub" id="sub"></p>
       <div class="tabs" id="tabs"></div>
@@ -45,6 +57,7 @@
   <main>
     <iframe class="frame" id="f" title="Конспект"></iframe>
     <div class="links" id="links"></div>
+    <p class="foot">Вкладки появляются только для файлов, которые реально есть в репозитории</p>
   </main>
 
 <script>
@@ -54,7 +67,7 @@
     { src: 'elektrichestvo.html', tab: '⚡ Электричество', short: 'электричество' }
   ];
 
-  var VER = '4'; /* версия — чтобы браузер не показывал старую копию из кэша */
+  var VER = '5'; /* версия ссылок — пробивает кэш, чтобы не показывалась старая копия */
 
   var frame = document.getElementById('f');
   var tabsBox = document.getElementById('tabs');
@@ -69,7 +82,7 @@
       Array.prototype.forEach.call(tabsBox.children, function (x) {
         x.classList.toggle('active', x === b);
       });
-      frame.style.height = '50vh';
+      frame.style.height = '60vh';
       frame.src = m.src + '?v=' + VER;
       setTimeout(fit, 500);
     };
@@ -82,7 +95,6 @@
   /* Один конспект — панель выбора не нужна */
   if (materials.length < 2) {
     tabsBox.style.display = 'none';
-    document.getElementById('links').style.display = 'none';
   } else {
     linksBox.innerHTML = 'Открыть отдельно: ' + materials.map(function (m) {
       return '<a href="' + m.src + '?v=' + VER + '">' + m.short + '</a>';
