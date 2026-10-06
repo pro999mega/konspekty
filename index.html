@@ -5,54 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Мои конспекты</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: #eef1f6;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    color: #1f2933; line-height: 1.5;
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1b2437;line-height:1.5;
+    background:radial-gradient(1100px 560px at 12% -12%,#dbe9ff 0%,#eef2f9 46%,#e7ebf4 100%)}
+  .hd{position:sticky;top:0;z-index:10;padding:13px 11px 8px}
+  .card{max-width:800px;margin:0 auto;color:#fff;border-radius:24px;padding:15px 17px 13px;
+    background:linear-gradient(135deg,#1f3b8f 0%,#2f66c9 55%,#3f8ae0 100%);
+    box-shadow:0 14px 32px rgba(31,59,143,.30)}
+  h1{margin:0;font-size:17px;font-weight:700;letter-spacing:.2px}
+  .sub{margin:3px 0 0;font-size:12px;color:#cfe0ff}
+  .tabs{display:flex;gap:8px;overflow-x:auto;margin-top:11px;padding-bottom:2px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;cursor:pointer;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;
+    padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.42);
+    background:rgba(255,255,255,.14);color:#eaf2ff;transition:transform .15s,background .2s}
+  .tab:active{transform:scale(.97)}
+  .tab.active{background:#fff;color:#1f3b8f;border-color:#fff;box-shadow:0 5px 14px rgba(0,0,0,.20)}
+  main{max-width:800px;margin:0 auto;padding:10px 11px 30px}
+  .frame{width:100%;border:0;display:block;background:#fff;border-radius:24px;
+    box-shadow:0 12px 28px rgba(27,36,55,.13)}
+  .links{margin-top:13px;text-align:center;font-size:12px;color:#5a6b86}
+  .links a{color:#2f66c9;text-decoration:none;font-weight:600}
+  @media(max-width:430px){
+    .hd{padding:10px 9px 6px}
+    .card{border-radius:18px;padding:12px 13px 10px}
+    .frame{border-radius:18px}
   }
-  header {
-    position: sticky; top: 0; z-index: 10;
-    background: #1e3a8a; padding: 12px 14px 11px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.18);
-  }
-  h1 { margin: 0 0 3px; font-size: 16px; color: #fff; font-weight: 600; }
-  .sub { margin: 0; font-size: 12px; color: #bfdbfe; }
-  .tabs { display: flex; gap: 6px; overflow-x: auto; margin-top: 9px; padding-bottom: 2px; }
-  .tabs:empty { display: none; }
-  .tab {
-    flex: 0 0 auto; cursor: pointer;
-    border: 1px solid rgba(255,255,255,.35);
-    background: rgba(255,255,255,.12); color: #dbeafe;
-    font: inherit; font-size: 13px; padding: 8px 12px; border-radius: 7px;
-    white-space: nowrap;
-  }
-  .tab.active { background: #fff; color: #1e3a8a; font-weight: 600; border-color: #fff; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 14px 12px 26px; }
-  iframe { width: 100%; border: 0; display: block; background: #fff; border-radius: 10px; }
-  .links { margin-top: 14px; font-size: 12px; color: #52647c; text-align: center; }
-  .links:empty { display: none; }
-  .links a { color: #2563eb; }
 </style>
 </head>
 <body>
-  <header id="hd">
-    <h1>📚 Мои конспекты</h1>
-    <p class="sub" id="sub"></p>
-    <div class="tabs" id="tabs"></div>
+  <header class="hd">
+    <div class="card">
+      <h1>📚 Мои конспекты</h1>
+      <p class="sub" id="sub"></p>
+      <div class="tabs" id="tabs"></div>
+    </div>
   </header>
 
-  <div class="wrap">
-    <iframe id="f" title="Конспект"></iframe>
+  <main>
+    <iframe class="frame" id="f" title="Конспект"></iframe>
     <div class="links" id="links"></div>
-  </div>
+  </main>
 
 <script>
-  /* Список конспектов. Добавляем строку только тогда,
-     когда файл реально лежит в репозитории. */
+  /* В этот список добавляем ТОЛЬКО те файлы,
+     которые реально лежат в репозитории. */
   var materials = [
     { src: 'elektrichestvo.html', tab: '⚡ Электричество', short: 'электричество' }
   ];
+
+  var VER = '4'; /* версия — чтобы браузер не показывал старую копию из кэша */
 
   var frame = document.getElementById('f');
   var tabsBox = document.getElementById('tabs');
@@ -63,47 +65,38 @@
     var b = document.createElement('button');
     b.className = 'tab' + (i === 0 ? ' active' : '');
     b.textContent = m.tab;
-    b.dataset.src = m.src;
     b.onclick = function () {
       Array.prototype.forEach.call(tabsBox.children, function (x) {
         x.classList.toggle('active', x === b);
       });
-      frame.style.height = '40vh';
-      frame.src = m.src;
+      frame.style.height = '50vh';
+      frame.src = m.src + '?v=' + VER;
       setTimeout(fit, 500);
     };
     tabsBox.appendChild(b);
   });
 
-  sub.textContent = materials.length === 1
-    ? 'Материалов в подборке: ' + materials.length + ' — ' + materials[0].short
-    : 'Материалов в подборке: ' + materials.length;
+  sub.textContent = 'Материалов: ' + materials.length +
+    (materials.length === 1 ? ' — ' + materials[0].short : '');
 
-  /* Кнопка-вкладка одна — не мешаем выбором, скрываем панель */
+  /* Один конспект — панель выбора не нужна */
   if (materials.length < 2) {
     tabsBox.style.display = 'none';
-    sub.style.display = 'none';
-    document.getElementById('hd').style.padding = '11px 14px';
+    document.getElementById('links').style.display = 'none';
+  } else {
+    linksBox.innerHTML = 'Открыть отдельно: ' + materials.map(function (m) {
+      return '<a href="' + m.src + '?v=' + VER + '">' + m.short + '</a>';
+    }).join(' · ');
   }
 
-  linksBox.innerHTML = 'Открыть отдельно: ' + materials.map(function (m) {
-    return '<a href="' + m.src + '">' + m.short + '</a>';
-  }).join(' · ');
-
-  if (materials.length < 2) { linksBox.style.display = 'none'; }
-
-  if (materials.length) { frame.src = materials[0].src; }
+  if (materials.length) { frame.src = materials[0].src + '?v=' + VER; }
 
   function fit() {
     try {
       var d = frame.contentDocument;
       if (d && d.documentElement) {
-        var h = Math.max(
-          d.documentElement.scrollHeight,
-          d.body ? d.body.scrollHeight : 0,
-          700
-        );
-        frame.style.height = h + 'px';
+        var h = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0, 700);
+        frame.style.height = (h + 8) + 'px';
       }
     } catch (e) { frame.style.height = '90vh'; }
   }
