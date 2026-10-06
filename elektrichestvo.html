@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Электричество: что это и как работает</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:14px;background:#eef2f7;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#20293a;line-height:1.5;font-size:16px}
+  .sheet{max-width:880px;margin:0 auto;background:#fff;border:3px double #2b5c9e;border-radius:14px;padding:18px 16px 24px;box-shadow:0 6px 20px rgba(43,92,158,.13)}
+  h1{font-size:1.4rem;color:#1f4a86;margin:0 0 4px}
+  .sub{color:#61708a;font-size:.85rem;margin-bottom:14px}
+  h2{font-size:1.08rem;color:#1f4a86;margin:22px 0 8px;border-left:4px solid #2b5c9e;padding-left:9px}
+  p{margin:6px 0}
+  ul,ol{margin:6px 0 6px 20px;padding:0}
+  li{margin:3px 0}
+  .box{border-radius:10px;padding:11px 13px;margin:10px 0;font-size:.95rem}
+  .info{background:#eaf2fd;border:1px solid #b7d0f0}
+  .info h3{margin:0 0 6px;font-size:.98rem;color:#1f4a86}
+  .trap{background:#fdecec;border:1px solid #f0b4b4}
+  .trap h3{margin:0 0 6px;font-size:.98rem;color:#b03030}
+  .test{background:#eaf7ee;border:1px solid #b3ddc0}
+  .test h3{margin:0 0 6px;font-size:.98rem;color:#1f7a44}
+  .final{background:#eaf2fd;border:1px dashed #2b5c9e;border-radius:10px;padding:12px 14px;margin-top:18px}
+  .final h3{margin:0 0 6px;font-size:1rem;color:#1f4a86}
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:.9rem}
+  th,td{border:1px solid #c8d6ea;padding:6px 7px;text-align:left}
+  th{background:#f2f6fc;color:#1f4a86}
+  code,pre{font-family:ui-monospace,Consolas,monospace}
+  pre{background:#f4f7fc;border:1px solid #c8d6ea;border-radius:8px;padding:10px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap}
+  .chain{text-align:center;color:#1f4a86;font-size:.95rem;margin:10px 0}
+  .chain span{background:#eaf2fd;border:1px solid #b7d0f0;border-radius:8px;padding:4px 8px;display:inline-block;margin:3px 2px}
+  .chk{list-style:none;margin-left:0}
+  .chk li::before{content:"☐ ";color:#2b5c9e}
+  details{background:#f7fafc;border:1px solid #d7e2f0;border-radius:8px;padding:6px 10px;margin:5px 0;font-size:.92rem}
+  summary{cursor:pointer;color:#1f4a86}
+  .q{margin:12px 0;padding-bottom:4px;border-bottom:1px dotted #dbe4f0}
+  .qt{font-weight:600;margin:0 0 6px;font-size:.95rem}
+  label{display:block;padding:5px 8px;border-radius:7px;border:1px solid #dbe4f0;margin:4px 0;cursor:pointer;font-size:.92rem}
+  label.ok{background:#dcf3e3;border-color:#8fcfa6}
+  label.bad{background:#fbe0e0;border-color:#e9a3a3}
+  button{font:inherit;background:#2b5c9e;color:#fff;border:none;border-radius:8px;padding:9px 16px;margin:8px 6px 0 0;cursor:pointer}
+  button.ghost{background:#eaf2fd;color:#1f4a86;border:1px solid #b7d0f0}
+  #res{font-weight:700;color:#1f4a86;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <h1>⚡ Электричество: что это и как работает</h1>
+  <div class="sub">Конспект для электрика · формулы обычным текстом · без лишнего</div>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Три величины:</b> ток I, напряжение U, сопротивление R — и их единицы.</li>
+      <li><b>Закон Ома</b> I = U / R — из него выводится почти всё остальное.</li>
+      <li><b>Соединения:</b> последовательное складывает R, параллельное уменьшает.</li>
+    </ol>
+  </div>
+
+  <h2>Что это такое</h2>
+  <p>Электричество — это направленное движение заряженных частиц под действием электрического поля. В металлах двигаются <b>электроны</b>, в жидкостях и газах — <b>ионы</b>.</p>
+  <p>Сам ток невидим: мы видим только его следствия — нагрев, свет, вращение двигателя, магнитное поле.</p>
+
+  <h2>Три кита: ток, напряжение, сопротивление</h2>
+  <table>
+    <tr><th>Величина</th><th>Что означает</th><th>Единица</th></tr>
+    <tr><td>Ток <b>I</b></td><td>сколько заряда проходит за секунду</td><td>ампер (А)</td></tr>
+    <tr><td>Напряжение <b>U</b></td><td>«давление», которое толкает заряд</td><td>вольт (В)</td></tr>
+    <tr><td>Сопротивление <b>R</b></td><td>насколько среда мешает току</td><td>ом (Ом)</td></tr>
+  </table>
+  <p>💧 Аналогия с водой: <b>U</b> — давление в трубе, <b>I</b> — поток воды, <b>R</b> — узкое место в трубе.</p>
+
+  <h2>Закон Ома и мощность</h2>
+  <pre>I = U / R        закон Ома
+U = I × R
+R = U / I
+
+P = U × I        мощность
+P = I² × R
+P = U² / R
+
+Q = I² × R × t   тепло (Джоуль–Ленц)</pre>
+  <div class="chain"><span>U</span> → <span>I = U / R</span> → <span>P = U × I</span> → <span>нагрев и работа</span></div>
+
+  <h2>Постоянный и переменный ток</h2>
+  <table>
+    <tr><th>Вид</th><th>Особенность</th><th>Где встречается</th></tr>
+    <tr><td>DC, постоянный</td><td>течёт в одну сторону</td><td>батарейка, аккумулятор, телефон</td></tr>
+    <tr><td>AC, переменный</td><td>меняет направление, 50 Гц</td><td>розетка 230 В</td></tr>
+  </table>
+  <p>В розетке переменный ток потому, что его напряжение легко повышать и понижать трансформатором — так передают энергию на большие расстояния с малыми потерями.</p>
+
+  <h2>Последовательное и параллельное соединение</h2>
+  <table>
+    <tr><th>Соединение</th><th>Что общее</th><th>Общее сопротивление</th></tr>
+    <tr><td>Последовательное</td><td>ток одинаковый</td><td>Rобщ = R1 + R2</td></tr>
+    <tr><td>Параллельное</td><td>напряжение одинаковое</td><td>Rобщ = R1 × R2 / (R1 + R2)</td></tr>
+  </table>
+  <p>При параллельном общее сопротивление всегда <b>меньше самого маленького</b> из резисторов.</p>
+
+  <h2>Пример расчёта</h2>
+  <p>Спираль нагревателя: U = 230 В, R = 46 Ом.</p>
+  <p>I = 230 / 46 = 5 А;   P = 230 × 5 = 1150 Вт ≈ 1,15 кВт.</p>
+
+  <h2>Проводники и изоляторы</h2>
+  <ul>
+    <li><b>Проводники:</b> медь, алюминий, сталь, солёная вода, тело человека.</li>
+    <li><b>Изоляторы:</b> резина, пластик, стекло, сухое дерево, воздух.</li>
+    <li>Сопротивление проводника: R = ρ × L / S — длиннее → больше, толще → меньше.</li>
+  </ul>
+
+  <h2>Безопасность</h2>
+  <ul>
+    <li>0,001 А чувствуется; 0,01 А не даёт отпустить провод; <b>0,1 А смертельно</b>.</li>
+    <li>Тело в сырых условиях ≈ 1 кОм, значит от 230 В ток = 230 / 1000 = 0,23 А — опасно для жизни.</li>
+    <li>Отключай, проверяй отсутствие напряжения, изолированный инструмент, не работай один.</li>
+    <li><b>Автомат</b> защищает провод от перегрузки и КЗ, <b>УЗО</b> — человека от утечки тока. Это разные аппараты.</li>
+  </ul>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>«В розетке 230 ампер» — там 230 <b>вольт</b>, а ток зависит от нагрузки.</li>
+      <li>Параллельное соединение не увеличивает, а <b>уменьшает</b> сопротивление.</li>
+      <li>УЗО не заменяет автомат: УЗО не защитит провод от перегрузки.</li>
+      <li>Сопротивление не «постоянная цифра» — зависит от материала, длины и сечения.</li>
+    </ol>
+  </div>
+
+  <h2>Было → стало</h2>
+  <table>
+    <tr><th>Было в голове</th><th>Стало правильно</th></tr>
+    <tr><td>«В розетке 230 А»</td><td>230 В — напряжение</td></tr>
+    <tr><td>«Параллельно R растёт»</td><td>Параллельно R падает</td></tr>
+    <tr><td>«УЗО вместо автомата»</td><td>Разные аппараты, разные задачи</td></tr>
+    <tr><td>«Греет напряжение»</td><td>Греет ток: Q = I² × R × t</td></tr>
+  </table>
+
+  <h2>Термины</h2>
+  <table>
+    <tr><th>Термин</th><th>Коротко</th></tr>
+    <tr><td>Сила тока</td><td>заряд за секунду, ампер</td></tr>
+    <tr><td>Напряжение</td><td>работа поля по переносу заряда, вольт</td></tr>
+    <tr><td>Сопротивление</td><td>противодействие току, ом</td></tr>
+    <tr><td>Мощность</td><td>работа за секунду, ватт</td></tr>
+    <tr><td>УЗО</td><td>защита человека от утечки</td></tr>
+    <tr><td>КЗ</td><td>ток по короткому пути, растёт лавинообразно</td></tr>
+  </table>
+
+  <h2>Шпаргалка</h2>
+  <pre>I = U / R          U = I × R        R = U / I
+P = U × I = I² × R = U² / R
+Q = I² × R × t     R = ρ × L / S
+Rпосл = R1 + R2    Rпар = R1 × R2 / (R1 + R2)
+1 А = 1000 мА      1 кВт = 1000 Вт
+Опасно от 0,1 А (100 мА)</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Знаю единицы и смысл I, U, R</li>
+    <li>Пишу закон Ома в трёх видах</li>
+    <li>Считаю мощность и знаю формулы через I² и U²</li>
+    <li>Различаю последовательное и параллельное соединение</li>
+    <li>Понимаю, что делает УЗО, а что автомат</li>
+    <li>Знаю опасный для человека ток</li>
+  </ul>
+
+  <details><summary>Подсказка: как проверить себя на расчёте</summary>Считай ток через мощность при 230 В: I ≈ 4,3 × P(кВт). Пример: 2,3 кВт → 2,3 × 4,3 ≈ 10 А.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="quiz">
+      <div class="q" data-a="1">
+        <p class="qt">1. В чём измеряется сила тока?</p>
+        <label><input type="radio" name="q1" value="0"> В вольтах</label>
+        <label><input type="radio" name="q1" value="1"> В амперах</label>
+        <label><input type="radio" name="q1" value="2"> В омах</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">2. Как записать закон Ома?</p>
+        <label><input type="radio" name="q2" value="0"> I = R / U</label>
+        <label><input type="radio" name="q2" value="1"> I = U / R</label>
+        <label><input type="radio" name="q2" value="2"> U = I / R</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">3. Общее сопротивление 6 Ом и 3 Ом параллельно?</p>
+        <label><input type="radio" name="q3" value="0"> 9 Ом</label>
+        <label><input type="radio" name="q3" value="1"> 4,5 Ом</label>
+        <label><input type="radio" name="q3" value="2"> 2 Ом</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">4. Напряжение то же, сопротивление выросло вдвое. Ток?</p>
+        <label><input type="radio" name="q4" value="0"> Уменьшился вдвое</label>
+        <label><input type="radio" name="q4" value="1"> Увеличился вдвое</label>
+        <label><input type="radio" name="q4" value="2"> Не изменился</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Какой ток смертельно опасен?</p>
+        <label><input type="radio" name="q5" value="0"> 0,001 А</label>
+        <label><input type="radio" name="q5" value="1"> 0,01 А</label>
+        <label><input type="radio" name="q5" value="2"> 0,1 А</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Чем УЗО отличается от автомата?</p>
+        <label><input type="radio" name="q6" value="0"> УЗО защищает человека от утечки, автомат — провод</label>
+        <label><input type="radio" name="q6" value="1"> Ничем, это одно и то же</label>
+        <label><input type="radio" name="q6" value="2"> Автомат защищает человека от утечки</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">7. Что означает «230» в надписи «230 В»?</p>
+        <label><input type="radio" name="q7" value="0"> Силу тока</label>
+        <label><input type="radio" name="q7" value="1"> Напряжение</label>
+        <label><input type="radio" name="q7" value="2"> Мощность</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. Ток 5 А при напряжении 230 В. Мощность?</p>
+        <label><input type="radio" name="q8" value="0"> 46 Вт</label>
+        <label><input type="radio" name="q8" value="1"> 5 кВт</label>
+        <label><input type="radio" name="q8" value="2"> 1150 Вт</label>
+      </div>
+    </div>
+    <button onclick="checkQuiz()">Проверить</button>
+    <button class="ghost" onclick="resetQuiz()">Сбросить</button>
+    <div id="res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Электричество — движение зарядов. Напряжение U толкает, сопротивление R мешает, ток I = U / R. Мощность P = U × I, тепло Q = I² × R × t. Последовательно R складывается, параллельно — уменьшается. В розетке переменный ток 230 В / 50 Гц. Опасен ток от 0,1 А.</p>
+  </div>
+
+</div>
+
+<script>
+function checkQuiz(){
+  var qs = document.querySelectorAll('#quiz .q');
+  var score = 0, answered = 0;
+  for (var i = 0; i < qs.length; i++){
+    var q = qs[i];
+    var opts = q.querySelectorAll('input');
+    var correct = parseInt(q.getAttribute('data-a'), 10);
+    var chosen = -1;
+    for (var j = 0; j < opts.length; j++){
+      opts[j].parentNode.classList.remove('ok','bad');
+      if (opts[j].checked) chosen = parseInt(opts[j].value, 10);
+    }
+    if (chosen === -1) continue;
+    answered++;
+    opts[correct].parentNode.classList.add('ok');
+    if (chosen === correct) score++;
+    else opts[chosen].parentNode.classList.add('bad');
+  }
+  var out = 'Результат: ' + score + ' из ' + qs.length;
+  if (answered === 0) out = 'Отметь варианты и нажми «Проверить» ещё раз.';
+  else if (score === qs.length) out += ' — идеально! Тема закрыта.';
+  else if (score >= 6) out += ' — хороший уровень, дошлифуй ошибочные пункты.';
+  else out += ' — стоит перечитать блоки про соединения и расчёт мощности.';
+  document.getElementById('res').textContent = out;
+}
+function resetQuiz(){
+  var qs = document.querySelectorAll('#quiz .q');
+  for (var i = 0; i < qs.length; i++){
+    var opts = qs[i].querySelectorAll('input');
+    for (var j = 0; j < opts.length; j++){
+      opts[j].checked = false;
+      opts[j].parentNode.classList.remove('ok','bad');
+    }
+  }
+  document.getElementById('res').textContent = 'Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
