@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Монголо-татарское нашествие и Ордынское иго</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:16px 12px 30px;background:linear-gradient(180deg,#eef3fa 0%,#e6ecf7 100%);
+  font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.6;font-size:16px;-webkit-text-size-adjust:100%}
+.sheet{position:relative;max-width:900px;margin:0 auto;background:#fff;border-radius:28px;padding:26px 20px 32px;
+  box-shadow:0 26px 60px rgba(23,43,84,.16),0 2px 6px rgba(23,43,84,.06)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #dde7f6;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#1b3577,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub{color:#6b7c96;font-size:.86rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+#res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+@media(max-width:430px){
+  body{padding:12px 9px 24px;font-size:15px}
+  .sheet{border-radius:22px;padding:20px 14px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <h1>⚔️ Монголо-татарское нашествие и Ордынское иго</h1>
+  <div class="sub">История России · 1223–1480 · даты, причины, итоги</div>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Две даты-рамки:</b> 1237 — начало нашествия, 1480 — конец ига.</li>
+      <li><b>Три опорных боя:</b> Калка 1223, Сить 1238, Куликовская битва 1380.</li>
+      <li><b>Что такое ярлык и дань</b> — без них не объяснить зависимость Руси.</li>
+    </ol>
+  </div>
+
+  <h2>Главное в трёх шагах</h2>
+  <p><b>1. Сначала разведка.</b> В 1223 году на реке Калке русско-половецкое войско было разбито, но это отдельный поход, а не завоевание.</p>
+  <p><b>2. Потом нашествие.</b> С 1237 по 1240 год Батый разорил русские земли: Рязань, Владимир, Козельск, Киев.</p>
+  <p><b>3. Затем 240 лет зависимости.</b> Дань, ярлыки, баскаки и набеги — до стояния на Угре в 1480 году.</p>
+
+  <h2>Хронология-лента</h2>
+  <ul class="tl">
+    <li><b>1206</b> — Тэмуджин провозглашён Чингисханом</li>
+    <li><b>1223</b> — битва на реке Калке, поражение русских и половцев</li>
+    <li><b>1227</b> — смерть Чингисхана, земли на западе — улус Джучи</li>
+    <li><b>1236</b> — разгром Волжской Булгарии</li>
+    <li><b>1237</b> — начало нашествия, падение Рязани</li>
+    <li><b>1238</b> — Владимир, битва на Сити, 49 дней обороны Козельска</li>
+    <li><b>1240</b> — падение Киева</li>
+    <li><b>1241</b> — поход в Европу и отход после смерти хана Угэдэя</li>
+    <li><b>1243</b> — первый ярлык: начало зависимости</li>
+    <li><b>1257</b> — перепись («число»), баскаки и откупщики дани</li>
+    <li><b>1262</b> — восстания против сборщиков дани</li>
+    <li><b>1327</b> — восстание в Твери, Иван Калита получает ярлык</li>
+    <li><b>1380</b> — Куликовская битва</li>
+    <li><b>1382</b> — Тохтамыш сжёг Москву, дань возобновлена</li>
+    <li><b>1476</b> — Иван III прекращает платить дань</li>
+    <li><b>1480</b> — стояние на Угре: конец ига</li>
+  </ul>
+
+  <h2>Нашествие: кто и когда пал</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Город / бой</th><th>Когда</th><th>Чем известно</th></tr>
+      <tr><td>Рязань</td><td>декабрь 1237</td><td>первый удар нашествия</td></tr>
+      <tr><td>Москва</td><td>январь 1238</td><td>город сожжён</td></tr>
+      <tr><td>Владимир</td><td>7 февраля 1238</td><td>пала столица Северо-Востока</td></tr>
+      <tr><td>река Сить</td><td>4 марта 1238</td><td>гибель князя Юрия Всеволодовича</td></tr>
+      <tr><td>Козельск</td><td>весна 1238</td><td>49 дней обороны, «злой город»</td></tr>
+      <tr><td>Киев</td><td>6 декабря 1240</td><td>падение главного города Руси</td></tr>
+    </table>
+  </div>
+
+  <h2>Как выглядела зависимость</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Форма</th><th>В чём выражалась</th></tr>
+      <tr><td>Ярлык</td><td>грамота хана на право княжить</td></tr>
+      <tr><td>Дань («выход»)</td><td>регулярная плата серебром и товарами</td></tr>
+      <tr><td>Баскаки</td><td>ханские чиновники-контролёры</td></tr>
+      <tr><td>«Число»</td><td>перепись для раскладки дани</td></tr>
+      <tr><td>Набеги</td><td>карательные походы</td></tr>
+    </table>
+  </div>
+  <p>Князья сохранили власть, но ездили за ярлыком в Орду и собирали дань. Александр Невский отбивал шведов и Ливонский орден (Нева 1240, Чудское озеро 1242), а с Ордой выстраивал договор, чтобы избежать новых разорений.</p>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>Считать 1223 год началом ига: Калка — отдельный бой, зависимость с 1240–1243.</li>
+      <li>Думать, что иго закончилось в 1380 году: дань платили до 1480.</li>
+      <li>Сводить иго только к дани: важны ярлык, баскаки, перепись и набеги.</li>
+      <li>Путать Невскую битву с борьбой против Орды: противники разные.</li>
+    </ol>
+  </div>
+
+  <h2>Было → стало</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Было в голове</th><th>Стало правильно</th></tr>
+      <tr><td>Калка = начало ига</td><td>1223 — бой, иго с 1240-х</td></tr>
+      <tr><td>Куликовская = конец ига</td><td>1380 — перелом, конец в 1480</td></tr>
+      <tr><td>Иго = только дань</td><td>ярлык, баскаки, перепись, набеги</td></tr>
+      <tr><td>«татаро-монголы» — один народ</td><td>коалиция племён, в источниках — «татары»</td></tr>
+    </table>
+  </div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Улус</td><td>земли-владение внутри монгольской империи</td></tr>
+      <tr><td>Ярлык</td><td>грамота на княжение от хана</td></tr>
+      <tr><td>Выход</td><td>дань Руси в пользу Орды</td></tr>
+      <tr><td>Баскак</td><td>ханский чиновник-контролёр</td></tr>
+      <tr><td>Курултай</td><td>съезд знати для решения важных дел</td></tr>
+    </table>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>1223 Калка      1237 Рязань      1238 Сить и Козельск
+1240 Киев       1243 ярлык       1257 перепись
+1327 Тверь и Калита              1380 Куликовская битва
+1382 Тохтамыш сжёг Москву        1480 Угра — конец ига
+Иго: ярлык + дань + баскаки + «число» + набеги</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Помню даты 1223, 1237, 1240, 1380, 1480</li>
+    <li>Объясняю разницу между Калкой и нашествием</li>
+    <li>Перечисляю формы зависимости</li>
+    <li>Понимаю, почему Куликовская битва не завершила иго</li>
+    <li>Знаю роль Ивана III в 1480 году</li>
+  </ul>
+
+  <details><summary>Почему Русь проиграла?</summary>Раздробленность: княжества воевали поодиночке, а Батый бил их по очереди. Единого войска и командования не было.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="quiz">
+      <div class="q" data-a="1">
+        <p class="qt">1. В каком году произошла битва на Калке?</p>
+        <label><input type="radio" name="h1" value="0"> 1206</label>
+        <label><input type="radio" name="h1" value="1"> 1223</label>
+        <label><input type="radio" name="h1" value="2"> 1237</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. Что такое ярлык?</p>
+        <label><input type="radio" name="h2" value="0"> Дань Орде</label>
+        <label><input type="radio" name="h2" value="1"> Ханский чиновник</label>
+        <label><input type="radio" name="h2" value="2"> Грамота на право княжить</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Какой город держался 49 дней?</p>
+        <label><input type="radio" name="h3" value="0"> Козельск</label>
+        <label><input type="radio" name="h3" value="1"> Рязань</label>
+        <label><input type="radio" name="h3" value="2"> Владимир</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">4. В каком году пал Киев?</p>
+        <label><input type="radio" name="h4" value="0"> 1238</label>
+        <label><input type="radio" name="h4" value="1"> 1223</label>
+        <label><input type="radio" name="h4" value="2"> 1240</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">5. Кто возглавил русское войско в 1380 году?</p>
+        <label><input type="radio" name="h5" value="0"> Александр Невский</label>
+        <label><input type="radio" name="h5" value="1"> Дмитрий Донской</label>
+        <label><input type="radio" name="h5" value="2"> Иван Калита</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Чем закончилась Куликовская битва?</p>
+        <label><input type="radio" name="h6" value="0"> Победой, но дань платили ещё сто лет</label>
+        <label><input type="radio" name="h6" value="1"> Полным концом ига</label>
+        <label><input type="radio" name="h6" value="2"> Поражением русских</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">7. Какое событие завершило иго?</p>
+        <label><input type="radio" name="h7" value="0"> Куликовская битва</label>
+        <label><input type="radio" name="h7" value="1"> Взятие Казани</label>
+        <label><input type="radio" name="h7" value="2"> Стояние на Угре в 1480 году</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">8. Что такое «выход»?</p>
+        <label><input type="radio" name="h8" value="0"> Поход хана на Русь</label>
+        <label><input type="radio" name="h8" value="1"> Дань Руси в пользу Орды</label>
+        <label><input type="radio" name="h8" value="2"> Перепись населения</label>
+      </div>
+    </div>
+    <button onclick="checkQuiz()">Проверить</button>
+    <button class="ghost" onclick="resetQuiz()">Сбросить</button>
+    <div id="res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>1223 — Калка, 1237–1240 — нашествие Батыя, 1243 — первый ярлык: Русь в зависимости от Орды. Платили дань («выход»), брали ярлык, терпели баскаков. 1380 — Куликовская битва дала перелом, 1480 — стояние на Угре закончило иго.</p>
+  </div>
+
+</div>
+
+<script>
+function checkQuiz(){
+  var qs = document.querySelectorAll('#quiz .q');
+  var score = 0, answered = 0;
+  for (var i = 0; i < qs.length; i++){
+    var q = qs[i];
+    var opts = q.querySelectorAll('input');
+    var correct = parseInt(q.getAttribute('data-a'), 10);
+    var chosen = -1;
+    for (var j = 0; j < opts.length; j++){
+      opts[j].parentNode.classList.remove('ok','bad');
+      if (opts[j].checked) chosen = parseInt(opts[j].value, 10);
+    }
+    if (chosen === -1) continue;
+    answered++;
+    opts[correct].parentNode.classList.add('ok');
+    if (chosen === correct) score++; else opts[chosen].parentNode.classList.add('bad');
+  }
+  var out = document.getElementById('res');
+  if (answered === 0){ out.textContent = 'Отметь варианты и нажми «Проверить».'; return; }
+  var t = 'Результат: ' + score + ' из ' + qs.length;
+  if (score === qs.length) t += ' — идеально, тема закрыта!';
+  else if (score >= qs.length - 2) t += ' — хороший уровень.';
+  else t += ' — перечитай хронологию и формы зависимости.';
+  out.textContent = t;
+}
+function resetQuiz(){
+  var qs = document.querySelectorAll('#quiz .q');
+  for (var i = 0; i < qs.length; i++){
+    var opts = qs[i].querySelectorAll('input');
+    for (var j = 0; j < opts.length; j++){
+      opts[j].checked = false;
+      opts[j].parentNode.classList.remove('ok','bad');
+    }
+  }
+  document.getElementById('res').textContent = 'Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
