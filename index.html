@@ -5,117 +5,540 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Мои конспекты</title>
 <style>
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{min-height:100vh;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#eaf2ff;line-height:1.5;
-    background:
-      radial-gradient(900px 520px at 12% -12%,rgba(79,124,255,.38) 0%,rgba(8,19,38,0) 62%),
-      radial-gradient(760px 480px at 100% 2%,rgba(122,84,255,.26) 0%,rgba(8,19,38,0) 58%),
-      linear-gradient(165deg,#071224 0%,#0e1f3d 46%,#091731 100%);
-    background-attachment:fixed}
-  .hd{position:sticky;top:0;z-index:10;padding:14px 12px 8px}
-  .card{max-width:830px;margin:0 auto;border-radius:28px;padding:18px 20px 16px;
-    background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.05));
-    border:1px solid rgba(255,255,255,.16);
-    box-shadow:0 22px 48px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.18)}
-  .kicker{margin:0 0 6px;font-size:10.5px;letter-spacing:2.6px;text-transform:uppercase;color:#8fb6f0}
-  h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.3px;color:#fff}
-  .sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
-  .tabs{display:flex;gap:9px;overflow-x:auto;margin-top:14px;padding-bottom:2px;scrollbar-width:none}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{flex:0 0 auto;cursor:pointer;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;
-    padding:10px 18px;border-radius:999px;color:#dfeaff;
-    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-    transition:transform .18s ease,background .2s ease,color .2s ease}
-  .tab:active{transform:scale(.96)}
-  .tab.active{background:linear-gradient(135deg,#ffffff,#e6efff);color:#12305f;border-color:rgba(255,255,255,.9);
-    box-shadow:0 10px 22px rgba(0,0,0,.36)}
-  main{max-width:830px;margin:0 auto;padding:10px 12px 40px}
-  .frame{width:100%;border:1px solid rgba(255,255,255,.14);display:block;background:#fff;border-radius:28px;
-    box-shadow:0 26px 60px rgba(0,0,0,.46)}
-  .links{margin-top:14px;text-align:center;font-size:12px;color:#9db4d6}
-  .links a{color:#9ec8ff;text-decoration:none;font-weight:600}
-  .foot{max-width:830px;margin:16px auto 0;text-align:center;font-size:11px;color:#6f86a8;letter-spacing:.3px}
-  @media(max-width:430px){
-    .hd{padding:10px 9px 6px}
-    .card{border-radius:22px;padding:14px 15px 13px}
-    h1{font-size:17px}
-    .frame{border-radius:22px}
-  }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:20;padding:12px 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;cursor:pointer;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;padding:9px 17px;
+  border-radius:999px;color:#dce9ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  transition:transform .18s,background .2s,color .2s}
+.tab:active{transform:scale(.96)}
+.tab.on{background:linear-gradient(135deg,#fff,#e7f0ff);color:#12305f;border-color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.34)}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+.sec{display:none}
+.sec.on{display:block}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+.fml{margin-top:6px;background:#eaf2fd;border:1px dashed #a9c7ea;border-radius:14px;padding:9px 10px;
+  text-align:center;font-size:.93rem;font-weight:600;color:#12294f;overflow-wrap:anywhere}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:10px 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+}
 </style>
 </head>
 <body>
-  <header class="hd">
-    <div class="card">
-      <p class="kicker">Личный сборник</p>
-      <h1>📚 Мои конспекты</h1>
-      <p class="sub" id="sub"></p>
-      <div class="tabs" id="tabs"></div>
-    </div>
-  </header>
 
-  <main>
-    <iframe class="frame" id="f" title="Конспект"></iframe>
-    <div class="links" id="links"></div>
-    <p class="foot">Вкладки появляются только для файлов, которые реально есть в репозитории</p>
-  </main>
+<header class="hd">
+  <div class="card">
+    <p class="kicker">Личный сборник</p>
+    <h1>📚 Мои конспекты</h1>
+    <p class="sub" id="sub"></p>
+    <div class="tabs" id="tabs">
+      <button class="tab on" onclick="show('s-el',this)">⚡ Электричество</button>
+      <button class="tab" onclick="show('s-mg',this)">⚔️ Монголо-татары</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+<!-- ═══════════ ЭЛЕКТРИЧЕСТВО ═══════════ -->
+<section class="sec on" id="s-el">
+  <h1 class="t">⚡ Электричество: что это и как работает</h1>
+  <p class="sub2">Конспект для электрика · формулы обычным текстом · без лишнего</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Три величины:</b> ток I, напряжение U, сопротивление R — и их единицы.</li>
+      <li><b>Закон Ома</b> I = U / R — из него выводится почти всё остальное.</li>
+      <li><b>Соединения:</b> последовательное складывает R, параллельное уменьшает.</li>
+    </ol>
+  </div>
+
+  <h2>Что это такое</h2>
+  <p>Электричество — направленное движение заряженных частиц под действием электрического поля. В металлах двигаются <b>электроны</b>, в жидкостях и газах — <b>ионы</b>.</p>
+  <p>Сам ток невидим: видны только его следствия — нагрев, свет, вращение двигателя, магнитное поле.</p>
+
+  <h2>Три кита: ток, напряжение, сопротивление</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Величина</th><th>Что означает</th><th>Единица</th></tr>
+      <tr><td>Ток <b>I</b></td><td>сколько заряда за секунду</td><td>ампер (А)</td></tr>
+      <tr><td>Напряжение <b>U</b></td><td>«давление», толкающее заряд</td><td>вольт (В)</td></tr>
+      <tr><td>Сопротивление <b>R</b></td><td>насколько среда мешает току</td><td>ом (Ом)</td></tr>
+    </table>
+  </div>
+  <p>💧 Аналогия с водой: <b>U</b> — давление в трубе, <b>I</b> — поток воды, <b>R</b> — узкое место в трубе.</p>
+
+  <h2>Закон Ома и мощность</h2>
+  <pre>I = U / R        закон Ома
+U = I × R
+R = U / I
+
+P = U × I        мощность
+P = I² × R
+P = U² / R
+
+Q = I² × R × t   тепло (Джоуль–Ленц)</pre>
+  <div class="chain"><span>U</span> → <span>I = U / R</span> → <span>P = U × I</span> → <span>нагрев и работа</span></div>
+
+  <h2>Постоянный и переменный ток</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Вид</th><th>Особенность</th><th>Где встречается</th></tr>
+      <tr><td>DC, постоянный</td><td>течёт в одну сторону</td><td>батарейка, телефон</td></tr>
+      <tr><td>AC, переменный</td><td>меняет направление, 50 Гц</td><td>розетка 230 В</td></tr>
+    </table>
+  </div>
+  <p>В розетке переменный ток потому, что его напряжение легко повышать и понижать трансформатором — так передают энергию на большие расстояния с малыми потерями.</p>
+
+  <h2>Последовательное и параллельное соединение</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>➖ Последовательное</h4>
+      <ul>
+        <li>ток одинаковый</li>
+        <li>напряжения складываются</li>
+        <li>общее R растёт</li>
+      </ul>
+      <div class="fml">Rобщ = R1 + R2</div>
+    </div>
+    <div class="cbox">
+      <h4>🔀 Параллельное</h4>
+      <ul>
+        <li>напряжение одинаковое</li>
+        <li>токи складываются</li>
+        <li>общее R уменьшается</li>
+      </ul>
+      <div class="fml">Rобщ = R1 × R2 / (R1 + R2)</div>
+    </div>
+  </div>
+  <p>При параллельном соединении общее сопротивление всегда <b>меньше самого маленького</b> из резисторов.</p>
+
+  <h2>Пример расчёта</h2>
+  <p>Спираль нагревателя: U = 230 В, R = 46 Ом.</p>
+  <p>I = 230 / 46 = 5 А;   P = 230 × 5 = 1150 Вт ≈ 1,15 кВт.</p>
+
+  <h2>Безопасность</h2>
+  <ul>
+    <li>0,001 А чувствуется; 0,01 А не даёт отпустить провод; <b>0,1 А смертельно</b>.</li>
+    <li>Тело в сырых условиях ≈ 1 кОм, значит от 230 В ток = 230 / 1000 = 0,23 А — опасно для жизни.</li>
+    <li>Отключай, проверяй отсутствие напряжения, изолированный инструмент, не работай один.</li>
+    <li><b>Автомат</b> защищает провод от перегрузки и КЗ, <b>УЗО</b> — человека от утечки. Это разные аппараты.</li>
+  </ul>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>«В розетке 230 ампер» — там 230 <b>вольт</b>, ток зависит от нагрузки.</li>
+      <li>Параллельное соединение не увеличивает, а <b>уменьшает</b> сопротивление.</li>
+      <li>УЗО не заменяет автомат: от перегрузки провод оно не спасёт.</li>
+      <li>Сопротивление не «постоянная цифра» — зависит от материала, длины и сечения: R = ρ × L / S.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>I = U / R          U = I × R        R = U / I
+P = U × I = I² × R = U² / R
+Q = I² × R × t     R = ρ × L / S
+Rпосл = R1 + R2    Rпар = R1 × R2 / (R1 + R2)
+1 А = 1000 мА      1 кВт = 1000 Вт
+Опасно от 0,1 А (100 мА)</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Знаю единицы и смысл I, U, R</li>
+    <li>Пишу закон Ома в трёх видах</li>
+    <li>Считаю мощность через U × I, I² × R, U² / R</li>
+    <li>Различаю последовательное и параллельное соединение</li>
+    <li>Понимаю, что делает УЗО, а что автомат</li>
+  </ul>
+
+  <details><summary>Подсказка: быстрый расчёт тока при 230 В</summary>I ≈ 4,3 × P(кВт). Пример: 2,3 кВт → 2,3 × 4,3 ≈ 10 А.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="eq">
+      <div class="q" data-a="1">
+        <p class="qt">1. В чём измеряется сила тока?</p>
+        <label><input type="radio" name="e1" value="0"> В вольтах</label>
+        <label><input type="radio" name="e1" value="1"> В амперах</label>
+        <label><input type="radio" name="e1" value="2"> В омах</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">2. Как записать закон Ома?</p>
+        <label><input type="radio" name="e2" value="0"> I = R / U</label>
+        <label><input type="radio" name="e2" value="1"> I = U / R</label>
+        <label><input type="radio" name="e2" value="2"> U = I / R</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">3. Общее сопротивление 6 Ом и 3 Ом параллельно?</p>
+        <label><input type="radio" name="e3" value="0"> 9 Ом</label>
+        <label><input type="radio" name="e3" value="1"> 4,5 Ом</label>
+        <label><input type="radio" name="e3" value="2"> 2 Ом</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">4. Напряжение то же, сопротивление выросло вдвое. Ток?</p>
+        <label><input type="radio" name="e4" value="0"> Уменьшился вдвое</label>
+        <label><input type="radio" name="e4" value="1"> Увеличился вдвое</label>
+        <label><input type="radio" name="e4" value="2"> Не изменился</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Какой ток смертельно опасен?</p>
+        <label><input type="radio" name="e5" value="0"> 0,001 А</label>
+        <label><input type="radio" name="e5" value="1"> 0,01 А</label>
+        <label><input type="radio" name="e5" value="2"> 0,1 А</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Чем УЗО отличается от автомата?</p>
+        <label><input type="radio" name="e6" value="0"> УЗО защищает человека от утечки, автомат — провод</label>
+        <label><input type="radio" name="e6" value="1"> Ничем, это одно и то же</label>
+        <label><input type="radio" name="e6" value="2"> Автомат защищает человека от утечки</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">7. Что означает «230» в надписи «230 В»?</p>
+        <label><input type="radio" name="e7" value="0"> Силу тока</label>
+        <label><input type="radio" name="e7" value="1"> Напряжение</label>
+        <label><input type="radio" name="e7" value="2"> Мощность</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. Ток 5 А при напряжении 230 В. Мощность?</p>
+        <label><input type="radio" name="e8" value="0"> 46 Вт</label>
+        <label><input type="radio" name="e8" value="1"> 5 кВт</label>
+        <label><input type="radio" name="e8" value="2"> 1150 Вт</label>
+      </div>
+    </div>
+    <button onclick="check('eq')">Проверить</button>
+    <button class="ghost" onclick="reset('eq')">Сбросить</button>
+    <div class="res" id="eq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Электричество — движение зарядов. Напряжение U толкает, сопротивление R мешает, ток I = U / R. Мощность P = U × I, тепло Q = I² × R × t. Последовательно R складывается, параллельно — уменьшается. В розетке переменный ток 230 В / 50 Гц. Опасен ток от 0,1 А.</p>
+  </div>
+</section>
+
+<!-- ═══════════ МОНГОЛО-ТАТАРЫ ═══════════ -->
+<section class="sec" id="s-mg">
+  <h1 class="t">⚔️ Монголо-татарское нашествие и Ордынское иго</h1>
+  <p class="sub2">История России · 1223–1480 · даты, причины, итоги</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Две даты-рамки:</b> 1237 — начало нашествия, 1480 — конец ига.</li>
+      <li><b>Три опорных боя:</b> Калка 1223, Сить 1238, Куликовская битва 1380.</li>
+      <li><b>Что такое ярлык и дань</b> — без них не объяснить зависимость Руси.</li>
+    </ol>
+  </div>
+
+  <h2>Главное в трёх шагах</h2>
+  <p><b>1. Сначала разведка.</b> В 1223 году на реке Калке русско-половецкое войско было разбито, но это был отдельный поход, а не завоевание.</p>
+  <p><b>2. Потом нашествие.</b> С 1237 по 1240 год Батый разорил русские земли: Рязань, Владимир, Козельск, Киев. Князья сохранили власть, но с разрешения Орды.</p>
+  <p><b>3. Затем 240 лет зависимости.</b> Дань, ярлыки, баскаки и набеги длились до стояния на Угре в 1480 году, когда Иван III отказался подчиняться.</p>
+
+  <h2>Хронология-лента</h2>
+  <ul class="tl">
+    <li><b>1206</b> — Тэмуджин провозглашён Чингисханом, племена монголов объединены</li>
+    <li><b>1223</b> — битва на реке Калке: поражение русских и половцев</li>
+    <li><b>1227</b> — смерть Чингисхана, империя делится; земли на западе — улус Джучи</li>
+    <li><b>1236</b> — разгром Волжской Булгарии</li>
+    <li><b>1237</b> — начало нашествия на Русь, падение Рязани</li>
+    <li><b>1238</b> — взятие Владимира, битва на реке Сити, 49-дневная оборона Козельска</li>
+    <li><b>1240</b> — падение Киева</li>
+    <li><b>1241</b> — вторжение в Европу (Легниц, Шайо), затем отход из-за смерти хана Угэдэя</li>
+    <li><b>1243</b> — Ярослав Всеволодович получил ярлык: начало зависимости</li>
+    <li><b>1257</b> — перепись населения («число»), появляются баскаки и откупщики дани</li>
+    <li><b>1262</b> — восстания городов против сборщиков дани</li>
+    <li><b>1327</b> — восстание в Твери; Иван Калита подавляет его и получает ярлык</li>
+    <li><b>1380</b> — Куликовская битва: Дмитрий Донской против Мамая</li>
+    <li><b>1382</b> — Тохтамыш сжёг Москву, выплата дани возобновлена</li>
+    <li><b>1476</b> — Иван III прекращает платить дань</li>
+    <li><b>1480</b> — стояние на Угре, Ахмат отступает: конец ига</li>
+  </ul>
+
+  <h2>Нашествие: кто и когда пал</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Город / бой</th><th>Когда</th><th>Чем известно</th></tr>
+      <tr><td>Рязань</td><td>декабрь 1237</td><td>первый удар нашествия</td></tr>
+      <tr><td>Москва</td><td>январь 1238</td><td>город сожжён</td></tr>
+      <tr><td>Владимир</td><td>7 февраля 1238</td><td>пала столица Северо-Востока</td></tr>
+      <tr><td>река Сить</td><td>4 марта 1238</td><td>гибель князя Юрия Всеволодовича</td></tr>
+      <tr><td>Козельск</td><td>весна 1238</td><td>держался 49 дней, «злой город»</td></tr>
+      <tr><td>Киев</td><td>6 декабря 1240</td><td>падение главного города Руси</td></tr>
+    </table>
+  </div>
+
+  <h2>Как выглядела зависимость</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Форма</th><th>В чём выражалась</th></tr>
+      <tr><td>Ярлык</td><td>грамота хана на право княжить</td></tr>
+      <tr><td>Дань («выход»)</td><td>регулярная плата серебром и товарами</td></tr>
+      <tr><td>Баскаки</td><td>ханские чиновники, следили за порядком</td></tr>
+      <tr><td>«Число»</td><td>перепись, чтобы раскладывать дань</td></tr>
+      <tr><td>Набеги</td><td>карательные походы за неповиновение</td></tr>
+    </table>
+  </div>
+  <p>Князья не исчезли: они правили, но ездили в Орду за ярлыком и собирали дань. Александр Невский защищал Русь от шведов и Ливонского ордена (Нева 1240, Чудское озеро 1242), а с Ордой выстраивал договор, чтобы избежать новых разорений.</p>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>Считать 1223 год началом ига: Калка — отдельный бой, зависимость начинается после 1240–1243.</li>
+      <li>Думать, что иго закончилось в 1380 году: Куликовская битва — перелом, но дань платили до 1480.</li>
+      <li>Сводить иго только к дани: важны ещё ярлык, баскаки, перепись и набеги.</li>
+      <li>Путать Невскую битву с борьбой против Орды: это были разные противники.</li>
+    </ol>
+  </div>
+
+  <h2>Было → стало</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Было в голове</th><th>Стало правильно</th></tr>
+      <tr><td>Калка = начало ига</td><td>1223 — бой, иго с 1240-х</td></tr>
+      <tr><td>Куликовская = конец ига</td><td>1380 — перелом, конец в 1480</td></tr>
+      <tr><td>Иго = только дань</td><td>ярлык, баскаки, перепись, набеги</td></tr>
+      <tr><td>«татаро-монголы» — один народ</td><td>коалиция племён, в источниках — «татары»</td></tr>
+    </table>
+  </div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Улус</td><td>земли-владение внутри монгольской империи</td></tr>
+      <tr><td>Ярлык</td><td>грамота на княжение от хана</td></tr>
+      <tr><td>Выход</td><td>дань, которую Русь платила Орде</td></tr>
+      <tr><td>Баскак</td><td>ханский чиновник-контролёр</td></tr>
+      <tr><td>Курултай</td><td>съезд знати для решения важных дел</td></tr>
+      <tr><td>«Злой город»</td><td>прозвище Козельска за упорную оборону</td></tr>
+    </table>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>1223 Калка      1237 Рязань      1238 Сить и Козельск
+1240 Киев       1243 ярлык       1257 перепись
+1327 Тверь и Калита              1380 Куликовская битва
+1382 Тохтамыш сжёг Москву        1480 Угра — конец ига
+Иго: ярлык + дань + баскаки + «число» + набеги</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Помню даты 1223, 1237, 1240, 1380, 1480</li>
+    <li>Объясняю разницу между Калкой и нашествием</li>
+    <li>Перечисляю формы зависимости</li>
+    <li>Понимаю, почему Куликовская битва не завершила иго</li>
+    <li>Знаю роль Ивана III в 1480 году</li>
+  </ul>
+
+  <details><summary>Как быстро запомнить причины поражения Руси</summary>Раздробленность: княжества воевали поодиночке, а Батый бил их по очереди. Единого войска и командования не было.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="mq">
+      <div class="q" data-a="1">
+        <p class="qt">1. В каком году произошла битва на Калке?</p>
+        <label><input type="radio" name="m1" value="0"> 1206</label>
+        <label><input type="radio" name="m1" value="1"> 1223</label>
+        <label><input type="radio" name="m1" value="2"> 1237</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. Что такое ярлык?</p>
+        <label><input type="radio" name="m2" value="0"> Дань Орде</label>
+        <label><input type="radio" name="m2" value="1"> Ханский чиновник</label>
+        <label><input type="radio" name="m2" value="2"> Грамота на право княжить</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Какой город держался 49 дней и получил прозвище «злой»?</p>
+        <label><input type="radio" name="m3" value="0"> Козельск</label>
+        <label><input type="radio" name="m3" value="1"> Рязань</label>
+        <label><input type="radio" name="m3" value="2"> Владимир</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">4. В каком году пал Киев?</p>
+        <label><input type="radio" name="m4" value="0"> 1238</label>
+        <label><input type="radio" name="m4" value="1"> 1223</label>
+        <label><input type="radio" name="m4" value="2"> 1240</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">5. Кто возглавил русское войско в 1380 году?</p>
+        <label><input type="radio" name="m5" value="0"> Александр Невский</label>
+        <label><input type="radio" name="m5" value="1"> Дмитрий Донской</label>
+        <label><input type="radio" name="m5" value="2"> Иван Калита</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Чем закончилась Куликовская битва?</p>
+        <label><input type="radio" name="m6" value="0"> Победой, но дань платили ещё 100 лет</label>
+        <label><input type="radio" name="m6" value="1"> Полным концом ига</label>
+        <label><input type="radio" name="m6" value="2"> Поражением русских</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">7. Какое событие завершило иго?</p>
+        <label><input type="radio" name="m7" value="0"> Куликовская битва</label>
+        <label><input type="radio" name="m7" value="1"> Взятие Казани</label>
+        <label><input type="radio" name="m7" value="2"> Стояние на Угре в 1480 году</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">8. Что такое «выход»?</p>
+        <label><input type="radio" name="m8" value="0"> Поход хана на Русь</label>
+        <label><input type="radio" name="m8" value="1"> Дань Руси в пользу Орды</label>
+        <label><input type="radio" name="m8" value="2"> Перепись населения</label>
+      </div>
+    </div>
+    <button onclick="check('mq')">Проверить</button>
+    <button class="ghost" onclick="reset('mq')">Сбросить</button>
+    <div class="res" id="mq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>1223 — Калка, 1237–1240 — нашествие Батыя, 1243 — первый ярлык: Русь попала в зависимость от Орды. Платили дань («выход»), брали ярлык, терпели баскаков. 1380 — Куликовская битва дала перелом, 1480 — стояние на Угре закончило иго.</p>
+  </div>
+</section>
+
+</div>
+
+<p class="foot">Все конспекты собраны в этом файле · переключай вкладки сверху</p>
+</main>
 
 <script>
-  /* В этот список добавляем ТОЛЬКО те файлы,
-     которые реально лежат в репозитории. */
-  var materials = [
-    { src: 'elektrichestvo.html', tab: '⚡ Электричество', short: 'электричество' }
-  ];
-
-  var VER = '5'; /* версия ссылок — пробивает кэш, чтобы не показывалась старая копия */
-
-  var frame = document.getElementById('f');
-  var tabsBox = document.getElementById('tabs');
-  var linksBox = document.getElementById('links');
-  var sub = document.getElementById('sub');
-
-  materials.forEach(function (m, i) {
-    var b = document.createElement('button');
-    b.className = 'tab' + (i === 0 ? ' active' : '');
-    b.textContent = m.tab;
-    b.onclick = function () {
-      Array.prototype.forEach.call(tabsBox.children, function (x) {
-        x.classList.toggle('active', x === b);
-      });
-      frame.style.height = '60vh';
-      frame.src = m.src + '?v=' + VER;
-      setTimeout(fit, 500);
-    };
-    tabsBox.appendChild(b);
-  });
-
-  sub.textContent = 'Материалов: ' + materials.length +
-    (materials.length === 1 ? ' — ' + materials[0].short : '');
-
-  /* Один конспект — панель выбора не нужна */
-  if (materials.length < 2) {
-    tabsBox.style.display = 'none';
-  } else {
-    linksBox.innerHTML = 'Открыть отдельно: ' + materials.map(function (m) {
-      return '<a href="' + m.src + '?v=' + VER + '">' + m.short + '</a>';
-    }).join(' · ');
+function show(id, btn){
+  var secs = document.querySelectorAll('.sec');
+  for (var i = 0; i < secs.length; i++){ secs[i].classList.toggle('on', secs[i].id === id); }
+  var tabs = document.querySelectorAll('.tab');
+  for (var j = 0; j < tabs.length; j++){ tabs[j].classList.toggle('on', tabs[j] === btn); }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function check(box){
+  var root = document.getElementById(box);
+  var qs = root.querySelectorAll('.q');
+  var score = 0, answered = 0;
+  for (var i = 0; i < qs.length; i++){
+    var q = qs[i];
+    var opts = q.querySelectorAll('input');
+    var correct = parseInt(q.getAttribute('data-a'), 10);
+    var chosen = -1;
+    for (var j = 0; j < opts.length; j++){
+      opts[j].parentNode.classList.remove('ok','bad');
+      if (opts[j].checked) chosen = parseInt(opts[j].value, 10);
+    }
+    if (chosen === -1) continue;
+    answered++;
+    opts[correct].parentNode.classList.add('ok');
+    if (chosen === correct) score++; else opts[chosen].parentNode.classList.add('bad');
   }
-
-  if (materials.length) { frame.src = materials[0].src + '?v=' + VER; }
-
-  function fit() {
-    try {
-      var d = frame.contentDocument;
-      if (d && d.documentElement) {
-        var h = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0, 700);
-        frame.style.height = (h + 8) + 'px';
-      }
-    } catch (e) { frame.style.height = '90vh'; }
+  var out = document.getElementById(box + '-res');
+  if (answered === 0){ out.textContent = 'Отметь варианты и нажми «Проверить».'; return; }
+  var t = 'Результат: ' + score + ' из ' + qs.length;
+  if (score === qs.length) t += ' — идеально, тема закрыта!';
+  else if (score >= qs.length - 2) t += ' — хороший уровень, дошлифуй ошибочные пункты.';
+  else t += ' — стоит перечитать блоки выше.';
+  out.textContent = t;
+}
+function reset(box){
+  var root = document.getElementById(box);
+  var qs = root.querySelectorAll('.q');
+  for (var i = 0; i < qs.length; i++){
+    var opts = qs[i].querySelectorAll('input');
+    for (var j = 0; j < opts.length; j++){
+      opts[j].checked = false;
+      opts[j].parentNode.classList.remove('ok','bad');
+    }
   }
-
-  frame.addEventListener('load', fit);
-  window.addEventListener('resize', fit);
-  setInterval(fit, 900);
+  document.getElementById(box + '-res').textContent = 'Отвечай и нажми «Проверить».';
+}
+document.getElementById('sub').textContent = 'Тем в сборнике: 2 — электричество и монголо-татары';
 </script>
 </body>
 </html>
