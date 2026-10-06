@@ -13,11 +13,13 @@
   }
   header {
     position: sticky; top: 0; z-index: 10;
-    background: #1e3a8a; padding: 10px 12px 9px;
+    background: #1e3a8a; padding: 12px 14px 11px;
     box-shadow: 0 3px 12px rgba(0,0,0,.18);
   }
-  h1 { margin: 0 0 8px; font-size: 16px; color: #fff; font-weight: 600; }
-  .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  h1 { margin: 0 0 3px; font-size: 16px; color: #fff; font-weight: 600; }
+  .sub { margin: 0; font-size: 12px; color: #bfdbfe; }
+  .tabs { display: flex; gap: 6px; overflow-x: auto; margin-top: 9px; padding-bottom: 2px; }
+  .tabs:empty { display: none; }
   .tab {
     flex: 0 0 auto; cursor: pointer;
     border: 1px solid rgba(255,255,255,.35);
@@ -29,52 +31,82 @@
   .wrap { max-width: 720px; margin: 0 auto; padding: 14px 12px 26px; }
   iframe { width: 100%; border: 0; display: block; background: #fff; border-radius: 10px; }
   .links { margin-top: 14px; font-size: 12px; color: #52647c; text-align: center; }
+  .links:empty { display: none; }
   .links a { color: #2563eb; }
 </style>
 </head>
 <body>
-  <header>
-    <h1>📚 Мои конспекты — всё в одном месте</h1>
-    <div class="tabs" id="tabs">
-      <button class="tab active" data-src="elektrichestvo.html">⚡ Электричество</button>
-      <button class="tab" data-src="magnitny-puskatel.html">🔧 Магнитный пускатель</button>
-      <button class="tab" data-src="trehfazny-tok.html">🔌 Трёхфазный ток</button>
-      <button class="tab" data-src="istoriya-ot-rusi-do-ordy.html">🏰 История Руси</button>
-    </div>
+  <header id="hd">
+    <h1>📚 Мои конспекты</h1>
+    <p class="sub" id="sub"></p>
+    <div class="tabs" id="tabs"></div>
   </header>
 
   <div class="wrap">
-    <iframe id="f" src="elektrichestvo.html" title="Конспект"></iframe>
-    <div class="links">
-      Открыть отдельно:
-      <a href="elektrichestvo.html">электричество</a> ·
-      <a href="magnitny-puskatel.html">пускатель</a> ·
-      <a href="trehfazny-tok.html">трёхфазка</a> ·
-      <a href="istoriya-ot-rusi-do-ordy.html">история</a>
-    </div>
+    <iframe id="f" title="Конспект"></iframe>
+    <div class="links" id="links"></div>
   </div>
 
 <script>
+  /* Список конспектов. Добавляем строку только тогда,
+     когда файл реально лежит в репозитории. */
+  var materials = [
+    { src: 'elektrichestvo.html', tab: '⚡ Электричество', short: 'электричество' }
+  ];
+
   var frame = document.getElementById('f');
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var tabsBox = document.getElementById('tabs');
+  var linksBox = document.getElementById('links');
+  var sub = document.getElementById('sub');
+
+  materials.forEach(function (m, i) {
+    var b = document.createElement('button');
+    b.className = 'tab' + (i === 0 ? ' active' : '');
+    b.textContent = m.tab;
+    b.dataset.src = m.src;
+    b.onclick = function () {
+      Array.prototype.forEach.call(tabsBox.children, function (x) {
+        x.classList.toggle('active', x === b);
+      });
+      frame.style.height = '40vh';
+      frame.src = m.src;
+      setTimeout(fit, 500);
+    };
+    tabsBox.appendChild(b);
+  });
+
+  sub.textContent = materials.length === 1
+    ? 'Материалов в подборке: ' + materials.length + ' — ' + materials[0].short
+    : 'Материалов в подборке: ' + materials.length;
+
+  /* Кнопка-вкладка одна — не мешаем выбором, скрываем панель */
+  if (materials.length < 2) {
+    tabsBox.style.display = 'none';
+    sub.style.display = 'none';
+    document.getElementById('hd').style.padding = '11px 14px';
+  }
+
+  linksBox.innerHTML = 'Открыть отдельно: ' + materials.map(function (m) {
+    return '<a href="' + m.src + '">' + m.short + '</a>';
+  }).join(' · ');
+
+  if (materials.length < 2) { linksBox.style.display = 'none'; }
+
+  if (materials.length) { frame.src = materials[0].src; }
 
   function fit() {
     try {
       var d = frame.contentDocument;
       if (d && d.documentElement) {
-        var h = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0, 700);
+        var h = Math.max(
+          d.documentElement.scrollHeight,
+          d.body ? d.body.scrollHeight : 0,
+          700
+        );
         frame.style.height = h + 'px';
       }
     } catch (e) { frame.style.height = '90vh'; }
   }
-
-  tabs.forEach(function (t) {
-    t.onclick = function () {
-      tabs.forEach(function (x) { x.classList.toggle('active', x === t); });
-      frame.src = t.dataset.src;
-      setTimeout(fit, 400);
-    };
-  });
 
   frame.addEventListener('load', fit);
   window.addEventListener('resize', fit);
