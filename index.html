@@ -122,6 +122,7 @@ button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shado
     <div class="tabs" id="tabs">
       <button class="tab on" onclick="show('s-el',this)">⚡ Электричество</button>
       <button class="tab" onclick="show('s-mg',this)">⚔️ Монголо-татары</button>
+      <button class="tab" onclick="show('s-za',this)">🧩 Загадки</button>
     </div>
   </div>
 </header>
@@ -487,6 +488,110 @@ Rпосл = R1 + R2    Rпар = R1 × R2 / (R1 + R2)
   </div>
 </section>
 
+<!-- ═══════════ ЗАГАДКИ ═══════════ -->
+<section class="sec" id="s-za">
+  <h1 class="t">🧩 Интересные загадки</h1>
+  <p class="sub2">12 загадок с ответами · компактно, для памяти и разминки</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Как устроена загадка:</b> предмет описывают через чужой образ или через запрет — «без рук, без ног».</li>
+      <li><b>Три частых приёма:</b> метафора, отрицание, слово-обманка в вопросе.</li>
+      <li><b>Как отгадывать:</b> выделяй признаки по одному и ищи предмет, где они сходятся.</li>
+    </ol>
+  </div>
+
+  <h2>Загадки с ответами — нажми, чтобы раскрыть</h2>
+  <details><summary>1. Без рук, без ног, а ворота отворяет.</summary><b>Ветер.</b> Здесь важны не «руки», а само действие.</details>
+  <details><summary>2. Сидит дед, во сто шуб одет. Кто его раздевает, тот слёзы проливает.</summary><b>Лук.</b> «Шубы» — чешуйки, «слёзы» — едкий сок.</details>
+  <details><summary>3. Зимой и летом одним цветом.</summary><b>Ёлка (сосна).</b> Хвойное дерево не меняет цвет.</details>
+  <details><summary>4. В воде родится, а воды боится.</summary><b>Соль.</b> Получают из воды, но в воде растворяется.</details>
+  <details><summary>5. Не портной, а всю жизнь с иголками.</summary><b>Ёж.</b> Иголки здесь — колючки.</details>
+  <details><summary>6. Чем больше из неё берёшь, тем больше она становится.</summary><b>Яма.</b> Классика логики: вынимаешь землю — яма растёт.</details>
+  <details><summary>7. От чего утка плавает?</summary><b>От берега.</b> Обманка: спрашивают «почему», а подставить нужно «от чего».</details>
+  <details><summary>8. Что можно увидеть с закрытыми глазами?</summary><b>Сон.</b> Только с закрытыми и увидишь.</details>
+  <details><summary>9. Висит груша — нельзя скушать.</summary><b>Лампочка.</b> Форма подсказывает, но это не фрукт.</details>
+  <details><summary>10. Сколько яиц можно съесть натощак?</summary><b>Одно.</b> После первого ты уже не натощак.</details>
+  <details><summary>11. Всегда во рту, а не проглотишь.</summary><b>Язык.</b> Часть тела, а не пища.</details>
+  <details><summary>12. Что стоит между окном и дверью?</summary><b>Буква «и».</b> Игра слов, а не предмет.</details>
+
+  <h2>Три приёма загадок</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>🎭 Метафора</h4>
+      <ul>
+        <li>предмет назван чужим словом</li>
+        <li>«шубы» у лука, «иголки» у ежа</li>
+      </ul>
+    </div>
+    <div class="cbox">
+      <h4>🚫 Отрицание</h4>
+      <ul>
+        <li>идёт через «без», «не»</li>
+        <li>«без рук, без ног», «не портной»</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>Ветер   лук   ёлка   соль   ёж   яма
+Утка — «от берега», сон, лампочка
+Натощак — одно яйцо, язык, буква «и»
+Приёмы: метафора · отрицание · слово-обманка</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Отгадал не меньше 10 загадок из 12 без подсказки</li>
+    <li>Объясняю, какой приём использован в каждой</li>
+    <li>Запомнил ответы 7–12 (они на логику, а не на описание)</li>
+  </ul>
+
+  <div class="box test">
+    <h3>Мини-тест: 5 загадок</h3>
+    <div id="zq">
+      <div class="q" data-a="0">
+        <p class="qt">1. Без рук, без ног, а ворота отворяет.</p>
+        <label><input type="radio" name="z1" value="0"> Ветер</label>
+        <label><input type="radio" name="z1" value="1"> Ключ</label>
+        <label><input type="radio" name="z1" value="2"> Домовой</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. В воде родится, а воды боится.</p>
+        <label><input type="radio" name="z2" value="0"> Рыба</label>
+        <label><input type="radio" name="z2" value="1"> Лёд</label>
+        <label><input type="radio" name="z2" value="2"> Соль</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">3. Сидит дед, во сто шуб одет.</p>
+        <label><input type="radio" name="z3" value="0"> Капуста</label>
+        <label><input type="radio" name="z3" value="1"> Лук</label>
+        <label><input type="radio" name="z3" value="2"> Барабан</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">4. Чем больше из неё берёшь, тем больше становится.</p>
+        <label><input type="radio" name="z4" value="0"> Река</label>
+        <label><input type="radio" name="z4" value="1"> Копилка</label>
+        <label><input type="radio" name="z4" value="2"> Яма</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">5. Что стоит между окном и дверью?</p>
+        <label><input type="radio" name="z5" value="0"> Буква «и»</label>
+        <label><input type="radio" name="z5" value="1"> Стена</label>
+        <label><input type="radio" name="z5" value="2"> Порожек</label>
+      </div>
+    </div>
+    <button onclick="check('zq')">Проверить</button>
+    <button class="ghost" onclick="reset('zq')">Сбросить</button>
+    <div class="res" id="zq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Загадка описывает предмет через чужой образ, отрицание или слово-обманку. Ветер, лук, ёлка, соль, ёж, яма — простые предметные; утка «от берега», сон, одно яйцо натощак, язык и буква «и» — ловушки на внимательность. Отгадка всегда одна и та же: ищи предмет, у которого сходятся все признаки.</p>
+  </div>
+</section>
+
 </div>
 
 <p class="foot">Все конспекты собраны в этом файле · переключай вкладки сверху</p>
@@ -538,7 +643,7 @@ function reset(box){
   }
   document.getElementById(box + '-res').textContent = 'Отвечай и нажми «Проверить».';
 }
-document.getElementById('sub').textContent = 'Тем в сборнике: 2 — электричество и монголо-татары';
+document.getElementById('sub').textContent = 'Тем в сборнике: 3 — электричество, монголо-татары и загадки';
 </script>
 </body>
 </html>
