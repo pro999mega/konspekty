@@ -269,7 +269,6 @@ let line = null;       // текущий .ln
 let text = '';         // набранный кусок
 let tgt = '';          // целевая строка банка
 let tgtIdx = 0;
-let cold = 0;          // счётчик простоя (символов без нажатий)
 
 function cls(t){
   if (t.startsWith('//') || t.startsWith('#') || t.startsWith('/*')) return 'cmt';
@@ -298,29 +297,27 @@ function pickTarget(){
   tgtIdx = 0;
 }
 function finish(){
-  // завершить строку и перейти на новую
-  tgt = ''; pickTarget();
+  pickTarget();
   newLine(true);
 }
-function typeOne(ch){
+function typeOne(){
   if (!line) { pickTarget(); newLine(true); }
   if (tgtIdx >= tgt.length) finish();
-  const c = tgt[tgtIdx] !== undefined ? tgt[tgtIdx] : rand('abcdefghijklmnopqrstuvwxyz'.split(''));
+  const c = tgt[tgtIdx] !== undefined ? tgt[tgtIdx] : '';
   tgtIdx++;
   text += c;
   line.textContent = text;
-  if (tgtIdx >= tgt.length + 3) finish();   // немного "хвоста" — и новая строка
+  if (tgtIdx >= tgt.length) finish();   // строка закончилась — начинаем новую
   screenEl.scrollTop = screenEl.scrollHeight;
 }
 
-/* ловим нажатия: один обработчик */
+/* ловим нажатия: один обработчик, 1 нажатие = 1 символ */
 function onInput(e){
   const v = sink.value;
   if (!v) { return; }
   const n = v.length;
   sink.value = '';
   for (let i = 0; i < n; i++) typeOne();
-  cold = 0;
   buzz(8);
 }
 sink.addEventListener('input', onInput);
@@ -341,7 +338,7 @@ setTimeout(focusSink, 300);
     const d=document.createElement('div'); d.className='ln'; d.textContent=t;
     screenEl.appendChild(d);
   });
-  tgt=''; pickTarget(); newLine(true);
+  pickTarget(); newLine(true);
 })();
 
 /* ============================================================
@@ -421,19 +418,15 @@ function crackWifi(){
     let p = 0;
     const t = every(180, () => {
       p += Math.random()*11 + 4;
+      const el = document.getElementById(id);
       if (p >= 100) {
         clearInterval(t);
-        const el = document.getElementById(id);
         if (el) el.innerHTML = '<i style="width:100%"></i>';
         add('  подбор завершён, ключ не подошёл', 'err');
         sleep(300, nextNet);
         return;
       }
-      const el = document.getElementById(id);
-      if (el) {
-        el.innerHTML = '<i style="width:'+p.toFixed(0)+'%"></i>';
-        el.parentNode.innerHTML = el.parentNode.innerHTML.replace(/\d+%/, Math.round(p)+'%');
-      }
+      if (el) el.innerHTML = '<i style="width:'+p.toFixed(0)+'%"></i>';
     });
   }
   add('> загрузка словаря rockyou.txt (14 344 391 слов)','sys');
@@ -508,12 +501,14 @@ function matrix(on){
   if (on) {
     wrap.classList.add('on');
     const ctx = cv.getContext('2d');
-    const resize = () => { cv.width = wrap.clientWidth; cv.height = wrap.clientHeight; };
-    resize(); window.addEventListener('resize', resize);
     const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌabcdef@#$%'.split('');
     const size = 16;
     let cols, drops;
-    const init = () => { cols = Math.floor(cv.width/size); drops = Array(cols).fill(0).map(()=>Math.random()*cv.height/size); };
+    const init = () => {
+      cv.width = wrap.clientWidth; cv.height = wrap.clientHeight;
+      cols = Math.floor(cv.width/size);
+      drops = Array(cols).fill(0).map(()=>Math.random()*cv.height/size);
+    };
     init(); window.addEventListener('resize', init);
     clearInterval(mtxTimer);
     mtxTimer = setInterval(() => {
