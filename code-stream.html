@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#040b08">
+<title>Печатаю — код летит</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  margin:0;background:#040b08;color:#5dff9b;overflow:hidden;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+#screen{
+  position:fixed;inset:0;
+  padding:14px 14px 96px;
+  overflow:hidden;
+  background:
+    radial-gradient(700px 420px at 50% 0%,rgba(0,255,120,.09),rgba(0,0,0,0) 70%),
+    #040b08;
+}
+#screen::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.28) 2px 4px);
+  opacity:.5;
+}
+#grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.055;
+  background-image:radial-gradient(rgba(120,255,180,.9) 1px,transparent 1px);
+  background-size:4px 4px;
+}
+#log{
+  position:relative;z-index:2;
+  font-size:13.5px;line-height:1.62;
+  text-shadow:0 0 6px rgba(80,255,160,.75),0 0 18px rgba(50,255,140,.35);
+  white-space:pre-wrap;word-break:break-word;
+}
+.ln{animation:fade .22s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.c-g{color:#5dff9b}
+.c-d{color:#2fbf70}
+.c-b{color:#7fe6ff}
+.c-y{color:#e9ff7a}
+.c-o{color:#ffb35c}
+.c-m{color:#ff7bc0}
+.c-w{color:#e9fff3}
+#caret{
+  display:inline-block;width:8px;height:15px;background:#5dff9b;
+  vertical-align:-2px;margin-left:2px;
+  box-shadow:0 0 8px rgba(90,255,160,.9);
+  animation:blink 1s steps(1,end) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+/* ─── HUD ─── */
+#hud{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,rgba(2,10,6,.97),rgba(2,10,6,.75) 60%,rgba(2,10,6,0));
+}
+#stats{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px;
+  font-size:11px;letter-spacing:.6px;
+}
+.pill{
+  padding:5px 11px;border-radius:999px;
+  border:1px solid rgba(93,255,155,.32);
+  background:rgba(93,255,155,.07);
+  color:#8dffbe;
+}
+.pill b{color:#dfffe c}
+.bar{height:4px;border-radius:4px;background:rgba(93,255,155,.15);overflow:hidden;margin-bottom:10px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#20d97a,#8bffc0);box-shadow:0 0 12px rgba(80,255,160,.8);transition:width .2s}
+.row{display:flex;gap:8px;align-items:center}
+input#type{
+  flex:1;min-width:0;padding:12px 14px;font:inherit;font-size:15px;
+  color:#d9ffe9;background:rgba(93,255,155,.06);
+  border:1px solid rgba(93,255,155,.35);border-radius:14px;outline:none;caret-color:#5dff9b;
+}
+input#type::placeholder{color:rgba(141,255,190,.45)}
+input#type:focus{border-color:#5dff9b;box-shadow:0 0 0 3px rgba(93,255,155,.14)}
+.btn{
+  font:inherit;font-size:13px;font-weight:700;letter-spacing:.4px;
+  padding:11px 16px;border-radius:14px;cursor:pointer;
+  color:#04140b;background:linear-gradient(140deg,#8bffc0,#25cf78);
+  border:none;box-shadow:0 6px 18px rgba(37,207,120,.32);
+}
+.btn:active{transform:scale(.96)}
+.btn.ghost{
+  color:#9dffc8;background:rgba(93,255,155,.08);
+  border:1px solid rgba(93,255,155,.34);box-shadow:none;
+}
+.btn.ghost.on{background:rgba(93,255,155,.22);color:#e6fff1}
+#toast{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);
+  z-index:30;padding:7px 15px;border-radius:999px;font-size:12px;
+  color:#04140b;background:#8bffc0;box-shadow:0 8px 22px rgba(0,0,0,.5);
+  opacity:0;transition:opacity .25s;pointer-events:none;
+}
+#toast.on{opacity:1}
+@media(min-width:700px){#log{font-size:15px}#screen{padding:26px 26px 110px}}
+</style>
+</head>
+<body>
+
+<div id="screen">
+  <div id="grain"></div>
+  <div id="log"><span id="caret"></span></div>
+</div>
+
+<div id="toast"></div>
+
+<div id="hud">
+  <div id="stats">
+    <span class="pill">СТРОК: <b id="sLines">0</b></span>
+    <span class="pill">СИМВОЛОВ: <b id="sChars">0</b></span>
+    <span class="pill">ТЕМП: <b id="sSpeed">0</b> зн/с</span>
+    <span class="pill">КЛАВИШ: <b id="sKeys">0</b></span>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="row">
+    <input id="type" placeholder="печатай что угодно — код полетит сам..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <button class="btn ghost" id="btnPause">ПАУЗА</button>
+    <button class="btn ghost" id="btnClear">СБРОС</button>
+  </div>
+</div>
+
+<script>
+/* ═══ БАНК КОДА ═══ */
+var BANK = [
+  '#include <stdio.h>',
+  'int main() {',
+  '    printf("Hello, world!\\n");',
+  '    return 0;',
+  '}',
+  '',
+  'def hello(name):',
+  '    print(f"Hello, {name}!")',
+  '    return True',
+  '',
+  'console.log("Hello, world!");',
+  'const sum = (a, b) => a + b;',
+  'let total = arr.reduce((x, y) => x + y, 0);',
+  'System.out.println("Hello, world!");',
+  'public class Main {',
+  'import numpy as np',
+  'data = np.array([1, 2, 3])',
+  'for (int i = 0; i < n; i++) {',
+  '    matrix[i][j] = rand() % 100;',
+  '}',
+  '',
+  'async function fetchData(url) {',
+  '    const res = await fetch(url);',
+  '    return res.json();',
+  '}',
+  'class Engine {',
+  '    constructor(power) { this.power = power; }',
+  '    start() { console.log("Engine started"); }',
+  '}',
+  'SELECT * FROM users WHERE active = 1;',
+  'git commit -m "fix: resolve memory leak"',
+  'npm install express cors dotenv',
+  'sudo apt-get update && sudo apt-get upgrade',
+  'curl -s https://api.example.com/v1/data',
+  'docker run -d -p 8080:80 nginx:alpine',
+  'if (arr.length === 0) throw new Error("empty");',
+  'try {',
+  '    result = await compute();',
+  '} catch (e) {',
+  '    console.error(e.message);',
+  '}',
+  '',
+  'const token = crypto.randomUUID();',
+  'db.connect("mongodb://localhost:27017");',
+  'while (queue.length) process(queue.shift());',
+  'fn main() {',
+  '    let mut v: Vec<i32> = Vec::new();',
+  '    println!("{:?}", v);',
+  '}',
+  '# ── оптимизация ──',
+  'time_complexity: O(n log n)',
+  'memory_usage: 512 MB / 2048 MB',
+  'build: PASSED  ✓  tests: 42/42  ✓',
+  'hash = sha256(payload + secret)',
+  'redis.set("session:" + id, token, EX 3600)',
+  'router.post("/api/login", authMiddleware);',
+  'const { data, error } = await supabase.from("notes").select();',
+  'export default function App() {',
+  '    return <div className="app">Ready</div>;',
+  '}',
+  'pip install -r requirements.txt',
+  'python3 manage.py migrate',
+  'sudo systemctl restart nginx',
+  'grep -rn "TODO" ./src',
+  'chmod +x deploy.sh',
+  'ssh user@192.168.1.7 -p 2222',
+  '',
+  '// ─── инициализация ядра ───',
+  'kernel.init({ threads: 8, cache: true });',
+  'await Promise.all(tasks.map(t => t.run()));',
+  'if (n <= 1) return n;',
+  'return fib(n - 1) + fib(n - 2);',
+  'printf("%d\\n", result);',
+  'string s = "Hello, world";',
+  'vector<int> nums = {3, 1, 4, 1, 5};',
+  'sort(nums.begin(), nums.end());',
+  'print(", ".join(map(str, nums)))',
+  'with open("data.txt", "r") as f:',
+  '    lines = f.readlines()',
+  '',
+  '#!/bin/bash',
+  'set -euo pipefail',
+  'echo "deploy started"',
+  'kill -9 $(lsof -t -i:3000)',
+  'cat /var/log/app.log | tail -n 50',
+  'awk \'{sum += $1} END {print sum}\' file.txt',
+  'ffmpeg -i in.mp4 -c:v libx264 out.mp4',
+  'openssl req -x509 -newkey rsa:4096',
+  'rsync -avz --delete ./build/ server:/var/www/',
+  'tar -czvf backup.tar.gz ./data',
+  '',
+  'type User = { id: number; name: string }',
+  'interface Point { x: number; y: number }',
+  'enum Status { ACTIVE, IDLE, BLOCKED }',
+  '@Override public void run() { }',
+  'synchronized (lock) { counter++; }',
+  'std::unique_ptr<Node> head;',
+  'let x: *const u8 = ptr;',
+  'unsafe { *ptr = 42; }',
+  'SELECT id, name FROM users ORDER BY id DESC LIMIT 10;',
+  'UPDATE accounts SET balance = balance - 100 WHERE id = 7;',
+  'CREATE INDEX idx_email ON users(email);',
+  'BEGIN TRANSACTION;',
+  'COMMIT;',
+  '',
+  'if (!fs.existsSync(dir)) fs.mkdirSync(dir);',
+  'process.env.NODE_ENV = "production";',
+  'const port = parseInt(process.env.PORT || "3000", 10);',
+  'app.listen(port, () => console.log("up on " + port));',
+  'socket.on("message", msg => handle(msg));',
+  'ws.send(JSON.stringify({ type: "ping" }));',
+  'encrypt(data, key, iv);',
+  'base64.encode(buffer);',
+  'JSON.parse(payload);',
+  '',
+  'Загрузка модулей.......  100%',
+  'Компиляция............  ok',
+  'Все тесты пройдены: 42 из 42',
+  'Сборка завершена за 1.84 с',
+  'Память освобождена: 128.4 MB',
+  'Соединение установлено: TLS 1.3',
+  'Кэш прогрет: 512 записей',
+  'Ошибок не найдено ✓'
+];
+
+/* ═══ СОСТОЯНИЕ ═══ */
+var log      = document.getElementById('log');
+var caret    = document.getElementById('caret');
+var input    = document.getElementById('type');
+var paused   = false;
+var heap     = [];          // очередь строк кода
+var typing   = null;        // текущая строка, которую добираем
+var keyRate  = 0;           // скорость набора: клавиш за последние 1.5 с
+var keyTimes = [];
+var lines    = 0, chars = 0, keys = 0;
+var firstRun = true;
+
+function popLine(){
+  if (!heap.length){
+    // замешиваем новый блок из банка
+    var copy = BANK.slice();
+    for (var i = copy.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = copy[i]; copy[i] = copy[j]; copy[j] = t;
+    }
+    heap = heap.concat(copy);
+  }
+  return heap.shift();
+}
+
+function push(text, cls){
+  var d = document.createElement('div');
+  d.className = 'ln ' + (cls || 'c-g');
+  d.textContent = text === '' ? '\u00A0' : text;
+  log.insertBefore(d, caret);
+  lines++; chars += text.length;
+  updateStats();
+}
+
+function updateStats(){
+  document.getElementById('sLines').textContent  = lines;
+  document.getElementById('sChars').textContent  = chars;
+  document.getElementById('sKeys').textContent   = keys;
+  document.getElementById('sSpeed').textContent  = keyRate;
+  var p = Math.min(100, Math.round(keyRate * 3.4));
+  document.getElementById('bar').style.width = p + '%';
+  while (log.childNodes.length > 420){ log.removeChild(log.firstChild); }
+}
+
+/* сколько строк в секунду: зависит от темпа печати */
+function linesPerSecond(){
+  if (keyRate <= 0) return 0.55 + Math.random() * 0.35;   // «фон» — тихий поток
+  if (keyRate < 8)  return 2.2;
+  if (keyRate < 20) return 4.5;
+  return 8;
+}
+
+/* как быстро выпечатывается одна строка */
+function charDelay(){
+  if (keyRate < 8)  return 16;
+  if (keyRate < 20) return 9;
+  return 4;
+}
+
+function colorsFor(line){
+  var l = line.trim();
+  if (l === '') return 'c-g';
+  if (/^(#|--|\/\/)/.test(l))                       return 'c-d';
+  if (/^(\s*)(SELECT|UPDATE|CREATE|BEGIN|COMMIT|INSERT)/i.test(l)) return 'c-m';
+  if (/(PASSED|ok|✓|пройден|завершен|завершена)/i.test(l))          return 'c-y';
+  if (/(ERROR|Error|error|throw|catch|kill)/.test(l))               return 'c-o';
+  if (/"|<|>|\(|\)|;|=\>|=>/.test(l))                                return 'c-b';
+  if (/[А-Яа-я]/.test(l))                                            return 'c-w';
+  return 'c-g';
+}
+
+/* ═══ ДВИЖОК ПЕЧАТИ ═══ */
+function tick(){
+  if (paused){ requestAnimationFrame(tick); return; }
+
+  var now = performance.now();
+  keyTimes = keyTimes.filter(function(t){ return now - t < 1500; });
+  keyRate = Math.round(keyTimes.length / 1.5);
+
+  if (!typing){
+    if (Math.random() < linesPerSecond() / 60){
+      typing = { text: popLine(), i: 0, el: null };
+    }
+  }
+
+  if (typing){
+    if (!typing.el){
+      typing.el = document.createElement('div');
+      typing.el.className = 'ln ' + colorsFor(typing.text);
+      typing.el.textContent = '\u00A0';
+      log.insertBefore(typing.el, caret);
+      // мигающая «печать» строки
+      var t = typing.text;
+      if (t === ''){ typing.el.textContent = '\u00A0'; lines++; charset(t); typing = null; }
+    } else {
+      var t2 = typing.text;
+      var step = keyRate > 18 ? 3 : (keyRate > 6 ? 2 : 1);
+      typing.i = Math.min(t2.length, typing.i + step);
+      typing.el.textContent = t2.slice(0, typing.i);
+      if (typing.i >= t2.length){ lines++; chars += t2.length; updateStats(); typing = null; }
+    }
+  }
+
+  updateStats();
+  requestAnimationFrame(tick);
+}
+function charset(){ chars++; }
+
+/* ═══ ВВОД: пользователь печатает — код ускоряется ═══ */
+function bump(){ keys++; keyTimes.push(performance.now()); }
+input.addEventListener('input', function(e){
+  bump();
+  var v = input.value;
+  // длинная строка — «отправляем» её в лог как комментарий
+  if (v.length >= 34){
+    push('// ' + v.replace(/\n/g, ' '), 'c-d');
+    input.value = '';
+  }
+});
+input.addEventListener('keydown', function(e){ if (e.key !== 'Backspace') bump(); });
+window.addEventListener('touchstart', function(){ if (firstRun){ firstRun = false; } }, {passive:true});
+
+/* ═══ КНОПКИ ═══ */
+document.getElementById('btnPause').addEventListener('click', function(){
+  paused = !paused;
+  this.textContent = paused ? 'ПУСК' : 'ПАУЗА';
+  this.classList.toggle('on', paused);
+});
+document.getElementById('btnClear').addEventListener('click', function(){
+  while (log.childNodes.length > 1) log.removeChild(log.firstChild);
+  heap = []; typing = null; lines = 0; chars = 0; keys = 0; keyTimes = [];
+  updateStats();
+  toast('Сброшено');
+});
+function toast(t){
+  var el = document.getElementById('toast');
+  el.textContent = t; el.classList.add('on');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('on'); }, 1400);
+}
+
+/* ═══ СТАРТ ═══ */
+push('# ── honer://console ──', 'c-d');
+push('$ ./init --mode=stream', 'c-w');
+push('', 'c-g');
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
