@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TERMINAL</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden; background: #01060a;
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  }
+  #screen {
+    position: fixed; inset: 0; padding: 14px 14px 40px 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, #06181a 0%, #01060a 70%);
+    color: #4dff9b;
+    font-size: 13.5px;
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 6px rgba(77,255,155,0.45);
+    word-break: break-word;
+  }
+  #lines { position: absolute; left: 14px; right: 14px; bottom: 40px; }
+  .ln { white-space: pre-wrap; }
+  #cursor {
+    display: inline-block; width: 8px; height: 15px;
+    background: #4dff9b; vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+    box-shadow: 0 0 8px rgba(77,255,155,0.8);
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  #scan {
+    position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.16) 3px, rgba(0,0,0,0) 4px);
+    mix-blend-mode: multiply;
+  }
+  #vig {
+    position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);
+  }
+  #input {
+    position: fixed; left: -9999px; top: 0; opacity: 0;
+    width: 10px; height: 10px;
+  }
+  #hint {
+    position: fixed; left: 0; right: 0; bottom: 12px; text-align: center;
+    color: rgba(77,255,155,0.35); font-size: 11px; letter-spacing: 1px;
+    pointer-events: none; transition: opacity .6s;
+  }
+</style>
+</head>
+<body>
+<div id="screen">
+  <div id="lines"></div>
+</div>
+<div id="scan"></div>
+<div id="vig"></div>
+<div id="hint">ТАПНИ И ПЕЧАТАЙ</div>
+<textarea id="input" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
+
+<script>
+// ====================== БАНК СТРОК КОДА ======================
+var BANK = [
+  'printf("Hello, world!\\n");',
+  'console.log("ready");',
+  'int main(void) {',
+  '  return 0;',
+  '}',
+  'def run():',
+  '    return True',
+  'SELECT * FROM users WHERE active = 1;',
+  'git commit -m "fix bug"',
+  'npm install express',
+  'for (i = 0; i < n; i++) {',
+  '  sum += arr[i];',
+  '}',
+  'class Engine {',
+  '    void start();',
+  '}',
+  'if (x > 0) { print(x); }',
+  'while (true) { tick(); }',
+  'sudo systemctl restart nginx',
+  'docker build -t app .',
+  '// TODO: refactor this',
+  'let data = await fetch(url);',
+  'val result = list.map { it * 2 }',
+  'func main() { fmt.Println("go") }',
+  'x = [i*i for i in range(10)]',
+  'print(f"temp = {t:.2f}")',
+  '#include <stdio.h>',
+  'typeof undefined === "undefined"',
+  'cat /var/log/syslog | grep error',
+  'return a + b;',
+  'try { risky(); } catch (e) { log(e); }',
+  'public static void main(String[] a) {',
+  'memcpy(buf, src, len);',
+  'unsigned long long crc = 0;',
+  'socket.bind(PORT, HOST);',
+  'threads.join();',
+  'std::vector<int> v = {1,2,3};',
+  'sudo apt-get install -y build-essential',
+  'curl -s https://api.dev/v1/ping',
+  'export PATH="$PATH:/usr/local/bin"',
+  'chmod +x ./run.sh',
+  'echo "build succeeded"',
+  'EXIT CODE: 0',
+  'Connecting to 127.0.0.1:8080 ...',
+  'Handshake OK',
+  'TLS 1.3 established',
+  'cache hit ratio: 0.94',
+  'allocating 4096 bytes ...',
+  'freeing heap block 0x7ffd',
+  'checksum verified',
+  'index rebuilt in 42 ms',
+  'scanning modules ... 128 found',
+  'optimizing bytecode',
+  'compiling chunk 7/12',
+  'linking dependencies',
+  'warning: unused variable "tmp"',
+  '0 errors, 1 warning',
+  '✓ PASSED',
+  '✓ PASSED',
+  '✓ PASSED',
+  'tests: 128 passed, 0 failed',
+  'deploy target: production',
+  'pid 4821 running',
+  'cpu 12%  mem 340MB',
+  'throughput 1840 req/s',
+  'latency avg 18 ms',
+  'sharding data across 4 nodes',
+  'replica synced',
+  'indexing documents...',
+  'embedding vectors done',
+  'query plan optimized',
+  'garbage collector: stop-the-world 2 ms',
+  'kernel: scheduling task 0x1a2b',
+  'register rax = 0x00000000',
+  'mov eax, 0x1',
+  'call 0x00401200 <main+32>',
+  'ret',
+  'push rbp',
+  'sub rsp, 0x20',
+  'xor eax, eax',
+  'cmp eax, ebx',
+  'jne 0x401050',
+];
+// ==============================================================
+
+var linesEl = document.getElementById('lines');
+var inputEl = document.getElementById('input');
+var hintEl = document.getElementById('hint');
+
+var currentLine = null;      // текущий DOM-элемент строки
+var queue = [];              // очередь символов для печати
+var target = '';             // цель текущей строки
+var pos = 0;                 // сколько символов уже напечатано
+var heat = 0;                // «темп» от нажатий
+var lastKey = 0;             // время последнего нажатия
+var currentChar = null;      // звезда-курсор
+
+var lettersPerKey = 1;       // 1 нажатие = 1 буква кода
+var PAUSE_AFTER = 90;        // мс паузы после нажатия перед печатью
+var BURST_WINDOW = 450;      // сколько мс после нажатия код ещё «живёт»
+var MAX_LINES = 26;          // сколько строк держим на экране
+
+function pick() { return BANK[Math.floor(Math.random() * BANK.length)]; }
+
+function ensureLine() {
+  if (!currentLine) {
+    currentLine = document.createElement('div');
+    currentLine.className = 'ln';
+    linesEl.appendChild(currentLine);
+    target = pick();
+    pos = 0;
+    var cur = document.createElement('span');
+    cur.id = 'cursor';
+    currentLine.appendChild(cur);
+    currentChar = cur;
+    trim();
+  }
+}
+
+function trim() {
+  while (linesEl.children.length > MAX_LINES) {
+    linesEl.removeChild(linesEl.firstChild);
+  }
+}
+
+// 1 нажатие — 1 буква: добавляем символ в текущую строку
+function typeOne() {
+  ensureLine();
+  if (pos >= target.length) {
+    finishLine();
+    return;
+  }
+  var ch = target.charAt(pos);
+  pos++;
+  var txt = document.createTextNode(ch);
+  currentLine.insertBefore(txt, currentChar);
+  if (pos >= target.length) finishLine();
+}
+
+function finishLine() {
+  if (currentChar && currentChar.parentNode) currentChar.parentNode.removeChild(currentChar);
+  currentLine = null;
+  currentChar = null;
+  // иногда сразу начинаем новую строку, чтобы экран «ехал»
+  if (Math.random() < 0.75) {
+    ensureLine();
+  }
+}
+
+// Планировщик: печатает только пока идут нажатия
+function loop() {
+  var now = Date.now();
+  var alive = (now - lastKey) < BURST_WINDOW;
+
+  if (alive && pos < target.length) {
+    // внутри «окна» после нажатия печатаем быстрее
+    var delay = Math.max(12, PAUSE_AFTER - Math.min(heat, 14) * 6);
+    typeOne();
+    heat = Math.max(0, heat - 0.4);
+    setTimeout(loop, delay);
+  } else {
+    heat = Math.max(0, heat - 1);
+    setTimeout(loop, 40);
+  }
+}
+
+inputEl.addEventListener('input', function () {
+  // берём только добавленные символы, сами буквы НЕ показываем
+  var added = inputEl.value.length;
+  if (added > 0) {
+    for (var i = 0; i < added; i++) {
+      lastKey = Date.now();
+      heat = Math.min(heat + 1.2, 16);
+      typeOne();
+    }
+    // чистим поле, чтобы не мешало и не копилось
+    inputEl.value = '';
+  }
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    lastKey = Date.now();
+    heat = Math.min(heat + 1.5, 16);
+    finishLine();
+    ensureLine();
+  }
+  if (e.key.length === 1) {
+    lastKey = Date.now();
+    heat = Math.min(heat + 1.2, 16);
+    typeOne();
+  }
+});
+
+function focusInput() {
+  inputEl.focus();
+  hintEl.style.opacity = '0';
+}
+
+document.addEventListener('touchstart', function (e) {
+  focusInput();
+}, { passive: true });
+
+document.addEventListener('click', focusInput);
+inputEl.addEventListener('blur', function () {
+  setTimeout(function () { inputEl.focus(); }, 60);
+});
+
+// стартовая заставка
+(function boot() {
+  var boot1 = document.createElement('div');
+  boot1.className = 'ln';
+  boot1.textContent = 'TERMINAL v5.0  ·  operator session';
+  linesEl.appendChild(boot1);
+  var boot2 = document.createElement('div');
+  boot2.className = 'ln';
+  boot2.textContent = 'awaiting input ...';
+  linesEl.appendChild(boot2);
+  ensureLine();
+  focusInput();
+})();
+
+setTimeout(loop, 100);
+</script>
+</body>
+</html>
