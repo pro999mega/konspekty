@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TERMINAL · operator session</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0; height: 100%; overflow: hidden;
+    background: #000; color: #0f0;
+    font-family: "SF Mono", ui-monospace, "Roboto Mono", Menlo, Consolas, monospace;
+    user-select: none;
+  }
+  /* ---------- Сканлайны и виньетка ---------- */
+  #fx {
+    position: fixed; inset: 0; pointer-events: none; z-index: 90;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,255,0,.045) 0 1px, transparent 1px 3px);
+  }
+  #vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 91;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.75) 100%);
+  }
+  #flicker {
+    position: fixed; inset: 0; pointer-events: none; z-index: 92;
+    background: rgba(0,255,0,.02); opacity: 0; animation: flk 4s infinite;
+  }
+  @keyframes flk { 0%,97%{opacity:0} 98%{opacity:1} 99%{opacity:0} 100%{opacity:1} }
+
+  /* ---------- Статус-бар ---------- */
+  #status {
+    position: fixed; top: 0; left: 0; right: 0; height: 30px; z-index: 80;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; font-size: 11px; letter-spacing: .5px;
+    color: #0f0; border-bottom: 1px solid rgba(0,255,0,.18);
+    background: linear-gradient(180deg, rgba(0,20,0,.9), rgba(0,10,0,.6));
+    text-shadow: 0 0 6px rgba(0,255,0,.7);
+  }
+  #status span { opacity: .9; }
+  .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#0f0;
+         box-shadow:0 0 6px #0f0; margin-right:5px; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+  /* ---------- Экраны ---------- */
+  .screen {
+    position: fixed; inset: 30px 0 0 0; z-index: 10;
+    display: none; flex-direction: column; padding: 10px 12px;
+    opacity: 0; transition: opacity .28s ease;
+  }
+  .screen.on { display: flex; opacity: 1; }
+
+  /* ---------- Главный терминал ---------- */
+  #terminal-screen { padding: 0; }
+  #screen {
+    flex: 1; overflow: hidden; padding: 12px 12px 6px;
+    font-size: 13.5px; line-height: 1.55;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    text-shadow: 0 0 7px rgba(0,255,0,.6);
+  }
+  .ln { white-space: pre-wrap; word-break: break-word; }
+  .cmt { color: #0a6; text-shadow: none; }
+  .sql { color: #f6a; text-shadow: 0 0 6px rgba(255,102,170,.6); }
+  .ok  { color: #ff0; text-shadow: 0 0 7px rgba(255,255,0,.6); }
+  .err { color: #f80; text-shadow: 0 0 7px rgba(255,136,0,.7); }
+  .sys { color: #0cf; text-shadow: 0 0 7px rgba(0,204,255,.6); }
+  .cur { display:inline-block; width:8px; height:15px; background:#0f0;
+         vertical-align:-2px; box-shadow:0 0 8px #0f0; animation: bl .9s step-end infinite; }
+  @keyframes bl { 50% { opacity: 0 } }
+
+  #hint {
+    text-align:center; font-size:10.5px; letter-spacing:2px;
+    color: rgba(0,255,0,.35); padding: 6px 0 2px;
+  }
+  #keysink {
+    position: fixed; bottom: -200px; left: 0; width: 1px; height: 1px;
+    opacity: 0; border: 0; background: transparent; color: transparent;
+  }
+
+  /* ---------- Кнопка меню ---------- */
+  #menuBtn {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: 14px; z-index: 95;
+    padding: 11px 26px; font-family: inherit; font-size: 12.5px; letter-spacing: 2px;
+    color: #0f0; background: rgba(0,25,0,.85);
+    border: 1px solid rgba(0,255,0,.5); border-radius: 22px;
+    box-shadow: 0 0 16px rgba(0,255,0,.35), inset 0 0 12px rgba(0,255,0,.12);
+    text-shadow: 0 0 8px rgba(0,255,0,.8); cursor: pointer;
+    transition: transform .12s ease, box-shadow .2s;
+  }
+  #menuBtn:active { transform: translateX(-50%) scale(.94); box-shadow: 0 0 26px rgba(0,255,0,.6); }
+
+  /* ---------- Панель взломов ---------- */
+  #overlay {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: rgba(0,0,0,.82); backdrop-filter: blur(3px);
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px 18px; opacity: 0; transition: opacity .22s;
+  }
+  #overlay.on { display: flex; opacity: 1; }
+  #overlay h2 {
+    font-size: 12px; letter-spacing: 4px; font-weight: 400;
+    color: rgba(0,255,0,.75); margin: 0 0 18px; text-shadow: 0 0 10px rgba(0,255,0,.7);
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 420px; }
+  .card {
+    padding: 16px 12px; text-align: center; font-family: inherit; font-size: 12px;
+    color: #0f0; background: rgba(0,22,0,.7);
+    border: 1px solid rgba(0,255,0,.3); border-radius: 12px;
+    box-shadow: inset 0 0 14px rgba(0,255,0,.07); cursor: pointer;
+    transition: transform .12s, box-shadow .2s, border-color .2s;
+    line-height: 1.5;
+  }
+  .card:active { transform: scale(.95); border-color: rgba(0,255,0,.8);
+                 box-shadow: 0 0 20px rgba(0,255,0,.45), inset 0 0 14px rgba(0,255,0,.15); }
+  .card .ic { display: block; font-size: 22px; margin-bottom: 6px; }
+  #closeBtn {
+    margin-top: 20px; padding: 10px 30px; font-family: inherit; font-size: 12px;
+    letter-spacing: 2px; color: #f66; background: transparent;
+    border: 1px solid rgba(255,80,80,.5); border-radius: 20px; cursor: pointer;
+  }
+
+  /* ---------- Модальное окно взлома ---------- */
+  #modal {
+    position: fixed; inset: 0; z-index: 110; display: none;
+    flex-direction: column; background: #000; padding: 12px;
+  }
+  #modal.on { display: flex; }
+  #modalHead {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 8px; border-bottom: 1px solid rgba(0,255,0,.25);
+    font-size: 12px; letter-spacing: 2px; text-shadow: 0 0 8px rgba(0,255,0,.7);
+  }
+  #modalHead button {
+    background: transparent; border: 1px solid rgba(255,80,80,.5); color: #f66;
+    font-family: inherit; font-size: 11px; padding: 5px 12px; border-radius: 14px; cursor: pointer;
+  }
+  #modalBody { flex: 1; overflow-y: auto; padding: 12px 2px; font-size: 12.5px; line-height: 1.75; }
+  #modalBody .ln { margin-bottom: 2px; }
+  .bar {
+    display: inline-block; width: 100%; max-width: 240px; height: 9px;
+    border: 1px solid rgba(0,255,0,.4); vertical-align: middle; margin-left: 6px;
+    background: rgba(0,40,0,.6);
+  }
+  .bar i { display: block; height: 100%; background: #0f0; box-shadow: 0 0 10px #0f0; width: 0;
+           transition: width .35s linear; }
+  /* Матрица */
+  #mtx { position: fixed; inset: 30px 0 0 0; z-index: 12; display: none; background: #000; }
+  #mtx.on { display: block; }
+  #mtx canvas { display: block; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+
+<div id="status">
+  <span><span class="dot"></span>ONLINE</span>
+  <span id="clock">--:--:--</span>
+  <span id="bat">🔋 --%</span>
+</div>
+
+<!-- ================= ГЛАВНЫЙ ЭКРАН: ТЕРМИНАЛ ================= -->
+<div class="screen on" id="terminal-screen">
+  <div id="screen"></div>
+  <div id="hint">ТАПНИ ПО ЭКРАНУ И ПЕЧАТАЙ</div>
+</div>
+<input id="keysink" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+<!-- ================= МАТРИЦА ================= -->
+<div id="mtx"><canvas id="mtxCanvas"></canvas></div>
+
+<!-- ================= КНОПКА МЕНЮ ================= -->
+<button id="menuBtn">☰ ВЗЛОМЫ</button>
+
+<!-- ================= ПАНЕЛЬ ================= -->
+<div id="overlay">
+  <h2>ВЫБЕРИ ЦЕЛЬ</h2>
+  <div class="grid">
+    <button class="card" data-scr="wifi"><span class="ic">📡</span>СКАНЕР WI-FI</button>
+    <button class="card" data-scr="crack"><span class="ic">🔓</span>ВЗЛОМ WI-FI</button>
+    <button class="card" data-scr="sat"><span class="ic">🛰</span>СПУТНИК</button>
+    <button class="card" data-scr="penta"><span class="ic">💣</span>ПЕНТАГОН</button>
+    <button class="card" data-scr="mtx"><span class="ic">🖥</span>МАТРИЦА</button>
+    <button class="card" data-scr="term"><span class="ic">💻</span>МОЙ ТЕРМИНАЛ</button>
+  </div>
+  <button id="closeBtn">ЗАКРЫТЬ</button>
+</div>
+
+<!-- ================= МОДАЛКА ВЗЛОМА ================= -->
+<div id="modal">
+  <div id="modalHead"><span id="modalTitle">—</span><button id="modalClose">СТОП</button></div>
+  <div id="modalBody"></div>
+</div>
+
+<div id="fx"></div><div id="vignette"></div><div id="flicker"></div>
+
+<script>
+/* ============================================================
+   1. ЧАСЫ И БАТАРЕЯ
+============================================================ */
+function tick(){
+  const d = new Date();
+  const p = n => String(n).padStart(2,'0');
+  document.getElementById('clock').textContent = p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+}
+setInterval(tick,1000); tick();
+
+if (navigator.getBattery) {
+  navigator.getBattery().then(b=>{
+    const upd = ()=> document.getElementById('bat').textContent =
+      (b.charging?'⚡':'🔋')+' '+Math.round(b.level*100)+'%';
+    upd(); b.addEventListener('levelchange',upd); b.addEventListener('chargingchange',upd);
+  }).catch(()=>{});
+}
+function buzz(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
+
+/* ============================================================
+   2. БАНК СТРОК КОДА
+============================================================ */
+const BANK = [
+  'console.log("Hello, world!");',
+  'def main(): print("start")',
+  'let x = await fetch("/api/data");',
+  'SELECT * FROM users WHERE active = 1;',
+  'printf("decrypting payload...\\n");',
+  'if (auth.token == null) reject();',
+  '#include <stdio.h>',
+  'struct Node { int val; Node* next; };',
+  'try { process(data) } catch(e) { log(e) }',
+  'for (i = 0; i < n; i++) sum += arr[i];',
+  'const key = crypto.randomUUID();',
+  'echo "build passed ✔"',
+  'UPDATE logs SET status = "ok" WHERE id = 42;',
+  'pip install requests numpy',
+  'git commit -m "fix: core handler"',
+  'response = requests.get(url, timeout=5)',
+  'while (true) { listen(); }',
+  'static void parse(char *buf, size_t n)',
+  'class Engine extends Thread {}',
+  'return { code: 200, body: payload };',
+  'sudo systemctl restart agent',
+  'float k = 1.732f; // phase factor',
+  'async def fetch(session, url):',
+  'Object.keys(config).forEach(load);',
+  'if (mem < 512) { gc.collect(); }',
+  'print(f"result = {value:.2f}")',
+  'fn solve(n: u32) -> u64 { n * n }',
+  'DELETE FROM cache WHERE expired;',
+  'logger.info("handshake complete")',
+  'await Promise.all(tasks);',
+  'uint8_t buf[crypto::SIZE];',
+  'x = (a + b) / (c - d);',
+  'RETURN 0;',
+];
+const CMT = ['// fix later','// TODO: refactor','/* core logic */','# unit test','// ok','// legacy code','# noqa','// hotfix'];
+const OK  = ['✓ compiled successfully','✓ tests passed (48/48)','✓ connection stable','✓ checksum valid'];
+const ERR = ['! warning: deprecated call','! retry in 500ms','! buffer near limit','x timeout, retrying'];
+const SYS = ['> handshake ... ok','> cache warmed','> agent online','> sync complete'];
+
+function rand(a){ return a[Math.floor(Math.random()*a.length)]; }
+
+/* ============================================================
+   3. ТЕРМИНАЛ: 1 НАЖАТИЕ = 1 БУКВА
+============================================================ */
+const screenEl = document.getElementById('screen');
+const sink = document.getElementById('keysink');
+const MAX_LINES = 26;
+
+let line = null;       // текущий .ln
+let text = '';         // набранный кусок
+let tgt = '';          // целевая строка банка
+let tgtIdx = 0;
+let cold = 0;          // счётчик простоя (символов без нажатий)
+
+function cls(t){
+  if (t.startsWith('//') || t.startsWith('#') || t.startsWith('/*')) return 'cmt';
+  if (t.startsWith('SELECT')||t.startsWith('UPDATE')||t.startsWith('DELETE')) return 'sql';
+  if (t.startsWith('✓')) return 'ok';
+  if (t.startsWith('!')||t.startsWith('x ')) return 'err';
+  if (t.startsWith('>')) return 'sys';
+  return '';
+}
+function newLine(force){
+  line = document.createElement('div');
+  line.className = 'ln ' + cls(tgt);
+  text = '';
+  if (force) { line.textContent = ''; }
+  screenEl.appendChild(line);
+  while (screenEl.children.length > MAX_LINES) screenEl.removeChild(screenEl.firstChild);
+  screenEl.scrollTop = screenEl.scrollHeight;
+}
+function pickTarget(){
+  const r = Math.random();
+  if (r < 0.10) tgt = rand(CMT);
+  else if (r < 0.17) tgt = rand(OK);
+  else if (r < 0.23) tgt = rand(ERR);
+  else if (r < 0.29) tgt = rand(SYS);
+  else tgt = rand(BANK);
+  tgtIdx = 0;
+}
+function finish(){
+  // завершить строку и перейти на новую
+  tgt = ''; pickTarget();
+  newLine(true);
+}
+function typeOne(ch){
+  if (!line) { pickTarget(); newLine(true); }
+  if (tgtIdx >= tgt.length) finish();
+  const c = tgt[tgtIdx] !== undefined ? tgt[tgtIdx] : rand('abcdefghijklmnopqrstuvwxyz'.split(''));
+  tgtIdx++;
+  text += c;
+  line.textContent = text;
+  if (tgtIdx >= tgt.length + 3) finish();   // немного "хвоста" — и новая строка
+  screenEl.scrollTop = screenEl.scrollHeight;
+}
+
+/* ловим нажатия: один обработчик */
+function onInput(e){
+  const v = sink.value;
+  if (!v) { return; }
+  const n = v.length;
+  sink.value = '';
+  for (let i = 0; i < n; i++) typeOne();
+  cold = 0;
+  buzz(8);
+}
+sink.addEventListener('input', onInput);
+sink.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); finish(); sink.value=''; } });
+
+/* фокус по тапу */
+function focusSink(){
+  sink.style.cssText = 'position:fixed;bottom:-200px;left:0;width:1px;height:1px;opacity:0;';
+  sink.focus({preventScroll:true});
+}
+document.addEventListener('touchstart', focusSink, {passive:true});
+document.addEventListener('click', focusSink);
+setTimeout(focusSink, 300);
+
+/* заставка */
+(function boot(){
+  ['TERMINAL v4.2 · operator session','> initializing environment ...','> awaiting input_'].forEach(t=>{
+    const d=document.createElement('div'); d.className='ln'; d.textContent=t;
+    screenEl.appendChild(d);
+  });
+  tgt=''; pickTarget(); newLine(true);
+})();
+
+/* ============================================================
+   4. ЭКРАНЫ ВЗЛОМА
+============================================================ */
+const modal = document.getElementById('modal');
+const body = document.getElementById('modalBody');
+const title = document.getElementById('modalTitle');
+let timers = [];
+
+function clearTimers(){ timers.forEach(clearInterval); timers.forEach(clearTimeout); timers = []; }
+function add(text, clsName){
+  const d = document.createElement('div');
+  d.className = 'ln ' + (clsName||'');
+  d.innerHTML = text;
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+  return d;
+}
+function sleep(ms, fn){ const t = setTimeout(fn, ms); timers.push(t); }
+function every(ms, fn){ const t = setInterval(fn, ms); timers.push(t); return t; }
+function openModal(t){ title.textContent = t; body.innerHTML=''; modal.classList.add('on'); }
+function closeModal(){ clearTimers(); modal.classList.remove('on'); }
+document.getElementById('modalClose').onclick = () => { buzz(12); closeModal(); };
+
+function pwnDark(){ const d=document.createElement('div'); d.id='dark'; d.style.cssText=
+  'position:fixed;inset:0;background:#000;z-index:120;display:flex;align-items:center;justify-content:center;color:#0f0;font-size:13px;letter-spacing:3px;';
+  d.textContent='ДОСТУП ПОЛУЧЕН'; document.body.appendChild(d);
+  buzz([30,60,30]);
+  setTimeout(()=>d.remove(), 1300);
+}
+
+/* ---- Сканер Wi-Fi ---- */
+const FAKE_NETS = [
+  ['Keenetic-7011','WPA2','full'],['TP-LINK_4F2A','WPA2','good'],
+  ['RT-WiFi_Guest','open','mid'],['MTS_Home_5G','WPA3','good'],
+  ['Rostelecom-9912','WPA2','mid'],['Sfera_2.4','WPA2','low'],
+  ['DIR-615_home','WEP','mid'],['iPhone_Ilya','WPA2','full'],
+];
+function scanWifi(){
+  openModal('📡 СКАНЕР СЕТЕЙ');
+  add('> ifconfig wlan0 up ... ok','sys');
+  add('> scanning 2.4 / 5 GHz ...','sys');
+  let i = 0;
+  every(700, () => {
+    if (i >= FAKE_NETS.length) {
+      clearTimers();
+      add('<br>');
+      add('> найдено сетей: ' + FAKE_NETS.length, 'ok');
+      add('> выбрана цель: ' + FAKE_NETS[1][0], 'sys');
+      return;
+    }
+    const n = FAKE_NETS[i++];
+    const bars = n[2]==='full'?'█████':n[2]==='good'?'████░':n[2]==='mid'?'███░░':'██░░░';
+    const lock = n[1]==='open' ? ' 🔓' : ' 🔒';
+    add(n[0].padEnd(18,' ') + ' ' + n[1] + '  ' + bars + lock);
+  });
+}
+
+/* ---- Взлом Wi-Fi ---- */
+function crackWifi(){
+  openModal('🔓 ВЗЛОМ WI-FI');
+  const targets = [['TP-LINK_4F2A','WPA2'],['MTS_Home_5G','WPA3'],['Keenetic-7011','WPA2'],['Sfera_2.4','WPA2']];
+  let i = 0;
+  function nextNet(){
+    if (i >= targets.length) {
+      add('<br>');
+      add('ПАРОЛЬ НАЙДЕН: Summ3r_2024!', 'ok');
+      add('> статус: подключено', 'ok');
+      pwnDark();
+      clearTimers();
+      return;
+    }
+    const [name,proto] = targets[i++];
+    const id = 'bar'+i;
+    add('<br>' + name + ' · ' + proto + ' <span class="bar" id="'+id+'"><i></i></span> 0%');
+    let p = 0;
+    const t = every(180, () => {
+      p += Math.random()*11 + 4;
+      if (p >= 100) {
+        clearInterval(t);
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '<i style="width:100%"></i>';
+        add('  подбор завершён, ключ не подошёл', 'err');
+        sleep(300, nextNet);
+        return;
+      }
+      const el = document.getElementById(id);
+      if (el) {
+        el.innerHTML = '<i style="width:'+p.toFixed(0)+'%"></i>';
+        el.parentNode.innerHTML = el.parentNode.innerHTML.replace(/\d+%/, Math.round(p)+'%');
+      }
+    });
+  }
+  add('> загрузка словаря rockyou.txt (14 344 391 слов)','sys');
+  add('> старт перебора WPS / handshake','sys');
+  sleep(900, nextNet);
+}
+
+/* ---- Спутник ---- */
+function satellite(){
+  openModal('🛰 СПУТНИКОВЫЙ КАНАЛ');
+  const pts = [
+    ['54.3177 N','48.4000 E','Ульяновск'],
+    ['55.7558 N','37.6173 E','Москва'],
+    ['59.9386 N','30.3141 E','СПб'],
+    ['54.3177 N','48.4000 E','Шевченко 99'],
+  ];
+  add('> locking geo satellite ... ok','sys');
+  let i = 0;
+  every(1100, () => {
+    if (i >= pts.length) {
+      clearTimers();
+      add('<br>');
+      add('> цель подтверждена: Шевченко 99, Ульяновск', 'ok');
+      add('> точность: ±3 м', 'ok');
+      pwnDark();
+      return;
+    }
+    const p = pts[i++];
+    add('[' + p[0] + ' | ' + p[1] + ']  → ' + p[2]);
+  });
+}
+
+/* ---- Пентагон ---- */
+function penta(){
+  openModal('💣 ВЗЛОМ СИСТЕМЫ');
+  const steps = [
+    ['Обход брандмауэра','firewall_nonce'],
+    ['Взлом шифрования AES-256','aes_crack'],
+    ['Доступ к базе данных','db_dump'],
+    ['Права администратора','root_escalation'],
+  ];
+  let i = 0;
+  function nextStep(){
+    if (i >= steps.length) {
+      add('<br>');
+      add('ДОСТУП ПОЛУЧЕН · уровень: ADMIN', 'ok');
+      add('> соединение закрыто без следов', 'sys');
+      pwnDark();
+      clearTimers();
+      return;
+    }
+    const s = steps[i++];
+    const id = 'sb'+i;
+    add('<br>[ ' + i + '/' + steps.length + ' ] ' + s[0] + ' <span class="bar" id="'+id+'"><i></i></span>');
+    let p = 0;
+    const t = every(150, () => {
+      p += Math.random()*13 + 5;
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '<i style="width:'+Math.min(p,100)+'%"></i>';
+      if (p >= 100) { clearInterval(t); add('  ✓ ' + s[1] + ' bypassed','ok'); sleep(280, nextStep); }
+    });
+  }
+  add('> target: node-7742.secure.net','sys');
+  sleep(600, nextStep);
+}
+
+/* ---- Матрица ---- */
+let mtxTimer = null;
+function matrix(on){
+  const wrap = document.getElementById('mtx');
+  const cv = document.getElementById('mtxCanvas');
+  if (on) {
+    wrap.classList.add('on');
+    const ctx = cv.getContext('2d');
+    const resize = () => { cv.width = wrap.clientWidth; cv.height = wrap.clientHeight; };
+    resize(); window.addEventListener('resize', resize);
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌabcdef@#$%'.split('');
+    const size = 16;
+    let cols, drops;
+    const init = () => { cols = Math.floor(cv.width/size); drops = Array(cols).fill(0).map(()=>Math.random()*cv.height/size); };
+    init(); window.addEventListener('resize', init);
+    clearInterval(mtxTimer);
+    mtxTimer = setInterval(() => {
+      ctx.fillStyle = 'rgba(0,0,0,.07)';
+      ctx.fillRect(0,0,cv.width,cv.height);
+      ctx.fillStyle = '#0f0'; ctx.font = size+'px monospace';
+      drops.forEach((d,i) => {
+        const ch = chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(ch, i*size, d*size);
+        drops[i] = (d*size > cv.height && Math.random() > .975) ? 0 : d + 1;
+      });
+    }, 50);
+  } else {
+    wrap.classList.remove('on');
+    clearInterval(mtxTimer);
+  }
+}
+
+/* ---- Меню ---- */
+const overlay = document.getElementById('overlay');
+document.getElementById('menuBtn').onclick = () => { buzz(12); overlay.classList.add('on'); };
+document.getElementById('closeBtn').onclick = () => { buzz(10); overlay.classList.remove('on'); };
+
+document.querySelectorAll('.card').forEach(c => {
+  c.onclick = () => {
+    const s = c.dataset.scr;
+    buzz(15);
+    overlay.classList.remove('on');
+    matrix(false);
+    if (s === 'term') { closeModal(); return; }
+    if (s === 'mtx')  { closeModal(); matrix(true); return; }
+    if (s === 'wifi') scanWifi();
+    if (s === 'crack') crackWifi();
+    if (s === 'sat') satellite();
+    if (s === 'penta') penta();
+  };
+});
+
+/* меню также по Esc, закрыть матрицу */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { overlay.classList.remove('on'); closeModal(); matrix(false); }
+});
+</script>
+</body>
+</html>
