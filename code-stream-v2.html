@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TERMINAL // v2</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { height:100%; overflow:hidden; background:#000; }
+  body {
+    font-family: "Courier New", ui-monospace, monospace;
+    color:#22ff88;
+  }
+  #wrap { position:fixed; inset:0;
+    background: radial-gradient(ellipse at 50% 0%, #071a10 0%, #000 70%); }
+
+  /* экран — автоскролл контейнер */
+  #screen {
+    position:fixed;
+    top:0; left:0; right:0; bottom:52px;
+    padding:14px 12px 12px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    font-size:13px;
+    line-height:1.55;
+    text-shadow:0 0 6px rgba(34,255,136,0.55);
+    white-space:pre-wrap;
+    word-break:break-word;
+    z-index:2;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+  #screen::-webkit-scrollbar { display:none; width:0; height:0; }
+
+  .line { display:block; }
+  .c-green { color:#22ff88; }
+  .c-dim   { color:#0d7a44; }
+  .c-blue  { color:#57c8ff; text-shadow:0 0 6px rgba(87,200,255,0.6); }
+  .c-pink  { color:#ff79c6; text-shadow:0 0 6px rgba(255,121,198,0.6); }
+  .c-yel   { color:#ffe066; text-shadow:0 0 6px rgba(255,224,102,0.6); }
+  .c-or    { color:#ffa657; text-shadow:0 0 6px rgba(255,166,87,0.6); }
+  .cur {
+    display:inline-block; width:8px; height:14px;
+    background:#22ff88; box-shadow:0 0 8px #22ff88;
+    vertical-align:-2px;
+    animation:blink 0.9s steps(1) infinite;
+  }
+  @keyframes blink { 50%{opacity:0} }
+
+  #scan { position:fixed; inset:0; pointer-events:none; z-index:5;
+    background:repeating-linear-gradient(to bottom,
+      rgba(0,255,140,0.045) 0px, rgba(0,255,140,0.045) 1px,
+      transparent 1px, transparent 3px);
+    mix-blend-mode:screen; }
+
+  #hud {
+    position:fixed; left:0; right:0; bottom:0; z-index:7;
+    height:52px;
+    padding:6px 12px calc(6px + env(safe-area-inset-bottom));
+    display:flex; align-items:center; gap:10px;
+    font-size:10px; color:#0d7a44;
+    background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    letter-spacing:0.5px;
+  }
+  #bar { flex:1; height:4px; background:#0a2a18; border-radius:2px; overflow:hidden; }
+  #barFill { height:100%; width:6%; background:#22ff88; box-shadow:0 0 8px #22ff88; transition:width .2s; }
+  #btns { display:flex; gap:6px; }
+  .btn {
+    font-family:inherit; font-size:10px; color:#22ff88;
+    background:#06170e; border:1px solid #14653a; border-radius:5px;
+    padding:5px 9px; letter-spacing:0.5px;
+  }
+  .btn:active { background:#0d2f1c; }
+</style>
+</head>
+<body>
+<div id="wrap"></div>
+<div id="screen"></div>
+<div id="scan"></div>
+
+<div id="hud">
+  <span id="stat">LINES 0 · CHARS 0 · KEYS 0</span>
+  <div id="bar"><div id="barFill"></div></div>
+  <div id="btns">
+    <button class="btn" id="pause">ПАУЗА</button>
+    <button class="btn" id="clear">СБРОС</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   БАНК СТРОК КОДА — что «печатает машина»
+   Свои фразы — добавь строкой в кавычках через запятую.
+   ============================================================ */
+const BANK = [
+  'printf("Hello, world!");',
+  'console.log("build: ok");',
+  'for (let i = 0; i < 10; i++) {',
+  '  process.stdout.write(".");',
+  '}',
+  'db.query("SELECT * FROM users WHERE active = 1;");',
+  'git commit -m "fix: resolve memory leak"',
+  'npm run build -- --production',
+  'if (status === 200) { render(data); }',
+  'def fibonacci(n):',
+  '    return n if n < 2 else fibonacci(n-1) + fibonacci(n-2)',
+  'echo "server started on :8080"',
+  'chmod +x ./deploy.sh && ./deploy.sh',
+  'import numpy as np',
+  'x = np.linspace(0, 10, 100)',
+  'sudo systemctl restart nginx',
+  'const cache = new Map();',
+  'cache.set(key, value, { ttl: 3600 });',
+  'try { connect(); } catch (e) { retry(3); }',
+  'return { ok: true, code: 200 };',
+  '// checking integrity of modules...',
+  '// compiling kernel modules 100%',
+  '// dependency graph resolved, 0 conflicts',
+  '-- migration 0042 applied successfully',
+  'COPY users TO /backup/users_2026.csv',
+  'CREATE INDEX idx_email ON users(email);',
+  'SELECT id, name FROM users ORDER BY id DESC LIMIT 10;',
+  'UPDATE config SET value = "prod" WHERE key = "env";',
+  'diff --git a/core.cpp b/core.cpp',
+  '+++ b/core.cpp  +148 -12',
+  'thread_pool.submit(task, std::ref(result));',
+  'auto ptr = std::make_unique<Buffer>(4096);',
+  'void main() { init(); loop(); shutdown(); }',
+  'fn main() { println!("all systems nominal"); }',
+  'val result = items.filter { it.active }.map { it.id }',
+  'func parse(_ data: Data) throws -> Model { }',
+  'npm WARN deprecated: use version >= 4.0',
+  'added 214 packages in 3.4s',
+  '\u2713 128 tests passed  \u2717 0 failed',
+  'BUILD SUCCESSFUL in 12s',
+  'Sending auth token... OK',
+  'Handshake complete: AES-256-GCM',
+  'latency: 24ms \u00b7 packets: 1043 \u00b7 loss: 0%',
+  'debug: heap usage 38% \u00b7 gc pause 2ms',
+  'retry(connect, delay: 1200, max: 5)',
+  'while (alive) { think(); learn(); }',
+  'assert(balance >= 0, "insufficient funds");',
+  'return crypto.randomUUID();',
+  'export default class Engine extends Core { }',
+  'sudo apt-get install -y build-essential',
+  'docker compose up -d --build',
+  'kubectl rollout status deployment/api',
+  'ssh root@10.0.0.42 "uptime"',
+  'ping -c 4 core.internal',
+  'wget -q https://cdn.io/patch.bin',
+  'sha256: 9f2c7a1e4b8d0c3f5a6e9b2d7c4f1a8e',
+  '#pragma once \u00b7 #include <vector>',
+  'int main(int argc, char** argv) { }',
+  'std::cout << "running..." << std::endl;',
+  'return EXIT_SUCCESS;',
+  '// TODO: optimize this hot path',
+  '/* end of build log */'
+];
+
+function classFor(s) {
+  if (s.startsWith('//') || s.startsWith('#pragma') || s.startsWith('/*')) return 'c-dim';
+  if (s.startsWith('\u2713') || s.startsWith('BUILD')) return 'c-yel';
+  if (/^(SELECT|CREATE|UPDATE|COPY)/.test(s)) return 'c-pink';
+  if (/^(git|npm|sudo|docker|kubectl|ssh|ping|wget|echo|chmod)/.test(s)) return 'c-blue';
+  if (s.startsWith('-') || s.startsWith('+') || s.startsWith('*')) return 'c-or';
+  return 'c-green';
+}
+
+/* ============================================================
+   ЛОГИКА
+   • экран САМ едет за строками (скролл вниз)
+   • твои буквы НЕ попадают в текст
+   • 1 нажатие = прибавка 1 к скорости печати строки
+   ============================================================ */
+const sc      = document.getElementById('screen');
+const statEl  = document.getElementById('stat');
+const barFill = document.getElementById('barFill');
+const pauseBtn= document.getElementById('pause');
+const clearBtn= document.getElementById('clear');
+
+let lines = 0, chars = 0, keys = 0;
+let paused = false;
+let heat = 0;
+const HITS = [];
+
+let currentLineEl = null;       // текущая (недопечатанная) строка
+let pendingLine   = '';         // её текст
+let pendingClass  = 'c-green';
+let typing = 0;                 // осталось символов «выпечатать» в текущей строке
+
+function newSpan(cls) {
+  const el = document.createElement('span');
+  el.className = 'line ' + cls;
+  return el;
+}
+
+function makeLine() {
+  if (currentLineEl) {
+    // закрываем предыдущую строку
+    currentLineEl.textContent = pendingLine;
+    currentLineEl = null;
+    typing = 0;
+  }
+  if (Math.random() < 0.06) {
+    const el = newSpan('c-dim');
+    el.textContent = '\u00a0';
+    sc.appendChild(el);
+    lines++;
+    return;
+  }
+  pendingLine  = BANK[Math.floor(Math.random() * BANK.length)];
+  pendingClass = classFor(pendingLine);
+  currentLineEl = newSpan(pendingClass);
+  const cursor = document.createElement('span');
+  cursor.className = 'cur';
+  currentLineEl.textContent = '';
+  sc.appendChild(currentLineEl);
+  currentLineEl.appendChild(cursor);
+  currentLineEl.__cursor = cursor;
+  pendingLine = pendingLine;
+  typing = pendingLine.length;
+}
+
+function drawPartial() {
+  if (!currentLineEl) return;
+  const shown = pendingLine.slice(0, pendingLine.length - typing);
+  currentLineEl.textContent = shown;
+  currentLineEl.appendChild(currentLineEl.__cursor || document.createElement('span'));
+  chars++;
+}
+
+function autoScroll() {
+  sc.scrollTop = sc.scrollHeight;
+}
+
+function pushStat() {
+  statEl.textContent = 'LINES ' + lines + ' \u00b7 CHARS ' + chars + ' \u00b7 KEYS ' + keys;
+}
+
+function tickHeat() {
+  const now = Date.now();
+  HITS.push(now);
+  while (HITS.length && now - HITS[0] > 3000) HITS.shift();
+  heat = HITS.length;
+  barFill.style.width = Math.min(100, 6 + (heat / 12) * 94) + '%';
+}
+
+/* сколько символов в секунду печатает машина */
+function cps() {
+  return 6 + Math.min(heat, 12) * 4;   // 6 … 54 символов/сек
+}
+
+/* тик: дописываем символы в текущую строку */
+setInterval(() => {
+  if (paused) return;
+  if (!currentLineEl) { makeLine(); pushStat(); autoScroll(); return; }
+  const step = Math.max(1, Math.round(cps() / 12));
+  for (let i = 0; i < step; i++) {
+    if (typing > 0) {
+      typing--;
+      drawPartial();
+    } else {
+      makeLine();
+      lines++;
+      pushStat();
+    }
+  }
+  autoScroll();
+}, 80);
+
+/* --- нажатие: ускоряем, но твоих букв на экране НЕТ --- */
+const sink = document.createElement('textarea');
+sink.setAttribute('autocapitalize','off');
+sink.setAttribute('autocorrect','off');
+sink.setAttribute('spellcheck','false');
+sink.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;';
+document.body.appendChild(sink);
+sink.focus();
+
+function onHit() {
+  keys++;
+  tickHeat();
+  pushStat();
+}
+function onKey(e) {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Backspace') { e.preventDefault(); return; }
+  if (e.key && e.key.length === 1) { sink.value=''; onHit(); e.preventDefault(); }
+  else if (e.key === 'Enter') { makeLine(); lines++; pushStat(); autoScroll(); sink.value=''; e.preventDefault(); }
+}
+document.addEventListener('keydown', onKey, true);
+sink.addEventListener('input', () => {
+  const v = sink.value;
+  if (v) { for (let i=0;i<v.length;i++) onHit(); }
+  sink.value='';
+});
+document.addEventListener('click', () => sink.focus());
+
+pauseBtn.addEventListener('click', () => { paused = !paused; pauseBtn.textContent = paused ? 'ПУСК' : 'ПАУЗА'; sink.focus(); });
+clearBtn.addEventListener('click', () => {
+  sc.textContent=''; lines=0; chars=0; keys=0; typing=0; currentLineEl=null; pendingLine='';
+  pushStat(); autoScroll(); sink.focus();
+});
+
+/* стартовая заставка */
+(function boot(){
+  const a = newSpan('c-green');  a.textContent = 'TERMINAL v4.2 \u00b7 operator session'; sc.appendChild(a); lines++;
+  const b = newSpan('c-dim');    b.textContent = '// initializing environment...';    sc.appendChild(b); lines++;
+  const c = newSpan('c-dim');    c.textContent = '\u00a0';                            sc.appendChild(c);
+  pushStat(); autoScroll();
+})();
+</script>
+</body>
+</html>
