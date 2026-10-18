@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Объединение Руси вокруг Москвы</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:26px 10px 40px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.sheet{position:relative;max-width:840px;margin:0 auto;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+.foot a{color:#a9c2e6}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px;padding:14px 8px 30px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <h1 class="t">🏛 Объединение Руси вокруг Москвы</h1>
+  <p class="sub2">История России · XIV–XV вв. · причины, этапы, князья, даты, итоги</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Двигатель процесса:</b> рост землевладения при слабых городах и внешняя угроза.</li>
+      <li><b>Три этапа:</b> возвышение Москвы → феодальная война → Иван III и Василий III.</li>
+      <li><b>Лестница дат:</b> 1325 → 1328 → 1380 → 1480 → 1510/1521/1522.</li>
+    </ol>
+  </div>
+
+  <h2>Главное в трёх шагах</h2>
+  <p><b>1. Почему вообще.</b> С конца XIII века земли распахивались, росло вотчинное и поместное землевладение. Города остались слабыми и служили крепостями, поэтому объединяла не торговля, а земля и власть.</p>
+  <p><b>2. Кто собрал.</b> Москва возвысилась политикой князей: перенос митрополии в 1325 году, ярлык на великое княжение в 1328-м, победа на Куликовом поле в 1380-м.</p>
+  <p><b>3. Чем кончилось.</b> Иван III покончил с игом (1480), присоединил Новгород и Тверь и стал Государем всея Руси; Василий III завершил объединение великорусских земель.</p>
+
+  <h2>Причины и предпосылки</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>Причины</h4>
+      <ul>
+        <li>рост землевладения: вотчинного, поместного, монастырского</li>
+        <li>слабые города — крепости, а не центры торговли</li>
+        <li>слабость товарно-денежных отношений</li>
+        <li>внешняя угроза: Орда, Литва, Ливонский орден</li>
+      </ul>
+    </div>
+    <div class="cbox">
+      <h4>Предпосылки</h4>
+      <ul>
+        <li>княжества развивались синхронно</li>
+        <li>близкие правовые нормы</li>
+        <li>общерусское сознание в народе</li>
+        <li>единая церковная организация</li>
+      </ul>
+    </div>
+  </div>
+  <p>В Европе объединяли города и торговля, на Руси — земля, служба и оборона. Это главное отличие русской централизации.</p>
+
+  <h2>Хронология-лента</h2>
+  <ul class="tl">
+    <li><b>1276–1303</b> — Даниил Александрович, первый московский князь</li>
+    <li><b>1325</b> — митрополит переезжает из Владимира в Москву</li>
+    <li><b>1328</b> — ярлык на великое княжение закреплён за Москвой</li>
+    <li><b>1359–1389</b> — правление Дмитрия Донского</li>
+    <li><b>1380</b> — Куликовская битва, разгром Мамая</li>
+    <li><b>1399</b> — поражение на Ворскле: Орда сильна</li>
+    <li><b>1425–1453</b> — феодальная (династическая) война</li>
+    <li><b>1478</b> — присоединён Новгород</li>
+    <li><b>1480</b> — стояние на Угре, конец ордынского ига</li>
+    <li><b>1485</b> — присоединена Тверь</li>
+    <li><b>1497</b> — Судебник Ивана III, Юрьев день</li>
+    <li><b>1510 / 1521 / 1522</b> — Псков, Рязань, Смоленск</li>
+  </ul>
+
+  <h2>Три этапа объединения</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Этап</th><th>Годы</th><th>Главное</th></tr>
+      <tr><td><b>I</b></td><td>конец XIII — 80-е XIV в.</td><td>Центры: Тверь, Москва, Литва. Ярлык у Москвы, Куликово</td></tr>
+      <tr><td><b>II</b></td><td>80-е XIV — 1462</td><td>Ворскла 1399, феодальная война 1425–1453</td></tr>
+      <tr><td><b>III</b></td><td>1462–1533</td><td>Иван III и Василий III: конец ига и единое государство</td></tr>
+    </table>
+  </div>
+
+  <h2>Князья по порядку</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Князь</th><th>Годы</th><th>Чем запомнился</th></tr>
+      <tr><td>Даниил Александрович</td><td>1276–1303</td><td>первый князь, взял Коломну</td></tr>
+      <tr><td>Иван I Калита</td><td>1325–1340</td><td>ярлык 1328, право сбора дани, «тишина»</td></tr>
+      <tr><td>Дмитрий Донской</td><td>1359–1389</td><td>Вожа 1378, Куликовская битва 1380</td></tr>
+      <tr><td>Василий I</td><td>1389–1425</td><td>передал престол сыну как отчину, без ярлыка</td></tr>
+      <tr><td>Василий II Тёмный</td><td>1425–1462</td><td>пережил феодальную войну</td></tr>
+      <tr><td><b>Иван III</b></td><td>1462–1505</td><td>1480 Угра, Новгород, Тверь, Государь всея Руси</td></tr>
+      <tr><td>Василий III</td><td>1505–1533</td><td>Псков, Рязань, Смоленск</td></tr>
+    </table>
+  </div>
+
+  <h2>Даты-якоря</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Год</th><th>Событие</th></tr>
+      <tr><td><b>1325</b></td><td>митрополит переехал из Владимира в Москву</td></tr>
+      <tr><td><b>1328</b></td><td>ярлык на великое княжение закреплён за Москвой</td></tr>
+      <tr><td><b>1380</b></td><td>Куликовская битва: победа Дмитрия Донского</td></tr>
+      <tr><td><b>1399</b></td><td>Ворскла: Орда разбила русско-литовские войска</td></tr>
+      <tr><td><b>1425–1453</b></td><td>феодальная война в Московском княжестве</td></tr>
+      <tr><td><b>1478</b></td><td>присоединён Новгород</td></tr>
+      <tr><td><b>1480</b></td><td>стояние на Угре, конец ордынского ига</td></tr>
+      <tr><td><b>1485</b></td><td>присоединена Тверь</td></tr>
+      <tr><td><b>1497</b></td><td>Судебник Ивана III, Юрьев день</td></tr>
+      <tr><td><b>1510 / 1521 / 1522</b></td><td>Псков, Рязань, Смоленск</td></tr>
+    </table>
+  </div>
+
+  <h2>Было → стало</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Было в XIII–XIV вв.</th><th>Стало к 1533 г.</th></tr>
+      <tr><td>десятки княжеств и земель</td><td>единое Русское государство</td></tr>
+      <tr><td>князь ездит за ярлыком в Орду</td><td>«Государь всея Руси», ига нет</td></tr>
+      <tr><td>дань Орде, баскаки</td><td>своя казна и Судебник</td></tr>
+      <tr><td>удельные распри</td><td>власть от отца к сыну</td></tr>
+    </table>
+  </div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Ярлык</td><td>ханская грамота на княжение</td></tr>
+      <tr><td>Вотчина</td><td>земля, переходящая по наследству</td></tr>
+      <tr><td>Поместье</td><td>земля, данная за службу</td></tr>
+      <tr><td>Отчина</td><td>отцовское родовое наследство</td></tr>
+      <tr><td>Удел</td><td>доля княжества во владении</td></tr>
+      <tr><td>Юрьев день</td><td>осенний срок перехода крестьян</td></tr>
+    </table>
+  </div>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>Куликовская битва 1380 ≠ конец ига: иго закончилось в <b>1480</b> на Угре.</li>
+      <li>1328 — ярлык у Москвы, но столицей единого государства она стала позже, при Иване III.</li>
+      <li>1480 — стояние, а не битва: войска стояли на Угре, хан Ахмат ушёл.</li>
+      <li>1399 на Ворскле — поражение русско-литовских войск, а не победа.</li>
+      <li>Василий I передал престол как отчину, не спрашивая ярлыка, — Москва перестала зависеть от ханской грамоты раньше 1480 года.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>Двигатель: рост землевладения + слабые города + внешняя угроза
+Этап I   кон. XIII — 80-е XIV в.  Тверь, Москва, Литва. Ярлык 1328, Куликово 1380
+Этап II  80-е XIV — 1462        Ворскла 1399, война 1425–1453
+Этап III 1462–1533              Иван III и Василий III
+1325 митрополит → 1328 ярлык → 1380 Куликово → 1480 Угра
+1478 Новгород · 1485 Тверь · 1497 Судебник · 1510 Псков · 1521 Рязань · 1522 Смоленск</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Называю четыре причины объединения</li>
+    <li>Объясняю отличие от европейской централизации</li>
+    <li>Знаю 1325, 1328, 1380, 1480 без подсказки</li>
+    <li>Перечисляю князей от Даниила до Василия III</li>
+    <li>Помню три этапа и их границы</li>
+    <li>Отличаю Ворсклу от Куликова поля</li>
+    <li>Называю земли, присоединённые Иваном III и Василием III</li>
+  </ul>
+
+  <details><summary>Как быстро запомнить этапы</summary>По одному слову: <b>ярлык</b> — <b>война</b> — <b>государство</b>. Сначала Москва получила право на княжение, потом пережила усобицу, потом собрала земли.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 10 вопросов</h3>
+    <div id="hq">
+      <div class="q" data-a="1">
+        <p class="qt">1. Что стало главным двигателем объединения?</p>
+        <label><input type="radio" name="h1" value="0"> Рост городов и торговли</label>
+        <label><input type="radio" name="h1" value="1"> Рост землевладения при слабых городах</label>
+        <label><input type="radio" name="h1" value="2"> Союз с Литвой</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. В каком году митрополит переехал в Москву?</p>
+        <label><input type="radio" name="h2v" value="0"> 1276</label>
+        <label><input type="radio" name="h2v" value="1"> 1380</label>
+        <label><input type="radio" name="h2v" value="2"> 1325</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. При каком князе ярлык закрепился за Москвой?</p>
+        <label><input type="radio" name="h3" value="0"> Иван I Калита, 1328</label>
+        <label><input type="radio" name="h3" value="1"> Дмитрий Донской, 1380</label>
+        <label><input type="radio" name="h3" value="2"> Иван III, 1480</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">4. Какое событие произошло в 1380 году?</p>
+        <label><input type="radio" name="h4" value="0"> Стояние на Угре</label>
+        <label><input type="radio" name="h4" value="1"> Куликовская битва</label>
+        <label><input type="radio" name="h4" value="2"> Присоединение Новгорода</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Что произошло в 1480 году?</p>
+        <label><input type="radio" name="h5" value="0"> Присоединение Твери</label>
+        <label><input type="radio" name="h5" value="1"> Судебник</label>
+        <label><input type="radio" name="h5" value="2"> Стояние на Угре, конец ига</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Кто передал престол сыну как отчину, без ярлыка?</p>
+        <label><input type="radio" name="h6" value="0"> Василий I</label>
+        <label><input type="radio" name="h6" value="1"> Иван Калита</label>
+        <label><input type="radio" name="h6" value="2"> Василий III</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">7. Чем была Ворскла 1399 года?</p>
+        <label><input type="radio" name="h7" value="0"> Победой Москвы над Мамаем</label>
+        <label><input type="radio" name="h7" value="1"> Присоединением Новгорода</label>
+        <label><input type="radio" name="h7" value="2"> Поражением русско-литовских войск</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">8. Что присоединил Василий III?</p>
+        <label><input type="radio" name="h8" value="0"> Новгород и Тверь</label>
+        <label><input type="radio" name="h8" value="1"> Псков, Рязань, Смоленск</label>
+        <label><input type="radio" name="h8" value="2"> Казань и Астрахань</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">9. Какой год называют концом феодальной войны?</p>
+        <label><input type="radio" name="h9" value="0"> 1453</label>
+        <label><input type="radio" name="h9" value="1"> 1462</label>
+        <label><input type="radio" name="h9" value="2"> 1478</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">10. Кто первым принял титул «Государь всея Руси»?</p>
+        <label><input type="radio" name="h10" value="0"> Василий II Тёмный</label>
+        <label><input type="radio" name="h10" value="1"> Василий III</label>
+        <label><input type="radio" name="h10" value="2"> Иван III</label>
+      </div>
+    </div>
+    <button onclick="check('hq')">Проверить</button>
+    <button class="ghost" onclick="reset('hq')">Сбросить</button>
+    <div class="res" id="hq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Объединяла земля, а не торговля: росло землевладение, а города были слабы. Москва поднялась через митрополию (1325), ярлык (1328) и Куликово поле (1380), пережила усобицу 1425–1453. Иван III покончил с игом на Угре (1480), взял Новгород и Тверь и стал Государем всея Руси, Василий III добавил Псков, Рязань и Смоленск.</p>
+  </div>
+
+</div>
+
+<p class="foot">Конспект из сборника · <a href="index.html">← все темы</a></p>
+
+<script>
+function check(box){
+  var root = document.getElementById(box);
+  var qs = root.querySelectorAll('.q');
+  var score = 0, answered = 0;
+  for (var i = 0; i < qs.length; i++){
+    var q = qs[i];
+    var opts = q.querySelectorAll('input');
+    var correct = parseInt(q.getAttribute('data-a'), 10);
+    var chosen = -1;
+    for (var j = 0; j < opts.length; j++){
+      opts[j].parentNode.classList.remove('ok','bad');
+      if (opts[j].checked) chosen = parseInt(opts[j].value, 10);
+    }
+    if (chosen === -1) continue;
+    answered++;
+    opts[correct].parentNode.classList.add('ok');
+    if (chosen === correct) score++; else opts[chosen].parentNode.classList.add('bad');
+  }
+  var out = document.getElementById(box + '-res');
+  if (answered === 0){ out.textContent = 'Отметь варианты и нажми «Проверить».'; return; }
+  var t = 'Результат: ' + score + ' из ' + qs.length;
+  if (score === qs.length) t += ' — идеально, тема закрыта!';
+  else if (score >= qs.length - 2) t += ' — хороший уровень, дошлифуй ошибочные пункты.';
+  else t += ' — стоит перечитать блоки выше.';
+  out.textContent = t;
+}
+function reset(box){
+  var root = document.getElementById(box);
+  var qs = root.querySelectorAll('.q');
+  for (var i = 0; i < qs.length; i++){
+    var opts = qs[i].querySelectorAll('input');
+    for (var j = 0; j < opts.length; j++){
+      opts[j].checked = false;
+      opts[j].parentNode.classList.remove('ok','bad');
+    }
+  }
+  document.getElementById(box + '-res').textContent = 'Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
