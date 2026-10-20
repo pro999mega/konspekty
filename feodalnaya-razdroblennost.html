@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Феодальная раздробленность</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:20;padding:12px 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.back{display:inline-block;font-size:12.5px;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:999px;
+  color:#12305f;background:linear-gradient(135deg,#fff,#e7f0ff);border:1px solid #fff}
+.back.ghost{background:rgba(255,255,255,.08);color:#dce9ff;border:1px solid rgba(255,255,255,.2)}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;font-size:.91rem}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}.hd{padding:10px 8px 5px}.card{border-radius:22px;padding:13px 14px 12px}h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}.sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}.box,.final{border-radius:15px;padding:12px 13px}pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">История России · XII–XIII вв.</p>
+    <h1>🧩 Феодальная раздробленность</h1>
+    <p class="sub">Причины распада · три земли · последствия</p>
+    <div class="nav">
+      <a class="back" href="istoriya.html">← История</a>
+      <a class="back ghost" href="index.html">Сборник</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+  <h1 class="t">Русь после 1132 года: много центров вместо одного</h1>
+  <p class="sub2">1132 – 1240-е · Владимир, Новгород, Галич · причины, земли, итоги</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Граница:</b> 1132 год, смерть Мстислава Великого — единое государство закончилось.</li>
+      <li><b>Три земли:</b> Владимиро-Суздальская (сильный князь), Новгородская (вече), Галицко-Волынская (сильное боярство).</li>
+      <li><b>Двойственность:</b> раздробленность дала расцвет культуры, но ослабила перед нашествием.</li>
+    </ol>
+  </div>
+
+  <h2>Главное в трёх шагах</h2>
+  <p><b>1. Почему распалось.</b> Князья делили земли между сыновьями, росло вотчинное землевладение, города богатели и не хотели подчиняться Киеву, а власть киевского князя слабела.</p>
+  <p><b>2. Как устроилось.</b> Сложились самостоятельные княжества с собственными князьями, войсками, монетой и судом; три самых сильных — Северо-Восток, Новгород и Юго-Запад.</p>
+  <p><b>3. Чем закончилось.</b> Разобщённая Русь не смогла выставить единое войско против Батыя, но сохранила культурное единство: язык, вера, династия и летописи были общими.</p>
+
+  <h2>Причины раздробленности</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Причина</th><th>В чём суть</th></tr>
+      <tr><td><b>Вотчины</b></td><td>земля передаётся по наследству, князья держатся за свои владения</td></tr>
+      <tr><td><b>Раздел земли</b></td><td>каждый сын получает удел, со временем их десятки</td></tr>
+      <tr><td><b>Рост городов</b></td><td>города богатеют на торговле и ремесле, сами решают свои дела</td></tr>
+      <tr><td><b>Ослабление Киева</b></td><td>удары кочевников и княжеские усобицы обесценили титул великого князя</td></tr>
+      <tr><td><b>Любеч-1097</b></td><td>«каждый владеет отчиной своей» — юридическое закрепление раздела</td></tr>
+    </table>
+  </div>
+  <div class="chain"><span>вотчина</span> → <span>уделы</span> → <span>слабеет Киев</span> → <span>растут города</span> → <span>раздробленность</span></div>
+
+  <h2>Хронология-лента</h2>
+  <ul class="tl">
+    <li><b>1097</b> — Любечский съезд: князья договорились владеть отчинами</li>
+    <li><b>1113–1125</b> — Владимир Мономах удерживает единство силой</li>
+    <li><b>1125–1132</b> — Мстислав Великий, последний общий князь</li>
+    <li><b>1132</b> — начало раздробленности</li>
+    <li><b>1136</b> — Новгород изгоняет князя и становится республикой</li>
+    <li><b>1147</b> — первое упоминание Москвы</li>
+    <li><b>1174</b> — Андрей Боголюбский убит боярами</li>
+    <li><b>1185</b> — поход Игоря на половцев («Слово о полку Игореве»)</li>
+    <li><b>1212</b> — после Всеволода Большое Гнездо Северо-Восток тоже дробится</li>
+    <li><b>1223</b> — Калка: разобщённость уже видна</li>
+    <li><b>1237–1240</b> — нашествие Батыя</li>
+  </ul>
+
+  <h2>Три земли: сравнение</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Земля</th><th>Природные условия</th><th>Власть</th><th>Кто главный</th></tr>
+      <tr><td><b>Владимиро-Суздальская</b></td><td>ополье, леса, защита от набегов</td><td>сильный князь, вече слабое</td><td>князь</td></tr>
+      <tr><td><b>Новгородская</b></td><td>мало почвы, зато выход к морю и рекам</td><td>вече, договор с князем</td><td>бояре и купцы</td></tr>
+      <tr><td><b>Галицко-Волынская</b></td><td>мягкий климат, плодородная земля</td><td>боярство против князя</td><td>бояре</td></tr>
+    </table>
+  </div>
+
+  <h2>Владимиро-Суздальская земля</h2>
+  <p><b>Основа хозяйства.</b> Земледелие на ополье, промыслы в лесах, приток людей с юга под защиту лесов, торговые пути по Волге и Оке.</p>
+  <p><b>Князья.</b> Юрий Долгорукий (1125–1157) обособил княжество, при нём в 1147 году впервые упомянута Москва. Андрей Боголюбский (1157–1174) перенёс столицу во <b>Владимир</b> и разгромил Киев в 1169 году. Всеволод Большое Гнездо (1176–1212) усилил власть, но после него начались уделы.</p>
+
+  <h2>Новгородская республика</h2>
+  <p><b>Экономика.</b> Внешняя торговля, промыслы Севера, ремесло. Три опоры: торговля, ремесло, колонии-земли.</p>
+  <p><b>Управление.</b> Вече приглашало князя по договору и могло его изгнать. Вече выбирало <b>посадника</b> (исполнительная власть), <b>тысяцкого</b> (ополчение и суд), с 1156 года — епископа. По сути правили бояре и богатые купцы. С <b>1136</b> года — республика.</p>
+
+  <h2>Галицко-Волынская земля</h2>
+  <p>Плодородие и мягкий климат дали крепкое земледелие, перекрёстки путей — рост городов. Рано сложилось сильное боярство, спорившее с князьями; от Киева обособилось в XII веке. При Романе Мстиславиче и Данииле Романовиче княжество укрепилось.</p>
+
+  <h2>Последствия: минусы и плюсы</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>➖ Минусы</h4>
+      <ul>
+        <li>усобицы и ослабление обороны</li>
+        <li>нет единого войска против врага</li>
+        <li>распад торговых связей</li>
+        <li>1237–1240: княжества били по очереди</li>
+      </ul>
+    </div>
+    <div class="cbox">
+      <h4>➕ Плюсы</h4>
+      <ul>
+        <li>расцвет городов и ремёсел</li>
+        <li>подъём культуры и летописания</li>
+        <li>свои школы зодчества и иконописи</li>
+        <li>разные модели власти — опыт управления</li>
+      </ul>
+    </div>
+  </div>
+  <p>Важно: раздробленность не означала распада <b>народа</b>. Общими оставались язык, вера, династия Рюриковичей и церковь.</p>
+
+  <h2>Было → стало</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Было при единой Руси</th><th>Стало после 1132</th></tr>
+      <tr><td>один великий князь в Киеве</td><td>десятки самостоятельных князей</td></tr>
+      <tr><td>общая дружина и походы</td><td>своё войско у каждого княжества</td></tr>
+      <tr><td>один закон «Русская Правда»</td><td>местные уставы и грамоты</td></tr>
+      <tr><td>вече под властью князя</td><td>в Новгороде вече само приглашает князя</td></tr>
+    </table>
+  </div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Удел</td><td>доля княжества во владении князя</td></tr>
+      <tr><td>Вотчина</td><td>родовая наследственная земля</td></tr>
+      <tr><td>Вече</td><td>собрание горожан, решавшее дела</td></tr>
+      <tr><td>Посадник</td><td>выборный глава в Новгороде</td></tr>
+      <tr><td>Тысяцкий</td><td>глава ополчения и суда</td></tr>
+      <tr><td>Ополье</td><td>безлесная плодородная земля</td></tr>
+      <tr><td>Усобица</td><td>война князей между собой</td></tr>
+    </table>
+  </div>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>1097 — юридическое закрепление раздела, а <b>1132</b> — фактическое начало раздробленности.</li>
+      <li>Андрей Боголюбский перенёс столицу во <b>Владимир</b>, а не в Суздаль.</li>
+      <li>Новгород — республика, там князя <b>приглашали по договору</b>.</li>
+      <li>1147 — первое упоминание Москвы, не основание города.</li>
+      <li>Раздробленность — не «конец Руси»: единство народа и церкви сохранилось.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>1132 распад · 1136 Новгород-республика · 1147 Москва
+Владимир: Юрий Долгорукий → Андрей Боголюбский → Всеволод Большое Гнездо
+Новгород: вече + посадник + тысяцкий + епископ, князь по договору
+Галич: сильное боярство, плодородие, путь в Европу
+Минус: нет единого войска. Плюс: расцвет городов и культуры</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Называю пять причин раздробленности</li>
+    <li>Сравниваю три земли по власти и хозяйству</li>
+    <li>Объясняю, почему в Новгороде была республика</li>
+    <li>Называю и плюсы, и минусы раздробленности</li>
+    <li>Помню 1132, 1136, 1147, 1169</li>
+  </ul>
+
+  <details><summary>Почему Новгород стал республикой</summary>Богатство дало силу боярам и купцам, а князь был нужен прежде всего как военачальник и судья — его приглашали по договору и могли изгнать. В 1136 году князя изгнали, и власть перешла к вечу.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="fq">
+      <div class="q" data-a="1">
+        <p class="qt">1. Когда началась феодальная раздробленность?</p>
+        <label><input type="radio" name="f1" value="0"> 1097</label>
+        <label><input type="radio" name="f1" value="1"> 1132</label>
+        <label><input type="radio" name="f1" value="2"> 1147</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. Кто перенёс столицу Северо-Востока во Владимир?</p>
+        <label><input type="radio" name="f2" value="0"> Юрий Долгорукий</label>
+        <label><input type="radio" name="f2" value="1"> Всеволод Большое Гнездо</label>
+        <label><input type="radio" name="f2" value="2"> Андрей Боголюбский</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Что решало дела в Новгороде?</p>
+        <label><input type="radio" name="f3" value="0"> Вече</label>
+        <label><input type="radio" name="f3" value="1"> Хан</label>
+        <label><input type="radio" name="f3" value="2"> Киевский князь</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">4. Какая земля славилась плодородием и сильным боярством?</p>
+        <label><input type="radio" name="f4" value="0"> Новгородская</label>
+        <label><input type="radio" name="f4" value="1"> Владимиро-Суздальская</label>
+        <label><input type="radio" name="f4" value="2"> Галицко-Волынская</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">5. Кто такой посадник?</p>
+        <label><input type="radio" name="f5" value="0"> Княжеский наместник в Орде</label>
+        <label><input type="radio" name="f5" value="1"> Выборный глава в Новгороде</label>
+        <label><input type="radio" name="f5" value="2"> Сборщик дани</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Какой год считается началом новгородской республики?</p>
+        <label><input type="radio" name="f6" value="0"> 1136</label>
+        <label><input type="radio" name="f6" value="1"> 1132</label>
+        <label><input type="radio" name="f6" value="2"> 1212</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">7. Что из этого — плюс раздробленности?</p>
+        <label><input type="radio" name="f7" value="0"> Единое войско против врага</label>
+        <label><input type="radio" name="f7" value="1"> Расцвет городов и культуры</label>
+        <label><input type="radio" name="f7" value="2"> Усиление обороны границ</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. Что решил съезд в Любече в 1097 году?</p>
+        <label><input type="radio" name="f8" value="0"> Избрать нового великого князя</label>
+        <label><input type="radio" name="f8" value="1"> Крестить Русь</label>
+        <label><input type="radio" name="f8" value="2"> Каждый владеет отчиной своей</label>
+      </div>
+    </div>
+    <button onclick="check('fq')">Проверить</button>
+    <button class="ghost" onclick="reset('fq')">Сбросить</button>
+    <div class="res" id="fq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>После 1132 года Русь распалась на земли: вотчины делились, города богатели, Киев слабел. Сложились три модели — сильный князь во Владимире, вече в Новгороде, боярство в Галиче. Культура расцвела, но единого войска не стало — и нашествие 1237–1240 годов княжества встретили поодиночке.</p>
+  </div>
+
+</div>
+</main>
+
+<script>
+function check(id){var w=document.getElementById(id),qs=w.querySelectorAll('.q'),ok=0;
+qs.forEach(function(q){var a=+q.dataset.a,ls=q.querySelectorAll('label'),sel=null;
+ls.forEach(function(l){l.classList.remove('ok','bad');var r=l.querySelector('input');if(r.checked)sel=r;});
+ls[a].classList.add('ok');
+if(sel){if(+sel.value===a){ok++;}else{sel.parentElement.classList.add('bad');}}});
+document.getElementById(id+'-res').textContent='Результат: '+ok+' из '+qs.length+'.';}
+function reset(id){var w=document.getElementById(id);
+w.querySelectorAll('input').forEach(function(r){r.checked=false;});
+w.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';}
+</script>
+</body>
+</html>
