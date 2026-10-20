@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>История России — конспекты</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.56;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:30;padding:11px 9px 4px}
+.card{max-width:860px;margin:0 auto;border-radius:26px;padding:14px 16px 13px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.kicker{margin:0 0 4px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+.back{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:600;text-decoration:none;padding:8px 15px;
+  border-radius:999px;color:#12305f;background:linear-gradient(135deg,#fff,#e7f0ff);border:1px solid #fff}
+nav.tabs{max-width:860px;margin:9px auto 0;padding:0 9px;display:flex;flex-wrap:wrap;gap:6px}
+nav.tabs button{font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;padding:9px 14px;border-radius:999px;
+  color:#cfe0f7;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 6px 14px rgba(0,0,0,.25);transition:background .15s,color .15s}
+nav.tabs button.on{background:linear-gradient(135deg,#ffffff,#e7f0ff);color:#12305f;border-color:#fff}
+main{max-width:860px;margin:0 auto;padding:9px 9px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+.sec{display:none}
+.sec.on{display:block}
+h1.t{font-size:1.4rem;line-height:1.26;color:#12294f;margin:0 0 5px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 14px}
+h2{font-size:1.04rem;color:#12294f;margin:22px 0 9px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 19px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.golink{display:block;text-decoration:none;color:#12294f;background:linear-gradient(135deg,#eef5ff,#e3effd);
+  border:1px solid #bcd4f2;border-radius:16px;padding:12px 15px;margin:12px 0;font-size:.94rem;font-weight:600}
+.golink span{display:block;font-weight:400;font-size:.82rem;color:#5a7295;margin-top:3px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:11px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:8px 10px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.85rem}
+tr:last-child td{border-bottom:0}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.84rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:13px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.89rem;color:#12294f}
+.tl{list-style:none;margin:11px 0 11px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 9px 16px;font-size:.91rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:6px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.91rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:14px 0;padding-bottom:5px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 6px;font-size:.93rem}
+label{display:block;padding:9px 13px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.9rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button.act{font:inherit;font-weight:600;font-size:.93rem;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;
+  border:none;border-radius:999px;padding:11px 21px;margin:10px 8px 0 0;cursor:pointer;
+  box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.act.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:11px;font-size:.95rem}
+.foot{max-width:860px;margin:13px auto 0;text-align:center;font-size:11px;color:#8ea6c9}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:9px 7px 3px}
+  .card{border-radius:22px;padding:12px 13px 11px}
+  h1{font-size:16px}
+  nav.tabs{padding:0 7px;gap:5px}
+  nav.tabs button{font-size:11.5px;padding:8px 11px}
+  main{padding:8px 7px 0}
+  .sheet{border-radius:22px;padding:19px 12px 23px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.17rem}
+  h2{font-size:.99rem;margin:19px 0 8px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box{border-radius:15px;padding:12px 13px}
+  pre{font-size:.77rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">История России · IX–XIII вв.</p>
+    <h1>📚 История России — все конспекты</h1>
+    <p class="sub">Русь · Русская Правда · раздробленность · монголы · Нева и Лёд</p>
+    <a class="back" href="index.html">← в общий сборник</a>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="on" onclick="show('s1',this)">⚔️ Русь IX–X</button>
+  <button onclick="show('s2',this)">📜 Русская Правда</button>
+  <button onclick="show('s3',this)">🧩 Раздробленность</button>
+  <button onclick="show('s4',this)">🔥 Монголы</button>
+  <button onclick="show('s5',this)">🛡 Нева и Лёд</button>
+</nav>
+
+<main>
+<div class="sheet">
+
+<!-- ================= 1 ================= -->
+<section class="sec on" id="s1">
+  <h1 class="t">Древнерусское государство, IX–X вв.</h1>
+  <p class="sub2">862 · 882 · 945 · 988</p>
+
+  <div class="box info">
+    <h3>Главное в трёх шагах</h3>
+    <ol>
+      <li><b>862 — призвание варягов.</b> Рюрик сел княжить в Новгороде. Это летописная точка отсчёта русской государственности.</li>
+      <li><b>882 — Олег объединил Новгород и Киев.</b> Два центра стали одним государством с центром в Киеве.</li>
+      <li><b>988 — крещение Руси при Владимире.</b> Единая вера укрепила власть князя и связала Русь с Европой.</li>
+    </ol>
+  </div>
+
+  <h2>Почему государство сложилось именно тогда</h2>
+  <ul>
+    <li>Распад родового строя и выделение знати — появились те, кто правил и собирал дань.</li>
+    <li>Рост городов и торговли, общий путь <b>«из варяг в греки»</b> — нужна была охрана путей.</li>
+    <li>Постоянные набеги степняков — требовалась единая сила против них.</li>
+    <li>Общее происхождение, язык и обычаи племён — было на чём объединяться.</li>
+  </ul>
+
+  <h2>Лента времени</h2>
+  <ul class="tl">
+    <li><b>862</b> — призвание варягов, Рюрик в Новгороде</li>
+    <li><b>882</b> — Олег объединил Новгород и Киев</li>
+    <li><b>907, 911</b> — походы Олега на Византию и торговый договор</li>
+    <li><b>941, 944</b> — походы Игоря, новый договор с греками</li>
+    <li><b>945</b> — гибель Игоря у древлян; Ольга мстит и меняет систему дани</li>
+    <li><b>947</b> — реформа Ольги: уроки и погосты</li>
+    <li><b>965</b> — Святослав разгромил Хазарский каганат</li>
+    <li><b>988</b> — крещение Руси Владимиром Святославичем</li>
+  </ul>
+
+  <h2>Князья и их главное дело</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Князь</th><th>Годы</th><th>Чем вошёл в историю</th></tr>
+      <tr><td>Рюрик</td><td>862–879</td><td>пришёл с варягами, сел в Новгороде</td></tr>
+      <tr><td>Олег</td><td>879–912</td><td>объединил Новгород и Киев, прибил щит на врата</td></tr>
+      <tr><td>Игорь</td><td>912–945</td><td>походы на Византию, погиб при сборе дани</td></tr>
+      <tr><td>Ольга</td><td>945–962</td><td>уроки и погосты, первая из правителей крестилась</td></tr>
+      <tr><td>Святослав</td><td>962–972</td><td>разбил Хазарию, воевал с Византией</td></tr>
+      <tr><td>Владимир</td><td>980–1015</td><td>крестил Русь в 988 году</td></tr>
+    </table>
+  </div>
+
+  <h2>Что значит «государство» — по признакам</h2>
+  <div class="chain"><span>единый князь</span> → <span>дружина</span> → <span>дань</span> → <span>законы</span> → <span>единая вера</span></div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Полюдье</td><td>объезд князем земель для сбора дани</td></tr>
+      <tr><td>Уроки</td><td>фиксированный размер дани, ввела Ольга</td></tr>
+      <tr><td>Погосты</td><td>места сбора дани, ввела Ольга</td></tr>
+      <tr><td>Вече</td><td>народное собрание, решало важные вопросы</td></tr>
+      <tr><td>Дружина</td><td>постоянное войско князя</td></tr>
+    </table>
+  </div>
+
+  <details><summary>Почему Ольга — важная реформаторша</summary>После гибели Игоря она не просто отомстила. Она заменила «сколько получится» на <b>точный размер дани</b> (уроки) и определила места её сбора (погосты). Это превратило набег на произвол в налог — шаг к настоящему государству.</details>
+</section>
+
+<!-- ================= 2 ================= -->
+<section class="sec" id="s2">
+  <h1 class="t">Расцвет Древнерусского государства</h1>
+  <p class="sub2">XI — начало XII в. · Ярослав Мудрый · Русская Правда</p>
+
+  <div class="box info">
+    <h3>Главное в трёх шагах</h3>
+    <ol>
+      <li><b>1019–1054 — Ярослав Мудрый.</b> Единая власть, Софийский собор в Киеве, разгром печенегов (1036), династические браки с Европой.</li>
+      <li><b>Русская Правда</b> — первый письменный свод законов: вместо кровной мести — штраф, защищались жизнь и имущество.</li>
+      <li><b>1113–1125 — Владимир Мономах.</b> Последний сильный князь единой Руси, автор «Поучения детям».</li>
+    </ol>
+  </div>
+
+  <h2>Русская Правда: из чего состоит</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Часть</th><th>Когда</th><th>Что дала</th></tr>
+      <tr><td>Правда Ярослава</td><td>ок. 1016</td><td>первые статьи: штрафы, порядок суда</td></tr>
+      <tr><td>Правда Ярославичей</td><td>1072</td><td>отменила кровную месть, ввела виру</td></tr>
+      <tr><td>Устав Владимира Мономаха</td><td>1113</td><td>ограничил проценты по долгам, защитил закупов</td></tr>
+    </table>
+  </div>
+
+  <h2>Что регулировала</h2>
+  <ul>
+    <li><b>Убийство</b> — вира: денежный штраф в пользу князя.</li>
+    <li><b>Кража и драка</b> — продажа и «свод» (поиск украденного по следу).</li>
+    <li><b>Долги</b> — закуп, рядович: люди, работавшие за долг или договор.</li>
+    <li><b>Зависимые люди</b> — холоп, челядь; свободный общинник — смерд.</li>
+  </ul>
+
+  <h2>«Было → стало»</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Было</th><th>Стало</th></tr>
+      <tr><td>кровная месть</td><td>денежный штраф — вира</td></tr>
+      <tr><td>обычай племени</td><td>писаный закон князя</td></tr>
+      <tr><td>суд рода</td><td>суд князя и его тиунов</td></tr>
+      <tr><td>«как договорились»</td><td>фиксированные суммы штрафов</td></tr>
+    </table>
+  </div>
+
+  <h2>Почему это расцвет</h2>
+  <p>Ярослав почти не воевал, а строил: Софийский собор в Киеве (1037), школы, библиотеку, переписывание книг. Дочь Анна стала королевой Франции, сыновья женились на европейских принцессах. Русь впервые вошла в европейскую политику как равная.</p>
+
+  <details><summary>Ловушка: Русская Правда — это не свод «для всех»</summary>Свод защищал прежде всего князя, его дружину и богатых. За убийство знатного штраф был в разы больше, чем за смерда. Поэтому Русская Правда — памятник <b>феодального</b> права, закреплявший неравенство.</details>
+</section>
+
+<!-- ================= 3 ================= -->
+<section class="sec" id="s3">
+  <h1 class="t">Феодальная раздробленность</h1>
+  <p class="sub2">1097 · 1132 · 1147 · 1185</p>
+
+  <div class="box info">
+    <h3>Главное в трёх шагах</h3>
+    <ol>
+      <li><b>1097 — Любечский съезд.</b> Князья решили: «каждый да держит отчину свою». Юридический шаг к разделу.</li>
+      <li><b>1132 — смерть Мстислава Великого.</b> Условная дата начала раздробленности: единой Руси больше нет.</li>
+      <li><b>1147 — первое упоминание Москвы.</b> Вырос новый центр, началась история будущего объединения.</li>
+    </ol>
+  </div>
+
+  <h2>Причины</h2>
+  <ul>
+    <li><b>Натуральное хозяйство</b> — княжества почти не нуждались друг в друге.</li>
+    <li><b>Рост вотчин</b> — боярам нужна была своя власть на месте, а не в далёком Киеве.</li>
+    <li><b>Слабость центра</b> — порядок наследования вызывал усобицы, Киев терял влияние.</li>
+    <li><b>Рост городов</b> — у каждого центра свои торговля и ремесло.</li>
+    <li><b>Перемещение торговых путей</b> — путь «из варяг в греки» утратил прежнее значение.</li>
+  </ul>
+
+  <h2>Крупные центры</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Земля</th><th>Князья</th><th>Особенность</th></tr>
+      <tr><td>Владимиро-Суздальская</td><td>Юрий Долгорукий, Андрей Боголюбский, Всеволод Большое Гнездо</td><td>сильная княжеская власть</td></tr>
+      <tr><td>Галицко-Волынская</td><td>Роман Мстиславич, Даниил Романович</td><td>сильное боярство</td></tr>
+      <tr><td>Новгородская</td><td>князь приглашённый</td><td>вече, посадник, тысяцкий, архиепископ</td></tr>
+    </table>
+  </div>
+
+  <h2>Последствия: плюсы и минусы</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Плюсы</th><th>Минусы</th></tr>
+      <tr><td>рост городов и ремесла</td><td>ослабла общая оборона</td></tr>
+      <tr><td>расцвет культуры: «Слово о полку Игореве», храмы</td><td>постоянные усобицы</td></tr>
+      <tr><td>свои школы и летописи</td><td>нет единого войска и единой казны</td></tr>
+    </table>
+  </div>
+  <div class="chain"><span>раздробленность</span> → <span>нет единой рати</span> → <span>1237: нашествие</span></div>
+
+  <details><summary>Раздробленность — это «плохо»?</summary>В школе чаще говорят о минусах. На билете сильнее звучит так: раздробленность — закономерный этап, как в Европе. Она дала расцвет городов и культуры, но <b>лишила Русь единой обороны</b> — этим и воспользовался Батый.</details>
+</section>
+
+<!-- ================= 4 ================= -->
+<section class="sec" id="s4">
+  <h1 class="t">Борьба Руси с монгольским нашествием</h1>
+  <p class="sub2">1223 · 1237–1240 · 1243</p>
+
+  <div class="box info">
+    <h3>Главное в трёх шагах</h3>
+    <ol>
+      <li><b>1206 — Чингисхан объединил монголов.</b> 1223 — битва на Калке: первое тяжёлое поражение русских.</li>
+      <li><b>1237–1240 — нашествие Батыя.</b> Рязань, Владимир, Козельск, Киев — разорена почти вся Русь.</li>
+      <li><b>1243 — зависимость.</b> Ярлык на княжение, дань («выход»), баскаки и перепись 1257 года.</li>
+    </ol>
+  </div>
+
+  <h2>Даты</h2>
+  <ul class="tl">
+    <li><b>1206</b> — Темучин стал Чингисханом</li>
+    <li><b>31 мая 1223</b> — битва на Калке: князья действовали порознь и были разбиты</li>
+    <li><b>1236</b> — разгром Волжской Булгарии</li>
+    <li><b>декабрь 1237</b> — пала Рязань</li>
+    <li><b>февраль 1238</b> — взят Владимир</li>
+    <li><b>4 марта 1238</b> — битва на реке Сити, погиб Юрий Всеволодович</li>
+    <li><b>1238</b> — Козельск, «злой город», держался семь недель</li>
+    <li><b>декабрь 1240</b> — пал Киев</li>
+    <li><b>1241–1242</b> — поход в Венгрию и Польшу, затем возврат в степи</li>
+  </ul>
+
+  <h2>Почему Русь проиграла</h2>
+  <ul>
+    <li><b>Раздробленность</b> — каждое княжество билось в одиночку.</li>
+    <li><b>Разная тактика</b> — монголы действовали манёвренно, с осадной техникой.</li>
+    <li><b>Численное превосходство</b> и жёсткая дисциплина у Батыя.</li>
+  </ul>
+
+  <h2>В чём выражалась зависимость</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Что</th><th>Значение</th></tr>
+      <tr><td>Ярлык</td><td>грамота хана на право княжить</td></tr>
+      <tr><td>Выход</td><td>регулярная дань Орде</td></tr>
+      <tr><td>Баскаки</td><td>ханские чиновники, следившие за данью</td></tr>
+      <tr><td>Численники</td><td>перепись населения 1257 года для раскладки дани</td></tr>
+      <tr><td>Ордынский полк</td><td>военная помощь хана князю в усобицах</td></tr>
+    </table>
+  </div>
+
+  <h2>Последствия</h2>
+  <p><b>Тяжёлые:</b> гибель людей, разорение городов, утрата ремесленных секретов, дань, замедление развития на десятилетия.</p>
+  <p><b>Сохранилось:</b> княжеская власть и православная церковь — Орда не посягала на веру и не ставила своих правителей. Поэтому Русь выжила, а не растворилась.</p>
+  <div class="chain"><span>1380 Куликовская</span> → <span>1480 стояние на Угре</span> → <span>конец зависимости</span></div>
+
+  <details><summary>Почему Александр Невский «дружил» с Ордой</summary>У Руси не было сил на две войны сразу. Дань и ярлык были платой за мир на востоке, чтобы все силы отдать обороне запада от рыцарей. Это расчёт, а не симпатия к хану.</details>
+</section>
+
+<!-- ================= 5 ================= -->
+<section class="sec" id="s5">
+  <h1 class="t">Невская битва и Ледовое побоище</h1>
+  <p class="sub2">15 июля 1240 · 5 апреля 1242</p>
+
+  <div class="box info">
+    <h3>Главное в трёх шагах</h3>
+    <ol>
+      <li><b>1240 — шведы на Неве.</b> Александр с дружиной и ополчением внезапно разбил их у устья Ижоры.</li>
+      <li><b>1241–1242 — война с орденом.</b> Взято Копорье, освобождён Псков.</li>
+      <li><b>1242 — Чудское озеро.</b> Рыцарский клин увяз в центре, фланги сомкнулись — орден разбит.</li>
+    </ol>
+  </div>
+
+  <a class="golink" href="nevskaya-i-ledovoe.html?v=1">📖 Подробный конспект по обеим битвам<span>Сбор отряда, порядок действий, герои Невы, тактика против клина, тест на 10 вопросов</span></a>
+
+  <div class="tw">
+    <table>
+      <tr><th>Нева, 1240</th><th>Чудское озеро, 1242</th></tr>
+      <tr><td>противник — шведы</td><td>противник — Ливонский орден</td></tr>
+      <tr><td>внезапный удар на рассвете</td><td>клещи против рыцарского клина</td></tr>
+      <tr><td>погибло 20 русских</td><td>орден отброшен от границ</td></tr>
+      <tr><td>сохранён выход к Балтике</td><td>мир: «кто чем владел раньше»</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= общее ================= -->
+<div class="box trap">
+  <h3>🪤 Ловушки по всем темам</h3>
+  <ol>
+    <li><b>862</b> — призвание варягов, <b>882</b> — объединение Новгорода и Киева. Не путать.</li>
+    <li><b>988</b> — крещение Руси, а не 1054 (смерть Ярослава) и не 1113.</li>
+    <li>Русская Правда — это <b>свод законов</b>, а не литературное произведение.</li>
+    <li><b>1097</b> — Любечский съезд, <b>1132</b> — смерть Мстислава: причины и дата начала раздробленности разные.</li>
+    <li><b>1223</b> — Калка (первое поражение), <b>1237</b> — начало нашествия Батыя.</li>
+    <li>Невская битва — со шведами, Ледовое побоище — с немцами.</li>
+    <li>Орда не отменяла княжескую власть и не трогала православную церковь.</li>
+  </ol>
+</div>
+
+<h2>Шпаргалка</h2>
+<pre>862 призвание варягов · 882 Олег объединил Киев и Новгород
+945 Ольга: уроки и погосты · 988 крещение Руси
+1019–1054 Ярослав · Русская Правда: вира вместо кровной мести
+1097 Любеч · 1132 начало раздробленности · 1147 Москва
+1223 Калка · 1237–1240 Батый · 1243 ярлык и выход
+1240 Нева · 1242 Чудское озеро · мир «кто чем владел раньше»</pre>
+
+<div class="box test">
+  <h3>Мини-тест: 12 вопросов</h3>
+  <div id="nq">
+    <div class="q" data-a="1">
+      <p class="qt">1. В каком году произошло призвание варягов?</p>
+      <label><input type="radio" name="q1" value="0"> 882</label>
+      <label><input type="radio" name="q1" value="1"> 862</label>
+      <label><input type="radio" name="q1" value="2"> 988</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">2. Кто объединил Новгород и Киев в 882 году?</p>
+      <label><input type="radio" name="q2" value="0"> Рюрик</label>
+      <label><input type="radio" name="q2" value="1"> Олег</label>
+      <label><input type="radio" name="q2" value="2"> Святослав</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">3. Что ввела княгиня Ольга после гибели Игоря?</p>
+      <label><input type="radio" name="q3" value="0"> полюдье и повоз</label>
+      <label><input type="radio" name="q3" value="1"> уроки и погосты</label>
+      <label><input type="radio" name="q3" value="2"> виры и продажи</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">4. При каком князе произошло крещение Руси?</p>
+      <label><input type="radio" name="q4" value="0"> Владимир Святославич</label>
+      <label><input type="radio" name="q4" value="1"> Ярослав Мудрый</label>
+      <label><input type="radio" name="q4" value="2"> Святослав Игоревич</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">5. Как назывался первый письменный свод законов Руси?</p>
+      <label><input type="radio" name="q5" value="0"> Судебник 1497 года</label>
+      <label><input type="radio" name="q5" value="1"> Русская Правда</label>
+      <label><input type="radio" name="q5" value="2"> Соборное уложение 1649 года</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">6. Что отменили Ярославичи в 1072 году?</p>
+      <label><input type="radio" name="q6" value="0"> смертную казнь</label>
+      <label><input type="radio" name="q6" value="1"> кровную месть</label>
+      <label><input type="radio" name="q6" value="2"> сбор дани</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">7. Какое решение принял Любечский съезд 1097 года?</p>
+      <label><input type="radio" name="q7" value="0"> «каждый да держит отчину свою»</label>
+      <label><input type="radio" name="q7" value="1"> «кто чем владел раньше»</label>
+      <label><input type="radio" name="q7" value="2"> «не в силе Бог, а в правде»</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">8. Какая дата считается условным началом раздробленности?</p>
+      <label><input type="radio" name="q8" value="0"> 1097</label>
+      <label><input type="radio" name="q8" value="1"> 1132</label>
+      <label><input type="radio" name="q8" value="2"> 1237</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">9. Какой город пал в декабре 1240 года?</p>
+      <label><input type="radio" name="q9" value="0"> Рязань</label>
+      <label><input type="radio" name="q9" value="1"> Владимир</label>
+      <label><input type="radio" name="q9" value="2"> Киев</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">10. В каком году была битва на Калке?</p>
+      <label><input type="radio" name="q10" value="0"> 1223</label>
+      <label><input type="radio" name="q10" value="1"> 1237</label>
+      <label><input type="radio" name="q10" value="2"> 1240</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">11. Когда произошла Невская битва?</p>
+      <label><input type="radio" name="q11" value="0"> 15 июля 1240</label>
+      <label><input type="radio" name="q11" value="1"> 5 апреля 1242</label>
+      <label><input type="radio" name="q11" value="2"> 31 мая 1223</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">12. Когда произошло Ледовое побоище?</p>
+      <label><input type="radio" name="q12" value="0"> 1240</label>
+      <label><input type="radio" name="q12" value="1"> 5 апреля 1242</label>
+      <label><input type="radio" name="q12" value="2"> 8 сентября 1380</label>
+    </div>
+  </div>
+  <button class="act" onclick="check()">Проверить</button>
+  <button class="act ghost" onclick="resetAll()">Заново</button>
+  <div class="res" id="res"></div>
+</div>
+
+<div class="final">
+  <h3>Вся тема за 10 секунд</h3>
+  <p>Русь собралась из Новгорода и Киева вокруг князя и дани → расцвела при Ярославе, когда обычай заменили писаным законом → распалась на княжества, где каждый держал свою отчину → без единой рати не устояла против Батыя → на северо-западе отбилась от шведов и рыцарей.</p>
+  <p><b>Главная мысль:</b> сила Древней Руси держалась на единстве, а слабость — на том, что единство распалось.</p>
+</div>
+
+<h2>10 терминов и событий — коротко</h2>
+<div class="tw">
+  <table>
+    <tr><th>Понятие</th><th>Объяснение</th></tr>
+    <tr><td>Полюдье</td><td>объезд князем земель, чтобы собрать дань</td></tr>
+    <tr><td>Уроки</td><td>точный размер дани, ввела княгиня Ольга</td></tr>
+    <tr><td>Погосты</td><td>определённые места сбора дани, тоже Ольга</td></tr>
+    <tr><td>Русская Правда</td><td>первый письменный свод законов Руси</td></tr>
+    <tr><td>Вира</td><td>денежный штраф за убийство свободного человека</td></tr>
+    <tr><td>Закуп</td><td>крестьянин, взявший ссуду и работавший за долг</td></tr>
+    <tr><td>Вотчина</td><td>земля, наследственно закреплённая за боярином</td></tr>
+    <tr><td>Ярлык</td><td>грамота хана на право княжить</td></tr>
+    <tr><td>Выход</td><td>регулярная дань русских земель в Орду</td></tr>
+    <tr><td>Баскак</td><td>чиновник хана, следивший за сбором дани</td></tr>
+  </table>
+</div>
+
+</div>
+</main>
+
+<div class="foot">История России · конспекты Honer AI</div>
+
+<script>
+function show(id,btn){
+  var secs=document.querySelectorAll('.sec');
+  for(var i=0;i<secs.length;i++){secs[i].classList.toggle('on',secs[i].id===id);}
+  var tabs=document.querySelectorAll('nav.tabs button');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.toggle('on',tabs[j]===btn);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function check(){
+  var qs=document.querySelectorAll('#nq .q'),score=0;
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i],a=parseInt(q.getAttribute('data-a'),10);
+    var rs=q.querySelectorAll('input[type=radio]'),marked=-1;
+    for(var k=0;k<rs.length;k++){if(rs[k].checked){marked=k;}}
+    for(var m=0;m<rs.length;m++){
+      var lab=rs[m].parentNode;
+      lab.classList.remove('ok','bad');
+      if(m===a){lab.classList.add('ok');}
+      else if(m===marked){lab.classList.add('bad');}
+    }
+    if(marked===a){score++;}
+  }
+  var total=qs.length;
+  var msg='Результат: '+score+' из '+total+' — ';
+  if(score===total){msg+='всё точно, тему знаешь 💪';}
+  else if(score>=total-3){msg+='хорошо, доработай ошибки и повтори даты.';}
+  else if(score>=total/2){msg+='половина есть, надо выучить даты и термины.';}
+  else {msg+='начни с «Главного в трёх шагах» и шпаргалки.';}
+  document.getElementById('res').textContent=msg;
+}
+function resetAll(){
+  var rs=document.querySelectorAll('#nq input[type=radio]');
+  for(var i=0;i<rs.length;i++){
+    rs[i].checked=false;
+    rs[i].parentNode.classList.remove('ok','bad');
+  }
+  document.getElementById('res').textContent='';
+}
+</script>
+</body>
+</html>
