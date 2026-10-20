@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Древнерусское государство</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:20;padding:12px 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.back{display:inline-block;font-size:12.5px;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:999px;
+  color:#12305f;background:linear-gradient(135deg,#fff,#e7f0ff);border:1px solid #fff}
+.back.ghost{background:rgba(255,255,255,.08);color:#dce9ff;border:1px solid rgba(255,255,255,.2)}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;font-size:.91rem}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}.hd{padding:10px 8px 5px}.card{border-radius:22px;padding:13px 14px 12px}h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}.sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}.box,.final{border-radius:15px;padding:12px 13px}pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">История России · IX–XII вв.</p>
+    <h1>📜 Древнерусское государство</h1>
+    <p class="sub">Как возникло, как управлялось, почему окрепло</p>
+    <div class="nav">
+      <a class="back" href="istoriya.html">← История</a>
+      <a class="back ghost" href="index.html">Сборник</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+  <h1 class="t">От призвания варягов до Владимира Мономаха</h1>
+  <p class="sub2">862–1132 · Рюриковичи, полюдье, крещение, «Русская Правда»</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Три даты-опоры:</b> 862 — Рюрик в Новгороде, 882 — Олег объединил Новгород и Киев, 988 — крещение Руси.</li>
+      <li><b>Как собирали дань:</b> полюдье → уроки и погосты → «Русская Правда».</li>
+      <li><b>Почему распалось:</b> вотчины, Любечский съезд 1097, смерть Мстислава в 1132.</li>
+    </ol>
+  </div>
+
+  <h2>Главное в трёх шагах</h2>
+  <p><b>1. Появилось государство.</b> Северные племена призвали варягов, Рюриковичи сели в Новгороде, а Олег в 882 году взял Киев и объединил два центра в одно государство.</p>
+  <p><b>2. Окрепло изнутри.</b> Ольга упорядочила дань, Владимир крестил Русь в 988 году, Ярослав Мудрый дал писаный закон — «Русскую Правду». Появились вотчины и своя церковь.</p>
+  <p><b>3. Начало дробиться.</b> Князья делили земли между сыновьями, съезд в Любече в 1097 году закрепил «каждый владеет отчиной своей», а после 1132 года единое государство распалось.</p>
+
+  <h2>Откуда взялось: две теории</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>🌊 Норманнская</h4>
+      <ul>
+        <li>государство создали варяги</li>
+        <li>сторонники: Миллер, Байер, Шлёцер</li>
+        <li>основа — летопись о призвании</li>
+      </ul>
+    </div>
+    <div class="cbox">
+      <h4>🌾 Антинорманнская</h4>
+      <ul>
+        <li>государство сложилось само</li>
+        <li>сторонник: Ломоносов</li>
+        <li>варяги лишь династия и дружина</li>
+      </ul>
+    </div>
+  </div>
+  <p>Современная историография обычно считает, что <b>предпосылки сложились у восточных славян сами</b>, а варяги дали правящую династию и ускорили объединение.</p>
+
+  <h2>Хронология-лента</h2>
+  <ul class="tl">
+    <li><b>862</b> — призвание варягов, Рюрик княжит в Новгороде</li>
+    <li><b>879–912</b> — Олег: 882 объединение с Киевом, договоры с Византией</li>
+    <li><b>912–945</b> — Игорь: походы, гибель при сборе полюдья у древлян</li>
+    <li><b>945–964</b> — Ольга: уроки и погосты, первая реформа налогов</li>
+    <li><b>964–972</b> — Святослав: разгром Хазарии, походы на Балканы</li>
+    <li><b>980–1015</b> — Владимир I: 988 крещение Руси</li>
+    <li><b>1019–1054</b> — Ярослав Мудрый: «Русская Правда», расцвет Киева</li>
+    <li><b>1097</b> — Любечский съезд князей</li>
+    <li><b>1113–1125</b> — Владимир Мономах: последний сильный князь единой Руси</li>
+    <li><b>1132</b> — смерть Мстислава Великого, начало раздробленности</li>
+  </ul>
+
+  <h2>Кто правил и чем запомнился</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Князь</th><th>Годы</th><th>Главное дело</th></tr>
+      <tr><td>Рюрик</td><td>862–879</td><td>призван княжить, начало династии</td></tr>
+      <tr><td>Олег</td><td>879–912</td><td>882: Киев и Новгород вместе</td></tr>
+      <tr><td>Игорь</td><td>912–945</td><td>походы, гибель за попытку взять лишнюю дань</td></tr>
+      <tr><td>Ольга</td><td>945–964</td><td>уроки и погосты — порядок в сборе дани</td></tr>
+      <tr><td>Святослав</td><td>964–972</td><td>разбил Хазарский каганат</td></tr>
+      <tr><td>Владимир I</td><td>980–1015</td><td>крещение Руси в 988 году</td></tr>
+      <tr><td>Ярослав Мудрый</td><td>1019–1054</td><td>«Русская Правда», связи с Европой</td></tr>
+      <tr><td>Владимир Мономах</td><td>1113–1125</td><td>удержал единство, «Поучение детям»</td></tr>
+    </table>
+  </div>
+
+  <h2>Управление и экономика</h2>
+  <p><b>Власть.</b> Великий князь киевский, при нём дружина: старшая — бояре, младшая — гриди. В городах князь сажал посадников, на местах держали власть его сыновья.</p>
+  <p><b>Сбор дани.</b> Сначала — полюдье: князь сам объезжал земли. После гибели Игоря Ольга ввела <b>уроки</b> (фиксированный размер) и <b>погосты</b> (места сбора). Это первая налоговая реформа.</p>
+  <p><b>Хозяйство.</b> Земледелие: подсечно-огневое на севере, переложное на юге. Промыслы: охота, рыболовство, бортничество. Путь «из варяг в греки» давал торговлю с Византией и Скандинавией.</p>
+  <div class="chain"><span>полюдье</span> → <span>уроки и погосты</span> → <span>вотчина</span> → <span>«Русская Правда»</span></div>
+
+  <h2>Крещение Руси, 988</h2>
+  <p><b>Причины:</b> единая вера нужна была единому государству, нужны были союзники и престиж на мировой арене, а язычество не давало общей морали.</p>
+  <p><b>Значение:</b> сближение с Византией, письменность и книги, каменное строительство, церковь как опора власти, приобщение к христианской культуре.</p>
+
+  <h2>«Русская Правда»: что это</h2>
+  <ul>
+    <li>Первая письменная запись законов, начатая при Ярославе Мудром.</li>
+    <li>Кровную месть постепенно заменили <b>вирой</b> — денежным штрафом.</li>
+    <li>Разные штрафы за убийство свободного, холопа, дружинника.</li>
+    <li>Позже дополнялась: летописи относят к ней «Правду Ярославичей» и «Устав Владимира Мономаха».</li>
+  </ul>
+
+  <h2>Было → стало</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Было</th><th>Стало</th></tr>
+      <tr><td>племена с родовым строем</td><td>государство с князем и дружиной</td></tr>
+      <tr><td>дань «сколько получится»</td><td>уроки и погосты — фиксированная дань</td></tr>
+      <tr><td>обычай кровной мести</td><td>писаный закон и штраф</td></tr>
+      <tr><td>языческие культы</td><td>единая христианская вера</td></tr>
+    </table>
+  </div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Полюдье</td><td>объезд князя по землям за данью</td></tr>
+      <tr><td>Уроки</td><td>фиксированный размер дани</td></tr>
+      <tr><td>Погосты</td><td>места сбора дани</td></tr>
+      <tr><td>Вотчина</td><td>земля, передаваемая по наследству</td></tr>
+      <tr><td>Вира</td><td>денежный штраф вместо мести</td></tr>
+      <tr><td>Вече</td><td>народное собрание в городе</td></tr>
+      <tr><td>Бортничество</td><td>сбор мёда у лесных пчёл</td></tr>
+    </table>
+  </div>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>862 — <b>призвание</b> варягов, а не создание государства в один год.</li>
+      <li>882 — Олег объединил Новгород и Киев: это и есть начало единой Руси.</li>
+      <li>Ольга не просто мстила — она провела реформу сбора дани.</li>
+      <li>988 — крещение (при Владимире), а не 989 и не при Ярославе.</li>
+      <li>«Русская Правда» складывалась из нескольких частей, это не один документ одного князя.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>862 Рюрик · 882 Олег · 945 Ольга (уроки и погосты)
+988 крещение · 1019–1054 Ярослав · 1097 Любеч · 1132 распад
+Дань: полюдье → уроки и погосты
+Закон: кровная месть → вира
+Рюрик → Олег → Игорь → Ольга → Святослав → Владимир → Ярослав → Мономах</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Называю 862, 882, 988, 1097, 1132</li>
+    <li>Объясняю, зачем Ольга ввела уроки и погосты</li>
+    <li>Рассказываю причины и значение крещения</li>
+    <li>Перечисляю части «Русской Правды»</li>
+    <li>Понимаю, почему Русь начала дробиться</li>
+  </ul>
+
+  <details><summary>Как запомнить порядок князей</summary><b>Р</b>юрик → <b>О</b>лег → <b>И</b>горь → <b>О</b>льга → <b>С</b>вятослав → <b>В</b>ладимир → <b>Я</b>рослав → <b>М</b>ономах. Первые буквы: РОИ-ОСВЯМ.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="dq">
+      <div class="q" data-a="1">
+        <p class="qt">1. В каком году Олег объединил Новгород и Киев?</p>
+        <label><input type="radio" name="d1" value="0"> 862</label>
+        <label><input type="radio" name="d1" value="1"> 882</label>
+        <label><input type="radio" name="d1" value="2"> 988</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. Кто ввёл уроки и погосты?</p>
+        <label><input type="radio" name="d2" value="0"> Игорь</label>
+        <label><input type="radio" name="d2" value="1"> Святослав</label>
+        <label><input type="radio" name="d2" value="2"> Ольга</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Что такое полюдье?</p>
+        <label><input type="radio" name="d3" value="0"> Объезд князя по землям за данью</label>
+        <label><input type="radio" name="d3" value="1"> Народное собрание</label>
+        <label><input type="radio" name="d3" value="2"> Штраф за убийство</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">4. Кто крестил Русь?</p>
+        <label><input type="radio" name="d4" value="0"> Ярослав</label>
+        <label><input type="radio" name="d4" value="1"> Владимир I</label>
+        <label><input type="radio" name="d4" value="2"> Мономах</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Что такое вира?</p>
+        <label><input type="radio" name="d5" value="0"> Доля урожая</label>
+        <label><input type="radio" name="d5" value="1"> Дань Орде</label>
+        <label><input type="radio" name="d5" value="2"> Денежный штраф</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">6. Что решил Любечский съезд 1097 года?</p>
+        <label><input type="radio" name="d6" value="0"> Крестить Русь</label>
+        <label><input type="radio" name="d6" value="1"> Каждый владеет отчиной своей</label>
+        <label><input type="radio" name="d6" value="2"> Отменить полюдье</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">7. При каком князе начали составлять «Русскую Правду»?</p>
+        <label><input type="radio" name="d7" value="0"> Ярослав Мудрый</label>
+        <label><input type="radio" name="d7" value="1"> Олег</label>
+        <label><input type="radio" name="d7" value="2"> Святослав</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. Когда началась раздробленность?</p>
+        <label><input type="radio" name="d8" value="0"> 988</label>
+        <label><input type="radio" name="d8" value="1"> 1097</label>
+        <label><input type="radio" name="d8" value="2"> 1132</label>
+      </div>
+    </div>
+    <button onclick="check('dq')">Проверить</button>
+    <button class="ghost" onclick="reset('dq')">Сбросить</button>
+    <div class="res" id="dq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>862 Рюрик → 882 Олег объединил Киев и Новгород → Ольга дала уроки и погосты → 988 Владимир крестил Русь → Ярослав написал «Русскую Правду» → 1097 Любеч развёл князей по отчинам → 1132 государство распалось. Держалось оно на князе, дружине, дани и вере.</p>
+  </div>
+
+</div>
+</main>
+
+<script>
+function check(id){var w=document.getElementById(id),qs=w.querySelectorAll('.q'),ok=0;
+qs.forEach(function(q){var a=+q.dataset.a,ls=q.querySelectorAll('label'),sel=null;
+ls.forEach(function(l){l.classList.remove('ok','bad');var r=l.querySelector('input');if(r.checked)sel=r;});
+ls[a].classList.add('ok');
+if(sel){if(+sel.value===a){ok++;}else{sel.parentElement.classList.add('bad');}}});
+document.getElementById(id+'-res').textContent='Результат: '+ok+' из '+qs.length+'.';}
+function reset(id){var w=document.getElementById(id);
+w.querySelectorAll('input').forEach(function(r){r.checked=false;});
+w.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';}
+</script>
+</body>
+</html>
