@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Невская битва и Ледовое побоище</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:20;padding:12px 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+.back{display:inline-block;margin-top:11px;font-size:12.5px;font-weight:600;text-decoration:none;padding:8px 15px;
+  border-radius:999px;color:#12305f;background:linear-gradient(135deg,#fff,#e7f0ff);border:1px solid #fff}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+h3.sub3{font-size:.95rem;color:#2f4a78;margin:16px 0 6px}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:10px 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">История России · 1240–1242</p>
+    <h1>🛡 Невская битва и Ледовое побоище</h1>
+    <p class="sub">Как Александр собирал рать · два удара с Запада · тест с автопроверкой</p>
+    <a class="back" href="index.html">← в сборник</a>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+  <h1 class="t">От Невы до Чудского озера</h1>
+  <p class="sub2">1240–1242 · Новгород, Псков, Ливонский орден</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Две даты:</b> 15 июля 1240 — Нева (шведы), 5 апреля 1242 — Чудское озеро (немцы).</li>
+      <li><b>Как собирал рать:</b> своя дружина + новгородское ополчение + ладожане и ижора, а во второй раз ещё полки из Владимиро-Суздальской земли.</li>
+      <li><b>Почему победил:</b> скорость и внезапность на Неве, клещи против рыцарского клина на льду.</li>
+    </ol>
+  </div>
+
+  <h2>Обстановка: почему ударили именно тогда</h2>
+  <p>К 1240 году Русь была разорена Батыем: пали Рязань, Владимир, Киев. Новгород уцелел, но остался почти один — силы княжеств были выбиты, помощь ждать было неоткуда.</p>
+  <p>Этим и воспользовались соседи. <b>Шведы</b> хотели взять устье Невы и Ладогу — то есть отрезать Новгород от Балтики и взять под контроль путь по северным рекам. <b>Ливонский орден</b> (немецкие рыцари-крестоносцы) при поддержке Рима наступал с юга, на Псков.</p>
+  <div class="chain"><span>разорение Руси</span> → <span>ослабление Новгорода</span> → <span>удар шведов с севера</span> → <span>удар ордена с юга</span></div>
+  <p>Александру Ярославичу было <b>19 лет</b>, он княжил в Новгороде с 1236 года.</p>
+
+  <h2>Как он узнал о шведах</h2>
+  <p>На Неве и в устье Ижоры стояла <b>морская стража</b> из местного племени ижора. Её старейшина <b>Пелгусий</b> (в крещении Филипп) первым увидел шведские корабли и отправил гонца в Новгород.</p>
+  <p>Именно это дало князю главное — <b>несколько дней форы</b>: шведы ещё только высаживались и ставили лагерь, а весть уже шла по Волхову.</p>
+
+  <h2>Как Александр собирал отряд</h2>
+  <p>Полного сбора «со всей земли» не было — на это не хватало времени. Собрал то, что можно было поднять быстро:</p>
+  <ul>
+    <li><b>Своя дружина</b> — конные профессиональные воины, ядро войска, несколько сотен человек.</li>
+    <li><b>Новгородское ополчение</b> — горожане: ремесленники, купцы, посадские люди.</li>
+    <li><b>Ладожане</b> — отряд во главе с посадником, присоединились по пути, уже на подходе к Неве.</li>
+    <li><b>Ижоряне Пелгусия</b> — проводники и разведка, знали каждый брод и тропу.</li>
+  </ul>
+  <h3 class="sub3">Три решения при сборе</h3>
+  <p><b>1. Не ждать всех.</b> Князь не стал собирать «большой полк»: пока сходились бы волости, шведы укрепились бы на берегу.</p>
+  <p><b>2. Идти скрытно.</b> Двигались лесами вдоль Волхова, без тяжёлого обоза, малыми переходами — чтобы о подходе не узнали ни шведы, ни их союзники.</p>
+  <p><b>3. Ударить на рассвете.</b> Поход закончился внезапной атакой, а не правильным сражением с построением полков.</p>
+  <p>Перед выступлением князь сказал дружине: <b>«Не в силе Бог, а в правде»</b>. Численно его отряд уступал шведам.</p>
+
+  <h2>Невская битва, 15 июля 1240</h2>
+  <p>Шведы не ждали нападения: часть войска была на кораблях, часть — в лагере на берегу, у шатров. Русские ударили одновременно по лагерю и по сходням к судам.</p>
+  <div class="tw">
+    <table>
+      <tr><th>Кто</th><th>Что сделал</th></tr>
+      <tr><td><b>Александр</b></td><td>копьём ранил в лицо предводителя шведов</td></tr>
+      <tr><td><b>Гаврила Олексич</b></td><td>на коне ворвался по сходням на корабль и дрался там</td></tr>
+      <tr><td><b>Збыслав Якунович</b></td><td>рубился с топором, «не имея страха в сердце»</td></tr>
+      <tr><td><b>Яков Полочанин</b></td><td>ловчий князя, ударил с мечом в центр полка</td></tr>
+      <tr><td><b>Миша</b></td><td>с пешей дружиной потопил три шведских корабля</td></tr>
+      <tr><td><b>Савва</b></td><td>подрубил столб шатра — шатёр рухнул на глазах у всех</td></tr>
+    </table>
+  </div>
+  <p>Русских погибло <b>20 человек</b> — цифра из летописи. Она показывает главное: бой был коротким и внезапным, а не долгим избиением.</p>
+  <p><b>Итог:</b> шведы ночью ушли на уцелевших кораблях, часть тел увезли с собой, часть осталась в братской яме на берегу. Выход к Балтике Новгород сохранил. Прозвище <b>Невский</b> закрепилось за Александром позже, но связано именно с этой победой.</p>
+
+  <h2>Между двумя войнами, 1240–1241</h2>
+  <ul class="tl">
+    <li><b>конец 1240</b> — Александр поссорился с новгородцами и уехал в Переяславль</li>
+    <li><b>1240</b> — рыцари взяли Псков (через предательство части бояр во главе с Твердилой Иванковичем)</li>
+    <li><b>1240–1241</b> — орден построил крепость Копорье в новгородских землях, громил волости до Луги</li>
+    <li><b>1241</b> — новгородцы отправили за князем архиепископа Спиридона: Александр вернулся с чрезвычайными полномочиями</li>
+  </ul>
+
+  <h2>Сбор войска второй раз — уже большое войско</h2>
+  <p>Если под Невой нужна была молниеносность, то теперь нужна была сила: против рыцарской конницы пешее ополчение не годилось.</p>
+  <div class="tw">
+    <table>
+      <tr><th>Кто вошёл в рать</th><th>Зачем</th></tr>
+      <tr><td><b>Новгородская рать</b></td><td>конница бояр и пешая «охочая» рать, основа войска</td></tr>
+      <tr><td><b>Ладожане, карелы, ижора</b></td><td>проводники, лёгкие отряды, охрана флангов</td></tr>
+      <tr><td><b>Полки из Владимиро-Суздальской земли</b></td><td>прислал отец Ярослав, затем брат Андрей — сильная тяжёлая конница</td></tr>
+      <tr><td><b>Псковская рать</b></td><td>включилась после освобождения Пскова, знала дороги в Ливонию</td></tr>
+    </table>
+  </div>
+  <p>Главное отличие от 1240 года: князь действовал <b>не один</b>, а с «низовскими» полками, и вёл войну уже на чужой территории — в Ливонии. Тактика тоже поменялась: не внезапный налёт отряда, а поход с взятием крепостей.</p>
+
+  <h2>1241–1242: Копорье и Псков</h2>
+  <p><b>Копорье</b> взяли внезапным ударом: часть гарнизона и «переветников» (изменников) привели пленными в Новгород. Затем поход на Псков — город освободили, орденские отряды разбили.</p>
+  <p>После этого Александр повёл рать в Ливонию, к Дерпту (Юрьеву): нужно было не просто вернуть своё, а отбить у ордена желание идти на Русь ещё раз.</p>
+
+  <h2>Ледовое побоище, 5 апреля 1242</h2>
+  <p><b>Как строились рыцари.</b> Клин («свинья»): впереди тяжёлые конники в броне, за ними — лёгкие всадники и пехота. Задача клина — пробить центр и рассечь войско.</p>
+  <p><b>Как ответил Александр.</b> В центре поставили полк, который должен был принять удар и <b>увязнуть</b>, а сильные полки держали на флангах. Клин врубился в центр, потерял скорость — и фланги сомкнулись вокруг него.</p>
+  <div class="chain"><span>клин бьёт в центр</span> → <span>центр сдерживает</span> → <span>фланги охватывают</span> → <span>окружение и разгром</span></div>
+  <p>Часть рыцарей побежала по льду к берегу, лёд проломился (у берега били подводные родники — «сиговицы»), и многие утонули. В летописи бой назван так, что был слышен «треск ломающихся копий и звук от мечного сечения».</p>
+
+  <h2>Итоги и значение</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Где</th><th>Итог</th></tr>
+      <tr><td>Нева, 1240</td><td>шведы ушли, выход к Балтике сохранён</td></tr>
+      <tr><td>Копорье и Псков, 1241–1242</td><td>крепость и город возвращены Новгороду</td></tr>
+      <tr><td>Чудское озеро, 1242</td><td>орден разбит, натиск на северо-запад остановлен</td></tr>
+      <tr><td>Мир 1242</td><td>«кто чем владел раньше»: земли Новгорода и Пскова — русские</td></tr>
+    </table>
+  </div>
+  <p>Александр воевал на два фронта по-разному: с Западом — оружием, с Ордой — переговорами и данью, чтобы не дать разорить Русь снова. Это не «дружба с Ордой», а расчёт: воевать одновременно и против рыцарей, и против хана было невозможно.</p>
+
+  <h2>Сравнение двух битв</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>⚔️ Нева, 15 июля 1240</h4>
+      <ul>
+        <li>противник — шведы</li>
+        <li>силы: дружина + ополчение + ладожане</li>
+        <li>тактика — внезапный удар</li>
+        <li>погибло 20 русских</li>
+      </ul>
+    </div>
+    <div class="cbox">
+      <h4>🧊 Чудское озеро, 5 апреля 1242</h4>
+      <ul>
+        <li>противник — Ливонский орден</li>
+        <li>силы: новгородцы + полки Андрея</li>
+        <li>тактика — клещи против клина</li>
+        <li>итог — орден отброшен</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Термины</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Термин</th><th>Коротко</th></tr>
+      <tr><td>Дружина</td><td>постоянное конное войско князя</td></tr>
+      <tr><td>Ополчение</td><td>войско из горожан и крестьян</td></tr>
+      <tr><td>Ижора</td><td>племя, державшее морскую стражу на Неве</td></tr>
+      <tr><td>Ливонский орден</td><td>немецкие рыцари в Прибалтике</td></tr>
+      <tr><td>«Свинья»</td><td>построение рыцарей клином</td></tr>
+      <tr><td>Переветники</td><td>изменники, открывшие ворота города</td></tr>
+      <tr><td>Сиговицы</td><td>подводные родники, из-за них лёд был тонким</td></tr>
+    </table>
+  </div>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>Невская битва — со <b>шведами</b>, Ледовое побоище — с <b>немцами</b> (Ливонский орден). Не путать.</li>
+      <li>1240 год — это и Нева (15 июля), и падение Киева (декабрь). Разные события одного года.</li>
+      <li>Прозвище «Невский» закрепилось не сразу в 1240-м, а позже.</li>
+      <li>Мир 1242 года не «победа навсегда»: набеги ордена случались и после.</li>
+      <li>Псков взяли не штурмом, а через предательство части бояр — это важно для ответа на «почему пал город».</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>1240, 15 июля — Нева: шведы, внезапный удар, 20 погибших
+Сбор отряда: дружина + новгородское ополчение + ладожане + ижора
+Сбор второй раз: новгородцы + карелы и ижора + полки Андрея
+1240 — Псков пал (предательство бояр), Копорье
+1241 — Копорье взято
+1242, март — освобождён Псков
+1242, 5 апреля — Чудское озеро: клин vs клещи
+Мир 1242 — «кто чем владел раньше»</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Называю обе даты и обоих противников</li>
+    <li>Перечисляю, из кого собирал отряд под Невой</li>
+    <li>Объясняю, почему шёл лесами и без обоза</li>
+    <li>Помню, кто сообщил о шведах</li>
+    <li>Рассказываю, чем второй сбор войска отличался от первого</li>
+    <li>Объясняю тактику против рыцарского клина</li>
+    <li>Знаю условие мира 1242 года</li>
+  </ul>
+
+  <details><summary>Как запомнить даты</summary>Нева — <b>1240</b> (ноль в конце, как «ноль шансов у шведов»). Лёд — <b>1242</b> (через два года, в апреле).</details>
+  <details><summary>Почему Александр не воевал с Ордой</summary>После разорения 1237–1240 у Руси не было сил на вторую большую войну. Дань и ярлык были платой за мир на востоке, чтобы все силы отдать обороне запада.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 10 вопросов</h3>
+    <div id="nq">
+      <div class="q" data-a="1">
+        <p class="qt">1. Когда произошла Невская битва?</p>
+        <label><input type="radio" name="n1" value="0"> 5 апреля 1242</label>
+        <label><input type="radio" name="n1" value="1"> 15 июля 1240</label>
+        <label><input type="radio" name="n1" value="2"> 31 мая 1223</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. Кто сообщил Александру о приходе шведов?</p>
+        <label><input type="radio" name="n2" value="0"> Твердила Иванкович</label>
+        <label><input type="radio" name="n2" value="1"> Гаврила Олексич</label>
+        <label><input type="radio" name="n2" value="2"> Пелгусий</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Кого НЕ было в отряде под Невой?</p>
+        <label><input type="radio" name="n3" value="0"> Полков из Владимиро-Суздальской земли</label>
+        <label><input type="radio" name="n3" value="1"> Новгородского ополчения</label>
+        <label><input type="radio" name="n3" value="2"> Ладожан</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">4. Сколько русских погибло в Невской битве по летописи?</p>
+        <label><input type="radio" name="n4" value="0"> 200</label>
+        <label><input type="radio" name="n4" value="1"> 20</label>
+        <label><input type="radio" name="n4" value="2"> 2000</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Почему пал Псков в 1240 году?</p>
+        <label><input type="radio" name="n5" value="0"> Из-за штурма шведов</label>
+        <label><input type="radio" name="n5" value="1"> Из-за голода</label>
+        <label><input type="radio" name="n5" value="2"> Из-за предательства части бояр</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Какие полки прислали Александру перед Ледовым побоищем?</p>
+        <label><input type="radio" name="n6" value="0"> Владимиро-суздальские, во главе с братом Андреем</label>
+        <label><input type="radio" name="n6" value="1"> Рязанские</label>
+        <label><input type="radio" name="n6" value="2"> Киевские</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">7. Что такое «свинья»?</p>
+        <label><input type="radio" name="n7" value="0"> Русское построение клещами</label>
+        <label><input type="radio" name="n7" value="1"> Клин рыцарей</label>
+        <label><input type="radio" name="n7" value="2"> Отряд лучников</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. Когда было Ледовое побоище?</p>
+        <label><input type="radio" name="n8" value="0"> 15 июля 1240</label>
+        <label><input type="radio" name="n8" value="1"> зимой 1241</label>
+        <label><input type="radio" name="n8" value="2"> 5 апреля 1242</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">9. На каких условиях заключили мир с Орденом?</p>
+        <label><input type="radio" name="n9" value="0"> Кто чем владел раньше</label>
+        <label><input type="radio" name="n9" value="1"> Орден получал Псков</label>
+        <label><input type="radio" name="n9" value="2"> Новгород платил ордену дань</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">10. Почему Александр не воевал с Ордой?</p>
+        <label><input type="radio" name="n10" value="0"> Он был союзником хана</label>
+        <label><input type="radio" name="n10" value="1"> У Руси не было сил на вторую большую войну</label>
+        <label><input type="radio" name="n10" value="2"> Орда не нападала на Новгород</label>
+      </div>
+    </div>
+    <button onclick="check('nq')">Проверить</button>
+    <button class="ghost" onclick="reset('nq')">Сбросить</button>
+    <div class="res" id="nq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Шведы высадились на Неве — Пелгусий предупредил, Александр собрал дружину, ополчение, ладожан и ижору, ударил внезапно и разбил их 15 июля 1240. Через год рыцари взяли Псков и построили Копорье; Новгород вернул князя, тот взял Копорье, освободил Псков и с полками брата Андрея заманил рыцарский клин в клещи на льду Чудского озера 5 апреля 1242. Мир — «кто чем владел раньше». Главная мысль: побеждал не числом, а скоростью и выбором места боя.</p>
+  </div>
+
+</div>
+</main>
+
+<p class="foot">Личный сборник конспектов · История России</p>
+
+<script>
+function check(id){
+  var box=document.getElementById(id);
+  var qs=box.querySelectorAll('.q');
+  var ok=0;
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i];
+    var a=q.getAttribute('data-a');
+    var labels=q.querySelectorAll('label');
+    for(var j=0;j<labels.length;j++){labels[j].classList.remove('ok','bad');}
+    var sel=q.querySelector('input:checked');
+    if(sel){
+      var lab=sel.parentNode;
+      if(sel.value===a){lab.classList.add('ok');ok++;}
+      else{
+        lab.classList.add('bad');
+        var right=q.querySelector('input[value="'+a+'"]');
+        if(right){right.parentNode.classList.add('ok');}
+      }
+    }
+  }
+  document.getElementById(id+'-res').textContent='Результат: '+ok+' из '+qs.length+(ok===qs.length?' — отлично! 🔥':'');
+}
+function reset(id){
+  var box=document.getElementById(id);
+  var inputs=box.querySelectorAll('input[type=radio]');
+  for(var i=0;i<inputs.length;i++){inputs[i].checked=false;}
+  var labels=box.querySelectorAll('label');
+  for(var j=0;j<labels.length;j++){labels[j].classList.remove('ok','bad');}
+  document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
