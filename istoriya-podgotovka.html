@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>История · подготовка к опросу</title>
+<style>
+:root{
+  --ink:#0e1b33;
+  --muted:#5b6b86;
+  --blue:#eaf2ff;
+  --blue-b:#c3d8f7;
+  --line:#dbe4f2;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:16px 12px 40px;
+  font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(900px 500px at 15% -10%, #1d3f78 0%, transparent 60%),
+    radial-gradient(700px 500px at 95% 0%, #2a2f66 0%, transparent 55%),
+    linear-gradient(160deg,#0a1428 0%,#101f3c 55%,#0b1730 100%);
+  min-height:100vh;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:720px;margin:0 auto}
+
+/* шапка */
+.top{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:24px;
+  padding:18px 18px 16px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  color:#fff;
+  margin-bottom:12px;
+}
+.kicker{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:#9fc0f0;margin:0 0 6px;
+}
+.top h1{
+  margin:0 0 6px;font-size:23px;line-height:1.2;font-weight:800;
+}
+.top p{margin:0;font-size:13px;color:#bcd0ee;line-height:1.45}
+.back{
+  display:inline-block;margin-top:12px;font-size:12.5px;color:#cfe1fb;
+  text-decoration:none;border:1px solid rgba(255,255,255,.25);
+  padding:6px 12px;border-radius:999px;
+}
+
+/* капсулы */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.tab{
+  font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;
+  background:rgba(255,255,255,.08);color:#cfe1fb;
+  border:1px solid rgba(255,255,255,.18);
+}
+.tab.active{background:#fff;color:#10223f;border-color:#fff}
+
+/* лист */
+.sheet{
+  background:#fff;border-radius:28px;padding:24px 18px 26px;
+  box-shadow:0 0 0 1px #c9d8f0, 0 0 0 4px #f7faff, 0 0 0 5px #c9d8f0, 0 18px 40px rgba(4,12,30,.35);
+}
+.sheet h1{font-size:21px;line-height:1.25;margin:0 0 4px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+.sheet h2{
+  font-size:15.5px;margin:22px 0 8px;padding-bottom:6px;
+  border-bottom:1px solid var(--line);
+}
+.sheet p{font-size:14.5px;line-height:1.55;margin:8px 0}
+.sheet li{font-size:14.5px;line-height:1.5;margin:5px 0}
+ul,ol{padding-left:20px;margin:8px 0}
+
+/* главное */
+.main-box{
+  background:var(--blue);border:1px solid var(--blue-b);border-radius:16px;padding:14px 14px 6px;
+}
+.main-box ol{margin:0 0 8px;padding-left:20px}
+.main-box li{margin:7px 0}
+.main-box b{color:#12386f}
+
+/* лента времени */
+.tl{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.tl div{
+  flex:1 1 92px;min-width:92px;background:#f4f8ff;border:1px solid #d6e3f7;
+  border-radius:12px;padding:8px 9px;
+}
+.tl b{display:block;font-size:12px;color:#184785}
+.tl span{font-size:11.5px;color:#54657f;line-height:1.3}
+
+/* таблицы */
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top;word-break:break-word}
+th{background:#f2f7ff;font-weight:700;font-size:12.5px}
+td.ai{white-space:nowrap;color:#184785;font-weight:700}
+
+/* ловушки */
+.trap{
+  background:#fff3f3;border:1px solid #f6c9c9;border-left:4px solid #d9534f;
+  border-radius:12px;padding:12px 14px;margin:14px 0;
+}
+.trap h3{margin:0 0 6px;font-size:14px;color:#9b2620}
+.trap li{font-size:13.5px;margin:4px 0}
+
+/* шпаргалка */
+.copybox{
+  background:#f6f9ff;border:1px dashed #b9cdea;border-radius:12px;
+  padding:12px 14px;font-size:13px;line-height:1.5;color:#20334f;
+}
+.copybox b{color:#184785}
+.btn{
+  border:0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;
+  background:#1a4b8f;color:#fff;margin-top:10px;cursor:pointer;
+}
+.btn.ghost{background:#eef4ff;color:#1a4b8f}
+
+/* чек-лист */
+.check{list-style:none;padding:0;margin:8px 0}
+.check li{display:flex;gap:9px;align-items:flex-start;margin:7px 0;font-size:14px}
+.check input{width:18px;height:18px;margin-top:2px;accent-color:#1a4b8f}
+
+/* тест */
+.test{background:#fbfdff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.q{margin:0 0 16px}
+.q b{display:block;font-size:14px;line-height:1.4;margin-bottom:7px}
+.opt{
+  display:block;font-size:13.5px;line-height:1.35;padding:8px 11px;margin:5px 0;
+  border:1px solid #dbe4f2;border-radius:11px;background:#fff;cursor:pointer;
+}
+.opt input{margin-right:8px;accent-color:#1a4b8f}
+.opt.right{background:#eefaf0;border-color:#8ed49a}
+.opt.wrong{background:#fdeeee;border-color:#e2a3a3}
+.final{
+  background:#eefaf0;border:1px solid #b5e0bf;border-radius:14px;
+  padding:13px 14px;margin:16px 0 0;font-size:13.5px;line-height:1.5;
+}
+.final b{color:#1c6b34}
+.score{font-size:15px;font-weight:800;margin:10px 0 6px;color:#12386f}
+footer{color:#8fa8c9;font-size:11.5px;text-align:center;margin-top:16px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="kicker">Конспекты · ответвление</p>
+    <h1>История · подготовка к опросу</h1>
+    <p>Отдельная ветка под устные ответы и опросы. Пока одна глава — Смутное время. Дальше добавляем сюда же.</p>
+    <a class="back" href="istoriya.html">← раздел «История»</a>
+  </header>
+
+  <div class="tabs">
+    <span class="tab active">🔥 Смута</span>
+    <span class="tab">＋ новая глава позже</span>
+  </div>
+
+  <main class="sheet">
+    <h1>Смутное время</h1>
+    <p class="sub">Глава 11 · Российское государство в конце XVI — начале XVII века</p>
+
+    <div class="main-box">
+      <ol>
+        <li><b>Причины.</b> Хозяйственный кризис 1570–1580-х после Ливонской войны и опричнины, усиление крепостничества (1581 — отмена Юрьева дня), голод 1601–1603 и чума.</li>
+        <li><b>Кризис власти.</b> В 1598 году пресеклась династия Ивана Калиты: старый род кончился, а Борис Годунов не имел достаточного авторитета.</li>
+        <li><b>Выход.</b> Ополчения 1610–1612 освободили Москву, Земской собор 1613 года избрал Михаила Романова.</li>
+      </ol>
+    </div>
+
+    <h2>Что такое Смута</h2>
+    <p>Смута — тотальный кризис, охвативший все сферы социального бытия: государственность, сословия, идеологию, экономику — и все стороны жизни человека.</p>
+    <p><b>Признаки:</b> слабость государственной власти, неподчинение периферии центру, самозванство, гражданская война, иностранная интервенция, «великая разруха Московского государства».</p>
+
+    <h2>Причины</h2>
+    <ul>
+      <li>хозяйственный кризис 1570–1580-х — следствие Ливонской войны и опричнины;</li>
+      <li>усиление крепостничества: 1581 — отмена права перехода крестьян в Юрьев день (бегство от опричных погромов и непосильных налогов);</li>
+      <li>голод 1601–1603 — не только климат, но и хозяйственное разорение страны;</li>
+      <li>эпидемия чумы;</li>
+      <li><b>династический кризис</b> — старая династия пресеклась, новая не имела авторитета;</li>
+      <li>борьба боярской оппозиции, ждавшей удобного момента для свержения Годунова.</li>
+    </ul>
+    <p><b>Условия, способствовавшие развитию:</b> падение нравственности в обществе, активность казачества, вмешательство католической церкви во внутренние дела России.</p>
+
+    <h2>Лента времени</h2>
+    <div class="tl">
+      <div><b>1598</b><span>Пресечение династии Калиты, Годунов</span></div>
+      <div><b>1601–1603</b><span>Неурожай и голод</span></div>
+      <div><b>1602</b><span>«Царевич Дмитрий» в Литве</span></div>
+      <div><b>1605</b><span>Смерть Годунова, Лжедмитрий I</span></div>
+      <div><b>1606–1610</b><span>Царь Василий Шуйский</span></div>
+      <div><b>1606–1607</b><span>Война Болотникова</span></div>
+      <div><b>1607</b><span>Лжедмитрий II</span></div>
+      <div><b>1609</b><span>Польская интервенция</span></div>
+      <div><b>1610–1612</b><span>Два ополчения</span></div>
+      <div><b>1613</b><span>Михаил Романов</span></div>
+    </div>
+
+    <h2>Основные события</h2>
+    <p>1598 — пресечение династии Ивана Калиты со смертью Фёдора Иоанновича; власть перешла к Борису Годунову, венчанному после символического избрания на Земском соборе.</p>
+    <p>1602 — в Литве объявился человек, выдававший себя за Дмитрия, сына Ивана Грозного, погибшего в Угличе в 1591 году.</p>
+    <p>1605 — смерть Бориса Годунова, воцарение Лжедмитрия I. 1606–1610 — Лжедмитрий I убит, а царём «выкрикнули» князя Василия Шуйского.</p>
+    <p>1607 — начало военных действий Лжедмитрия II. 1609 — втягивание Швеции и Польши в гражданскую войну, начало польской интервенции.</p>
+    <p>1610–1612 — создание первого и второго ополчений, освободивших Москву от поляков. 1613 — избрание царём Михаила Романова.</p>
+
+    <h2>Последствия Смуты</h2>
+    <ol>
+      <li>Временное усиление роли сословно-представительных органов: Боярской думы и Земского собора.</li>
+      <li>Ухудшение международного положения и потеря ряда территорий: Смоленские и Северные земли отошли к Польше, побережье Балтийского моря — к Швеции.</li>
+      <li>Расстройство местнической системы ослабило старую аристократию (боярство) и усилило позиции служилого дворянства.</li>
+      <li>Установление династии Романовых.</li>
+      <li>Экономическая разруха и обнищание народа.</li>
+    </ol>
+
+    <h2>Было → стало</h2>
+    <table>
+      <tr><th>Было</th><th>Стало</th></tr>
+      <tr><td>Династия Калиты, с 1598 нет наследника</td><td>Династия Романовых с 1613 года</td></tr>
+      <tr><td>Сильные позиции старого боярства</td><td>Усиление служилого дворянства</td></tr>
+      <tr><td>Выход к Балтике, Смоленщина</td><td>Балтика — Швеции, Смоленские земли — Польше</td></tr>
+      <tr><td>Хозяйство, разорённое опричниной</td><td>Экономическая разруха и обнищание</td></tr>
+    </table>
+
+    <h2>Даты</h2>
+    <table>
+      <tr><th>Год</th><th>Событие</th></tr>
+      <tr><td class="ai">1598</td><td>Смерть Фёдора Иоанновича, воцарение Годунова</td></tr>
+      <tr><td class="ai">1601–1603</td><td>Неурожай и массовый голод</td></tr>
+      <tr><td class="ai">1602</td><td>В Литве объявился «царевич Дмитрий»</td></tr>
+      <tr><td class="ai">1605</td><td>Смерть Годунова, воцарение Лжедмитрия I</td></tr>
+      <tr><td class="ai">1606–1610</td><td>Лжедмитрий I убит, царь — Василий Шуйский</td></tr>
+      <tr><td class="ai">1606–1607</td><td>Крестьянская война под руководством Болотникова</td></tr>
+      <tr><td class="ai">1607</td><td>Начало военных действий Лжедмитрия II</td></tr>
+      <tr><td class="ai">1609</td><td>Начало польской интервенции</td></tr>
+      <tr><td class="ai">1610–1612</td><td>Первое и второе ополчения</td></tr>
+      <tr><td class="ai">1613</td><td>Избрание Михаила Романова</td></tr>
+    </table>
+
+    <h2>Термины</h2>
+    <table>
+      <tr><th>Термин</th><th>Значение</th></tr>
+      <tr><td>Смута</td><td>Кризис всех сфер жизни государства</td></tr>
+      <tr><td>Самозванство</td><td>Выдача себя за спасённого царевича</td></tr>
+      <tr><td>Интервенция</td><td>Вмешательство чужих войск в дела страны</td></tr>
+      <tr><td>Ополчение</td><td>Народное войско для освобождения Москвы</td></tr>
+      <tr><td>Земской собор</td><td>Сословный орган, избиравший царя</td></tr>
+      <tr><td>Заповедные лета</td><td>Годы запрета крестьянского перехода</td></tr>
+      <tr><td>Юрьев день</td><td>Осенний срок перехода крестьян</td></tr>
+      <tr><td>Местничество</td><td>Должности по знатности рода</td></tr>
+      <tr><td>Служилое дворянство</td><td>Сословие, усилившееся после Смуты</td></tr>
+      <tr><td>«Великая разруха»</td><td>Разорение Московского государства</td></tr>
+    </table>
+
+    <div class="trap">
+      <h3>Ловушки на ответе</h3>
+      <ul>
+        <li>1598 — пресечение династии, 1613 — избрание Романова. Не путай местами.</li>
+        <li>Василия Шуйского не избирал Земской собор: его «выкрикнули» бояре.</li>
+        <li>Ополчений было два, Москву освободило второе, а не первое.</li>
+        <li>Голод — не только погода: причина в разорённом хозяйстве страны.</li>
+        <li>Лжедмитрий II — не поляк и не король, а самозванец.</li>
+      </ul>
+    </div>
+
+    <h2>Карманная шпаргалка</h2>
+    <div class="copybox" id="cheat">
+      <b>Смута 1598–1613.</b> Причины: кризис 1570–1580-х (Ливонская война, опричнина), крепостничество (1581 — отмена Юрьева дня), голод 1601–1603, чума, династический кризис 1598, борьба бояр.<br>
+      События: 1598 Годунов → 1605 Лжедмитрий I → 1606–1610 Шуйский → 1606–1607 Болотников → 1607 Лжедмитрий II → 1609 интервенция → 1610–1612 ополчения → 1613 Романов.<br>
+      Последствия: усиление Земского собора и Боярской думы, потери земель (Польша, Швеция), рост служилого дворянства, новая династия, разруха.
+    </div>
+    <button class="btn" onclick="copyCheat()">Скопировать шпаргалку</button>
+
+    <h2>Чек-лист перед опросом</h2>
+    <ul class="check">
+      <li><input type="checkbox"><span>Называю причины Смуты по порядку</span></li>
+      <li><input type="checkbox"><span>Помню шесть ключевых дат: 1598, 1601–1603, 1605, 1607, 1609, 1613</span></li>
+      <li><input type="checkbox"><span>Объясняю, почему голод стал политическим кризисом</span></li>
+      <li><input type="checkbox"><span>Перечисляю пять последствий Смуты</span></li>
+      <li><input type="checkbox"><span>Отличаю первое ополчение от второго</span></li>
+    </ul>
+
+    <h2>Тест: новый опрос</h2>
+    <div class="test" id="quiz"></div>
+    <button class="btn" onclick="checkQuiz()">Проверить</button>
+    <button class="btn ghost" onclick="resetQuiz()">Заново</button>
+    <div id="score" class="score"></div>
+    <div id="review"></div>
+
+    <div class="final">
+      <b>Вся тема за 10 секунд.</b> Смута — кризис всех сфер жизни. Разорение после Ливонской войны и опричнины, голод 1601–1603, пресечение династии в 1598 году. Дальше самозванцы, война, интервенция, ополчения 1610–1612 и Земской собор 1613 года, избравший Романова.
+    </div>
+  </main>
+
+  <footer>История · подготовка к опросу · глава 1 из 1</footer>
+</div>
+
+<script>
+var quiz = [
+  {q:"В каком году пресеклась династия Ивана Калиты?", o:["1598","1605","1613","1601"], a:0, t:"Смерть Фёдора Иоанновича."},
+  {q:"Кто взошёл на престол после Фёдора Иоанновича?", o:["Василий Шуйский","Борис Годунов","Лжедмитрий I","Михаил Романов"], a:1, t:"Выбран на Земском соборе, но авторитета не хватило."},
+  {q:"Что произошло в 1581 году?", o:["Отмена Юрьева дня","Начало Ливонской войны","Избрание Романова","Венчание Годунова"], a:0, t:"Усиление крепостничества."},
+  {q:"Годы массового голода в России?", o:["1598–1600","1601–1603","1606–1607","1610–1612"], a:1, t:"Неурожай плюс хозяйственное разорение."},
+  {q:"Кто возглавил крестьянскую войну 1606–1607 годов?", o:["Степан Разин","Иван Болотников","Емельян Пугачёв","Хлопко Косолап"], a:1, t:"Война шла при Василии Шуйском."},
+  {q:"Кем был Лжедмитрий II?", o:["Польским королём","Самозванцем, «тушинским вором»","Сыном Годунова","Воеводой Шуйского"], a:1, t:"Ещё один самозванец, лагерь в Тушине."},
+  {q:"Что началось в 1609 году?", o:["Польская интервенция","Избрание Романова","Смерть Годунова","Конец Смуты"], a:0, t:"Втягивание Швеции и Польши в войну."},
+  {q:"Сколько ополчений освобождали Москву?", o:["Одно","Два","Три","Четыре"], a:1, t:"Москву освободило второе ополчение."},
+  {q:"Кто стал царём в 1613 году?", o:["Василий Шуйский","Лжедмитрий II","Михаил Романов","Борис Годунов"], a:2, t:"Решение Земского собора."},
+  {q:"Какая территория отошла к Швеции?", o:["Смоленские земли","Побережье Балтийского моря","Новгород","Чернигов"], a:1, t:"Смоленские и Северные земли — к Польше."}
+];
+
+function render(){
+  var h = "";
+  for (var i=0;i<quiz.length;i++){
+    h += '<div class="q" id="q'+i+'"><b>'+(i+1)+'. '+quiz[i].q+'</b>';
+    for (var j=0;j<quiz[i].o.length;j++){
+      h += '<label class="opt" id="q'+i+'o'+j+'"><input type="radio" name="q'+i+'" value="'+j+'">'+quiz[i].o[j]+'</label>';
+    }
+    h += '</div>';
+  }
+  document.getElementById("quiz").innerHTML = h;
+}
+
+function checkQuiz(){
+  var right = 0, rev = "";
+  for (var i=0;i<quiz.length;i++){
+    var picked = -1;
+    var opts = document.getElementsByName("q"+i);
+    for (var k=0;k<opts.length;k++){ if (opts[k].checked) picked = parseInt(opts[k].value,10); }
+    for (var j=0;j<quiz[i].o.length;j++){
+      var el = document.getElementById("q"+i+"o"+j);
+      el.className = "opt";
+      if (j === quiz[i].a) el.className = "opt right";
+      if (j === picked && picked !== quiz[i].a) el.className = "opt wrong";
+    }
+    if (picked === quiz[i].a) right++;
+    else rev += '<li>Вопрос '+(i+1)+': верно — <b>'+quiz[i].o[quiz[i].a]+'</b>. '+quiz[i].t+'</li>';
+  }
+  var score = document.getElementById("score");
+  score.textContent = "Результат: " + right + " из " + quiz.length;
+  if (right === quiz.length) score.textContent += " — идеально, можно отвечать";
+  else if (right >= 7) score.textContent += " — почти готово";
+  else score.textContent += " — стоит перечитать главу";
+  document.getElementById("review").innerHTML = rev ? '<div class="trap"><h3>Разбор ошибок</h3><ul>'+rev+'</ul></div>' : "";
+}
+
+function resetQuiz(){
+  document.getElementById("score").textContent = "";
+  document.getElementById("review").innerHTML = "";
+  render();
+  window.scrollTo({top:document.getElementById("quiz").offsetTop-20,behavior:"smooth"});
+}
+
+function copyCheat(){
+  var txt = document.getElementById("cheat").innerText.replace(/\s+/g," ").trim();
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ alert("Шпаргалка скопирована"); });
+  } else {
+    var ta = document.createElement("textarea");
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta);
+    alert("Шпаргалка скопирована");
+  }
+}
+
+render();
+</script>
+</body>
+</html>
