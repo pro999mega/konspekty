@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тепловое реле — конспект</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:14px 0 34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{padding:0 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+.fml{margin-top:6px;background:#eaf2fd;border:1px dashed #a9c7ea;border-radius:14px;padding:9px 10px;
+  text-align:center;font-size:.93rem;font-weight:600;color:#12294f;overflow-wrap:anywhere}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+.foot a{color:#a9c2e6}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:0 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">Электрика · защита двигателя</p>
+    <h1>🌡 Тепловое реле</h1>
+    <p class="sub">Устройство · уставка · классы 10/20/30 · ловушки · тест 10 вопросов</p>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+<h1 class="t">🌡 Тепловое реле: защита двигателя от перегрузки</h1>
+<p class="sub2">Конспект для электрика · коротко и по делу</p>
+
+<div class="box info">
+  <h3>Что учить в первую очередь</h3>
+  <ol>
+    <li><b>Назначение:</b> защита асинхронного двигателя от <b>длительной перегрузки</b>, а не от короткого замыкания.</li>
+    <li><b>Принцип:</b> биметаллическая пластина греется от тока двигателя, изгибается и размыкает НЗ-контакт.</li>
+    <li><b>Уставка:</b> равна <b>номинальному току двигателя</b> по паспорту.</li>
+  </ol>
+</div>
+
+<h2>Главное в трёх шагах</h2>
+<p><b>1. Зачем.</b> Двигатель при перегрузке (заклинило вал, засорился фильтр, просел вентилятор, обрыв фазы) не сразу сгорает — сначала медленно перегревается изоляция. Тепловое реле повторяет эту тепловую модель и отключает двигатель раньше, чем он выйдет из строя.</p>
+<p><b>2. Как.</b> Ток двигателя идёт через нагреватель реле → нагревается биметаллическая пластина → она изгибается и освобождает механизм → размыкается нормально замкнутый контакт → отпадает катушка магнитного пускателя → двигатель обесточен.</p>
+<p><b>3. Где.</b> В главной цепи, после пускателя; НЗ-контакт — последовательно с катушкой пускателя. Это единственная схема, о которой спрашивают на опросе.</p>
+
+<h2>Цепочка срабатывания</h2>
+<div class="chain"><span>ток перегрузки</span> → <span>нагрев нагревателя</span> → <span>изгиб биметалла</span> → <span>расцепление</span> → <span>НЗ разомкнулся</span> → <span>катушка пускателя упала</span> → <span>двигатель отключён</span></div>
+
+<h2>Что внутри</h2>
+<div class="tw">
+  <table>
+    <tr><th>Элемент</th><th>Роль</th></tr>
+    <tr><td>Нагреватель (спираль)</td><td>через него идёт ток двигателя, он и греет пластину</td></tr>
+    <tr><td>Биметаллическая пластина</td><td>два металла с разным ТКР → при нагреве изгибается</td></tr>
+    <tr><td>Механизм расцепления</td><td>переводит изгиб пластины в размыкание контакта</td></tr>
+    <tr><td>НЗ-контакт</td><td>в цепи катушки пускателя, размыкает её при срабатывании</td></tr>
+    <tr><td>НО-контакт</td><td>для сигнала «авария» или блокировки</td></tr>
+    <tr><td>Регулятор уставки</td><td>плавно или ступенчато задаёт ток срабатывания</td></tr>
+    <tr><td>Кнопка возврата (Reset)</td><td>ручной возврат после остывания, есть и авто-возврат</td></tr>
+  </table>
+</div>
+<p>Нагревание бывает <b>прямое</b> (ток двигателя сразу по пластине) и <b>косвенное</b> (через отдельный нагреватель, пластину греет он). Косвенное точнее и медленнее по инерции.</p>
+
+<h2>Уставка: главная цифра</h2>
+<p>Уставка — ток, при котором реле должно сработать. Ставится по <b>номинальному току двигателя</b> с паспортной таблички, а не по току автомата и не по пусковому току. Диапазон у реле всегда указан: например 6,3–10 А — внутри него и выставляем значение.</p>
+<div class="tw">
+  <table>
+    <tr><th>Мощность двигателя, кВт</th><th>Номинальный ток, ~А</th><th>Ток при 380 В</th></tr>
+    <tr><td>0,75</td><td>1,9</td><td>≈ 2 А</td></tr>
+    <tr><td>1,5</td><td>3,5</td><td>≈ 3,6 А</td></tr>
+    <tr><td>3,0</td><td>6,5</td><td>≈ 6,5 А</td></tr>
+    <tr><td>5,5</td><td>11</td><td>≈ 11 А</td></tr>
+    <tr><td>7,5</td><td>15</td><td>≈ 15 А</td></tr>
+    <tr><td>11</td><td>21</td><td>≈ 21 А</td></tr>
+  </table>
+</div>
+<p>Быстрая проверка на 380 В: согласованный ток ≈ <b>2 × P</b> (кВт → А). Пример: 5,5 кВт × 2 ≈ 11 А.</p>
+
+<h2>Классы расцепления</h2>
+<div class="tw">
+  <table>
+    <tr><th>Класс</th><th>Время при 7,2·Iном</th><th>Для чего</th></tr>
+    <tr><td>10</td><td>2–10 с</td><td>обычные двигатели: насос, станок</td></tr>
+    <tr><td>20</td><td>4–10 с</td><td>тяжёлый пуск: вентиляторы, компрессоры</td></tr>
+    <tr><td>30</td><td>6–20 с</td><td>очень тяжёлый, длинный пуск</td></tr>
+  </table>
+</div>
+<p>Чем тяжелее разгон, тем больше пусковой ток держится долго — и тем выше должен быть класс, иначе реле сработает при нормальном пуске.</p>
+
+<h2>Ручной и автоматический возврат</h2>
+<div class="cmp">
+  <div class="cbox">
+    <h4>🖐 Ручной</h4>
+    <ul>
+      <li>после срабатывания — ждать остывания 2–5 мин</li>
+      <li>нельзя перезапустить случайно</li>
+      <li>безопаснее: причина проверяется</li>
+    </ul>
+  </div>
+  <div class="cbox">
+    <h4>🔄 Автоматический</h4>
+    <ul>
+      <li>сам вернётся после остывания</li>
+      <li>двигатель может «щёлкать» и греться</li>
+      <li>для труднодоступных мест</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Чего реле не делает</h2>
+<ul>
+  <li><b>Не защищает от КЗ.</b> Ток КЗ в десятки раз выше номинала, реле просто не успеет. От КЗ — автомат или предохранители.</li>
+  <li><b>Не защищает кабель.</b> Кабель защищает автомат по его номинальному току.</li>
+  <li><b>Не ловит обрыв фазы на 100%.</b> Двигатель на двух фазах работает, но греется иначе — нужны реле контроля фаз.</li>
+  <li><b>Не защищает от перегрева при исправном токе</b> (плохой обдув, высокая температура среды) — там нужен термоконтакт или термистор.</li>
+</ul>
+<p>Правильная связка: <b>автомат (КЗ и кабель) + тепловое реле (перегрузка двигателя)</b>.</p>
+
+<h2>Было → стало</h2>
+<div class="tw">
+  <table>
+    <tr><th>Ошибочное «было»</th><th>Правильное «стало»</th></tr>
+    <tr><td>Тепловое реле защищает от КЗ</td><td>от перегрузки; от КЗ — автомат</td></tr>
+    <tr><td>Уставка по току автомата</td><td>уставка по номиналу двигателя</td></tr>
+    <tr><td>Контакт ТР ставят в главную цепь</td><td>главная цепь — через нагреватель, контакт — в цепь катушки</td></tr>
+    <tr><td>Сработало — сразу включить</td><td>дать остыть 2–5 мин, найти причину</td></tr>
+    <tr><td>Закоротить контакт, чтобы «не выбивало»</td><td>так двигатель и сгорит — грубая ошибка</td></tr>
+  </table>
+</div>
+
+<div class="box trap">
+  <h3>🪤 Ловушки</h3>
+  <ol>
+    <li>Уставка на глазок или по автомату — двигатель сгорит раньше срабатывания.</li>
+    <li>Путать тепловое реле с реле контроля напряжения и с автоматом с тепловым расцепителем.</li>
+    <li>Шунтировать НЗ-контакт «чтобы не отключалось» — прямая дорога к замене двигателя.</li>
+    <li>Не учитывать температуру в шкафу: в жарком щите срабатывает раньше, в холодном — позже.</li>
+    <li>Ждать от него защиты при обрыве фазы — частично да, полноценно нет.</li>
+    <li>Завысить класс (30) на обычном двигателе — реле не успеет защитить изоляцию.</li>
+  </ol>
+</div>
+
+<h2>Термины</h2>
+<div class="tw">
+  <table>
+    <tr><th>Термин</th><th>Коротко</th></tr>
+    <tr><td>Тепловое реле</td><td>аппарат защиты двигателя от перегрузки</td></tr>
+    <tr><td>Биметалл</td><td>две пластины с разным ТКР, изгибаются от нагрева</td></tr>
+    <tr><td>Уставка</td><td>заданный ток срабатывания</td></tr>
+    <tr><td>Класс расцепления</td><td>время срабатывания при перегрузке</td></tr>
+    <tr><td>НЗ-контакт</td><td>замкнут в норме, рвёт цепь катушки</td></tr>
+    <tr><td>НО-контакт</td><td>разомкнут в норме, для сигнализации</td></tr>
+    <tr><td>Магнитный пускатель</td><td>коммутирует двигатель, катушкой управляет защита</td></tr>
+    <tr><td>Перегрузка</td><td>ток выше номинала длительное время</td></tr>
+    <tr><td>Тепловой расцепитель</td><td>тот же принцип, но внутри автомата</td></tr>
+    <tr><td>Реле контроля фаз</td><td>ловит обрыв и перекос фаз</td></tr>
+  </table>
+</div>
+
+<h2>Шпаргалка</h2>
+<pre>ТР = защита двигателя от ПЕРЕГРУЗКИ (не от КЗ)
+Биметалл греется от тока → изгиб → НЗ разомкнулся → катушка упала
+Уставка = номинальный ток двигателя (паспорт)
+НЗ — в цепь катушки пускателя, НО — на сигнал
+Класс 10 — обычные, 20/30 — тяжёлый пуск
+Возврат: ручной (остыть 2–5 мин) или авто
+Связка: автомат (КЗ) + тепловое реле (перегрузка)
+Обрыв фазы — нужны реле контроля фаз</pre>
+
+<h2>Чек-лист самопроверки</h2>
+<ul class="chk">
+  <li>Называю назначение одним предложением</li>
+  <li>Описываю цепочку срабатывания по шагам</li>
+  <li>Знаю, куда ставится НЗ, а куда НО</li>
+  <li>Ставлю уставку по номиналу двигателя</li>
+  <li>Различаю классы 10, 20, 30</li>
+  <li>Объясняю, почему от КЗ нужен автомат</li>
+  <li>Знаю про остывание перед возвратом</li>
+</ul>
+
+<details><summary>Подсказка: как быстро выбрать уставку</summary>Смотри шильдик двигателя: там ток при 380 В. Если указана только мощность — ток ≈ 2 × P(кВт). Округляй к ближайшему значению внутри диапазона реле, не выше номинала двигателя.</details>
+
+<div class="box test">
+  <h3>Мини-тест: 10 вопросов</h3>
+  <div id="tq">
+    <div class="q" data-a="1">
+      <p class="qt">1. От чего защищает тепловое реле?</p>
+      <label><input type="radio" name="t1" value="0"> От короткого замыкания</label>
+      <label><input type="radio" name="t1" value="1"> От длительной перегрузки двигателя</label>
+      <label><input type="radio" name="t1" value="2"> От обрыва нуля</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">2. Что является чувствительным элементом?</p>
+      <label><input type="radio" name="t2" value="0"> Катушка пускателя</label>
+      <label><input type="radio" name="t2" value="1"> Предохранитель</label>
+      <label><input type="radio" name="t2" value="2"> Биметаллическая пластина</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">3. Какой контакт реле ставят в цепь катушки пускателя?</p>
+      <label><input type="radio" name="t3" value="0"> Нормально замкнутый</label>
+      <label><input type="radio" name="t3" value="1"> Нормально разомкнутый</label>
+      <label><input type="radio" name="t3" value="2"> Перекидной</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">4. Чему равна уставка?</p>
+      <label><input type="radio" name="t4" value="0"> Току автомата</label>
+      <label><input type="radio" name="t4" value="1"> Пусковому току</label>
+      <label><input type="radio" name="t4" value="2"> Номинальному току двигателя</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">5. Чем защищают двигатель от КЗ?</p>
+      <label><input type="radio" name="t5" value="0"> Тепловым реле</label>
+      <label><input type="radio" name="t5" value="1"> Автоматическим выключателем</label>
+      <label><input type="radio" name="t5" value="2"> Кнопкой «Стоп»</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">6. Что будет при завышенной уставке?</p>
+      <label><input type="radio" name="t6" value="0"> Ложные срабатывания</label>
+      <label><input type="radio" name="t6" value="1"> Ничего не изменится</label>
+      <label><input type="radio" name="t6" value="2"> Двигатель перегреется и сгорит</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">7. Сколько ждать перед ручным возвратом?</p>
+      <label><input type="radio" name="t7" value="0"> Включать сразу</label>
+      <label><input type="radio" name="t7" value="1"> 2–5 минут до остывания</label>
+      <label><input type="radio" name="t7" value="2"> 1 час</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">8. Для чего нужен НО-контакт реле?</p>
+      <label><input type="radio" name="t8" value="0"> Для сигнала «авария» или блокировки</label>
+      <label><input type="radio" name="t8" value="1"> Для пуска двигателя</label>
+      <label><input type="radio" name="t8" value="2"> Для заземления</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">9. Какой класс расцепления у обычного двигателя?</p>
+      <label><input type="radio" name="t9" value="0"> 30</label>
+      <label><input type="radio" name="t9" value="1"> 20</label>
+      <label><input type="radio" name="t9" value="2"> 10</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">10. Обрыв одной фазы: что лучше поставить?</p>
+      <label><input type="radio" name="t10" value="0"> Ещё одно тепловое реле</label>
+      <label><input type="radio" name="t10" value="1"> Реле контроля фаз</label>
+      <label><input type="radio" name="t10" value="2"> Ничего, двигатель сам отключится</label>
+    </div>
+  </div>
+  <button onclick="check('tq')">Проверить</button>
+  <button class="ghost" onclick="reset('tq')">Сбросить</button>
+  <div class="res" id="tq-res">Отвечай и нажми «Проверить».</div>
+</div>
+
+<div class="final">
+  <h3>Вся тема за 10 секунд</h3>
+  <p>Тепловое реле — «тепловая память» двигателя: ток перегрузки греет биметаллическую пластину, она изгибается и размыкает НЗ-контакт катушки пускателя. От перегрузки — да, от КЗ — нет (там автомат). Уставка = номинальный ток двигателя, класс 10 для обычных, 20/30 для тяжёлого пуска, после срабатывания дать остыть 2–5 минут.</p>
+</div>
+
+</div>
+</main>
+
+<p class="foot">Конспект · тепловое реле · <a href="index.html?v=8">← в сборник</a></p>
+
+<script>
+function check(id){
+  var box=document.getElementById(id), qs=box.querySelectorAll('.q'), ok=0, bad=[];
+  qs.forEach(function(q,i){
+    var right=q.dataset.a, chosen=null;
+    q.querySelectorAll('input[type=radio]').forEach(function(inp){
+      inp.parentElement.classList.remove('ok','bad');
+      if(inp.checked){chosen=inp.value;}
+    });
+    q.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+    if(chosen===null){bad.push(i+1);return;}
+    if(chosen===right){
+      ok++;
+      q.querySelector('input[value="'+right+'"]').parentElement.classList.add('ok');
+    }else{
+      bad.push(i+1);
+      q.querySelector('input[value="'+chosen+'"]').parentElement.classList.add('bad');
+      q.querySelector('input[value="'+right+'"]').parentElement.classList.add('ok');
+    }
+  });
+  var res=document.getElementById(id+'-res');
+  if(bad.length===0){
+    res.textContent='✅ Верно всё: '+ok+' из '+qs.length+'. Тепловое реле знаешь.';
+  }else{
+    res.textContent='Результат: '+ok+' из '+qs.length+'. Разбери вопросы: '+bad.join(', ')+'.';
+  }
+}
+function reset(id){
+  var box=document.getElementById(id);
+  box.querySelectorAll('input[type=radio]').forEach(function(inp){inp.checked=false;});
+  box.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+  document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
