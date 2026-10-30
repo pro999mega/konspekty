@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Обратная матрица и матричное уравнение — версия 2</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:20;padding:12px 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.38rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+/* правильные индексы и степени — вместо символов, которые не рисуются на телефоне */
+sup,sub{font-size:.7em;line-height:0;position:relative;vertical-align:baseline;font-style:normal}
+sup{top:-.48em}
+sub{bottom:-.22em}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"\2610 ";color:#2f66c9;font-weight:700}
+/* матрицы */
+.mx{display:inline-flex;position:relative;padding:6px 13px;margin:4px 2px;font-family:ui-monospace,Consolas,monospace;
+  font-size:.93rem;color:#12294f;vertical-align:middle}
+.mx::before,.mx::after{content:"";position:absolute;top:0;bottom:0;width:7px;border:2px solid #12294f;border-radius:5px}
+.mx::before{left:0;border-right:0}
+.mx::after{right:0;border-left:0}
+.mg{display:grid;grid-template-columns:repeat(var(--c),minmax(2.3em,auto));gap:3px 10px;text-align:right}
+.mrow{margin:10px 0;overflow-x:auto}
+.mlab{font-size:.88rem;color:#6b7c96;margin:8px 0 2px}
+.step{display:inline-block;background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:1px 9px;
+  font-size:.78rem;color:#12294f;font-weight:700;margin-right:6px;vertical-align:1px}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:10px 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.18rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+  .mx{font-size:.86rem;padding:5px 11px}
+  .mg{grid-template-columns:repeat(var(--c),minmax(1.9em,auto));gap:2px 8px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">Линейная алгебра · версия 2</p>
+    <h1>🧮 Обратная матрица и AX = B</h1>
+    <p class="sub">Задание 4 (пункты 2 и 3) и задание 5 · метод присоединённой матрицы</p>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+<h1 class="t">Обратная матрица 3-го порядка и матричное уравнение</h1>
+<p class="sub2">Решено по образцу из тетради: det → алгебраические дополнения → транспонирование → деление на det → проверка</p>
+
+<div class="box info">
+  <h3>Что здесь решено</h3>
+  <ol>
+    <li><b>Задание 4, п.2</b> — обратная для B (3×3), det B = 4.</li>
+    <li><b>Задание 4, п.3</b> — обратная для C (3×3), det C = 18.</li>
+    <li><b>Задание 5</b> — решение уравнения A·X = B, то есть X = A<sup>−1</sup>·B.</li>
+  </ol>
+  <p>Пункт 1 (матрица A, det = 1) в тетради уже решён верно — внизу блок «Для сверки».</p>
+</div>
+
+<h2>Метод присоединённой матрицы за 4 шага</h2>
+<div class="chain"><span>1. det A</span> → <span>2. дополнения</span> → <span>3. транспонировать</span> → <span>4. разделить на det</span></div>
+<p><span class="step">1</span>Считаем определитель. Если он равен нулю — обратной матрицы не существует, дальше идти некуда.</p>
+<p><span class="step">2</span>Для каждого элемента вычёркиваем его строку и столбец, берём определитель 2-го порядка и ставим знак: плюс, если сумма номеров строки и столбца чётная, минус, если нечётная.</p>
+<p><span class="step">3</span>Матрицу из дополнений обязательно транспонируем — иначе получится не тот результат.</p>
+<p><span class="step">4</span>Делим транспонированную матрицу на определитель: A<sup>−1</sup> = (1 / det A) · A<sup>T</sup>, где A<sup>T</sup> — транспонированная таблица дополнений.</p>
+
+<h2>Задание 4, пункт 2 — матрица B</h2>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>2</span><span>1</span><span>1</span>
+<span>1</span><span>2</span><span>1</span>
+<span>1</span><span>1</span><span>2</span>
+</div></div></div>
+
+<p><b>Шаг 1. Определитель</b> (разложение по 1-й строке):</p>
+<pre>det B = 2·(2·2 − 1·1) − 1·(1·2 − 1·1) + 1·(1·1 − 2·1)
+      = 2·3 − 1·1 + 1·(−1)
+      = 6 − 1 − 1 = 4</pre>
+<p>det B = 4 ≠ 0, значит обратная существует.</p>
+
+<p><b>Шаг 2. Алгебраические дополнения</b> (вычёркиваем строку и столбец, ставим знак):</p>
+<div class="tw">
+<table>
+  <tr><th>Дополнение</th><th>Минор</th><th>Значение</th></tr>
+  <tr><td>B<sub>11</sub> = +</td><td>(2·2 − 1·1) = 3</td><td><b>3</b></td></tr>
+  <tr><td>B<sub>12</sub> = −</td><td>(1·2 − 1·1) = 1</td><td><b>−1</b></td></tr>
+  <tr><td>B<sub>13</sub> = +</td><td>(1·1 − 2·1) = −1</td><td><b>−1</b></td></tr>
+  <tr><td>B<sub>21</sub> = −</td><td>(1·2 − 1·1) = 1</td><td><b>−1</b></td></tr>
+  <tr><td>B<sub>22</sub> = +</td><td>(2·2 − 1·1) = 3</td><td><b>3</b></td></tr>
+  <tr><td>B<sub>23</sub> = −</td><td>(2·1 − 1·1) = 1</td><td><b>−1</b></td></tr>
+  <tr><td>B<sub>31</sub> = +</td><td>(1·1 − 2·1) = −1</td><td><b>−1</b></td></tr>
+  <tr><td>B<sub>32</sub> = −</td><td>(2·1 − 1·1) = 1</td><td><b>−1</b></td></tr>
+  <tr><td>B<sub>33</sub> = +</td><td>(2·2 − 1·1) = 3</td><td><b>3</b></td></tr>
+</table>
+</div>
+
+<p><b>Шаг 3. Матрица из дополнений и её транспонирование</b> (здесь она симметричная, поэтому не изменилась):</p>
+<p class="mlab">Матрица дополнений, элементы B<sub>ij</sub> (i — строка, j — столбец)</p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>3</span><span>−1</span><span>−1</span>
+<span>−1</span><span>3</span><span>−1</span>
+<span>−1</span><span>−1</span><span>3</span>
+</div></div></div>
+<p class="mlab">После транспонирования B<sup>T</sup></p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>3</span><span>−1</span><span>−1</span>
+<span>−1</span><span>3</span><span>−1</span>
+<span>−1</span><span>−1</span><span>3</span>
+</div></div></div>
+
+<p><b>Шаг 4. Делим на определитель:</b></p>
+<pre>B<sup>−1</sup> = (1/4) · B<sup>T</sup>
+        = (1/4) · [ 3  −1  −1 ;  −1  3  −1 ;  −1  −1  3 ]</pre>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>3/4</span><span>−1/4</span><span>−1/4</span>
+<span>−1/4</span><span>3/4</span><span>−1/4</span>
+<span>−1/4</span><span>−1/4</span><span>3/4</span>
+</div></div></div>
+<p>В десятичных дробях: 3/4 = 0,75; −1/4 = −0,25. То есть по диагонали 0,75, вне её −0,25.</p>
+
+<p><b>Проверка</b> (строка B<sup>−1</sup> на столбец B, делим на 4):</p>
+<pre>элемент (1;1): (2·3 + 1·(−1) + 1·(−1)) / 4 = (6 − 1 − 1)/4 = 1  ✓
+элемент (1;2): (2·(−1) + 1·3 + 1·(−1))/4 = (−2 + 3 − 1)/4 = 0  ✓
+элемент (1;3): (2·(−1) + 1·(−1) + 1·3)/4 = (−2 − 1 + 3)/4 = 0  ✓</pre>
+<p>Получается единичная матрица, значит обратная найдена верно.</p>
+
+<h2>Задание 4, пункт 3 — матрица C</h2>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>1</span><span>0</span><span>2</span>
+<span>0</span><span>3</span><span>0</span>
+<span>−1</span><span>0</span><span>4</span>
+</div></div></div>
+
+<p><b>Шаг 1. Определитель:</b></p>
+<pre>det C = 1·(3·4 − 0·0) − 0·(0·4 − 0·(−1)) + 2·(0·0 − 3·(−1))
+      = 12 − 0 + 2·3
+      = 12 + 6 = 18</pre>
+<p>det C = 18 ≠ 0, значит обратная существует.</p>
+
+<p><b>Шаг 2. Алгебраические дополнения:</b></p>
+<div class="tw">
+<table>
+  <tr><th>Дополнение</th><th>Минор</th><th>Значение</th></tr>
+  <tr><td>C<sub>11</sub> = +</td><td>(3·4 − 0·0) = 12</td><td><b>12</b></td></tr>
+  <tr><td>C<sub>12</sub> = −</td><td>(0·4 − 0·(−1)) = 0</td><td><b>0</b></td></tr>
+  <tr><td>C<sub>13</sub> = +</td><td>(0·0 − 3·(−1)) = 3</td><td><b>3</b></td></tr>
+  <tr><td>C<sub>21</sub> = −</td><td>(0·4 − 2·0) = 0</td><td><b>0</b></td></tr>
+  <tr><td>C<sub>22</sub> = +</td><td>(1·4 − 2·(−1)) = 6</td><td><b>6</b></td></tr>
+  <tr><td>C<sub>23</sub> = −</td><td>(1·0 − 0·(−1)) = 0</td><td><b>0</b></td></tr>
+  <tr><td>C<sub>31</sub> = +</td><td>(0·0 − 2·3) = −6</td><td><b>−6</b></td></tr>
+  <tr><td>C<sub>32</sub> = −</td><td>(1·0 − 2·0) = 0</td><td><b>0</b></td></tr>
+  <tr><td>C<sub>33</sub> = +</td><td>(1·3 − 0·0) = 3</td><td><b>3</b></td></tr>
+</table>
+</div>
+
+<p><b>Шаг 3. Матрица дополнений и транспонирование</b> (вот здесь оно реально меняет вид):</p>
+<p class="mlab">Матрица дополнений, элементы C<sub>ij</sub></p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>12</span><span>0</span><span>3</span>
+<span>0</span><span>6</span><span>0</span>
+<span>−6</span><span>0</span><span>3</span>
+</div></div></div>
+<p class="mlab">После транспонирования C<sup>T</sup> (строки и столбцы поменялись местами)</p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>12</span><span>0</span><span>−6</span>
+<span>0</span><span>6</span><span>0</span>
+<span>3</span><span>0</span><span>3</span>
+</div></div></div>
+
+<p><b>Шаг 4. Делим на определитель:</b></p>
+<pre>C<sup>−1</sup> = (1/18) · C<sup>T</sup>
+        = (1/18) · [ 12  0  −6 ;  0  6  0 ;  3  0  3 ]</pre>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>2/3</span><span>0</span><span>−1/3</span>
+<span>0</span><span>1/3</span><span>0</span>
+<span>1/6</span><span>0</span><span>1/6</span>
+</div></div></div>
+
+<p><b>Проверка</b> (C<sup>−1</sup> · C, считаем три характерных элемента):</p>
+<pre>(1;1): (2/3)·1 + 0·0 + (−1/3)·(−1) = 2/3 + 1/3 = 1   ✓
+(1;3): (2/3)·2 + 0·0 + (−1/3)·4     = 4/3 − 4/3 = 0   ✓
+(3;3): (1/6)·2 + 0·0 + (1/6)·4      = 2/6 + 4/6 = 1   ✓</pre>
+
+<h2>Задание 5 — матричное уравнение A·X = B</h2>
+<p>Дано:</p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:2">
+<span>2</span><span>1</span>
+<span>1</span><span>1</span>
+</div></div>
+<div class="mx"><div class="mg" style="--c:1">
+<span>5</span>
+<span>3</span>
+</div></div></div>
+
+<p><b>Идея:</b> умножаем обе части слева на A<sup>−1</sup> и получаем X = A<sup>−1</sup>·B. Порядок важен: именно A<sup>−1</sup> слева, потому что A<sup>−1</sup>·A = E.</p>
+
+<p><b>Шаг 1. Определитель:</b></p>
+<pre>det A = 2·1 − 1·1 = 2 − 1 = 1   (≠ 0, обратная есть)</pre>
+
+<p><b>Шаг 2. Дополнения и транспонирование:</b></p>
+<pre>A<sub>11</sub> = +1      A<sub>12</sub> = −1
+A<sub>21</sub> = −1      A<sub>22</sub> = +2
+
+A<sup>T</sup> = [ 1  −1 ;  −1  2 ]</pre>
+
+<p><b>Шаг 3. Обратная матрица</b> (делим на det = 1, поэтому она совпадает с A<sup>T</sup>):</p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:2">
+<span>1</span><span>−1</span>
+<span>−1</span><span>2</span>
+</div></div></div>
+
+<p><b>Шаг 4. Умножаем на B:</b></p>
+<pre>x<sub>1</sub> = 1·5 + (−1)·3 = 5 − 3 = 2
+x<sub>2</sub> = (−1)·5 + 2·3  = −5 + 6 = 1</pre>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:1">
+<span>2</span>
+<span>1</span>
+</div></div></div>
+
+<p><b>Ответ:</b> x<sub>1</sub> = 2, x<sub>2</sub> = 1.</p>
+
+<p><b>Проверка подстановкой в A·X = B:</b></p>
+<pre>2·2 + 1·1 = 5   ✓
+1·2 + 1·1 = 3   ✓</pre>
+
+<div class="box trap">
+  <h3>🪤 Где обычно теряют баллы</h3>
+  <ol>
+    <li><b>Знак дополнения.</b> Он равен (−1)<sup>i+j</sup>: у элементов (1;2), (2;1), (2;3), (3;2) знак минус, у (1;1), (1;3), (3;1), (3;3) и середины (2;2) — плюс.</li>
+    <li><b>Забыли транспонировать.</b> Матрица дополнений — это ещё не присоединённая. В C это видно сразу: без транспонирования элемент (3;1) остался бы −6 вместо 3.</li>
+    <li><b>Делить надо все элементы</b>, а не только диагональ.</li>
+    <li><b>det = 0</b> — писать «обратной не существует», а не «ноль».</li>
+    <li><b>В уравнении A·X = B</b> умножают слева: X = A<sup>−1</sup>·B. Запись B·A<sup>−1</sup> — ошибка.</li>
+    <li>Не забывай финальную проверку A<sup>−1</sup>·A = E: одно умножение, а спасает от всех арифметических промахов.</li>
+  </ol>
+</div>
+
+<h2>Шпаргалка</h2>
+<pre>A<sup>−1</sup> = (1 / det A) · A<sup>T</sup>
+A<sup>T</sup> — транспонированная матрица алгебраических дополнений
+
+A<sub>ij</sub> = (−1)<sup>i+j</sup> · M<sub>ij</sub>
+M<sub>ij</sub> — минор: вычеркнуть строку i и столбец j
+
+Задание 4.2:  det B = 4
+B<sup>−1</sup> = 1/4 · [ 3 −1 −1 ; −1 3 −1 ; −1 −1 3 ]
+
+Задание 4.3:  det C = 18
+C<sup>−1</sup> = 1/18 · [ 12 0 −6 ; 0 6 0 ; 3 0 3 ]
+
+Задание 5:  det A = 1, A<sup>−1</sup> = [ 1 −1 ; −1 2 ]
+X = A<sup>−1</sup>·B = (2 ; 1),  x<sub>1</sub> = 2, x<sub>2</sub> = 1</pre>
+
+<h2>Чек-лист самопроверки</h2>
+<ul class="chk">
+  <li>Считаю определитель 3×3 разложением по строке</li>
+  <li>Правильно ставлю знак алгебраического дополнения</li>
+  <li>Не забываю транспонировать матрицу дополнений</li>
+  <li>Делю на det все элементы, а не только диагональ</li>
+  <li>Делаю проверку A<sup>−1</sup>·A = E</li>
+  <li>В матричном уравнении умножаю на A<sup>−1</sup> слева</li>
+</ul>
+
+<details><summary>Для сверки: пункт 1 (матрица A, det = 1)</summary>
+<p>По тетради: det A = 1, дополнения −24, 20, −5, 18, −15, 4, 5, −4, 1. После транспонирования обратная совпадает с присоединённой:</p>
+<div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>−24</span><span>18</span><span>5</span>
+<span>20</span><span>−15</span><span>−4</span>
+<span>−5</span><span>4</span><span>1</span>
+</div></div></div>
+<p>Проверка (1;1): (−24)·1 + 18·0 + 5·5 = −24 + 25 = 1 ✓ — решение в тетради верное.</p>
+</details>
+
+<div class="box test">
+  <h3>Мини-тест: 6 вопросов</h3>
+  <div id="aq">
+    <div class="q" data-a="1">
+      <p class="qt">1. Чему равен det B?</p>
+      <label><input type="radio" name="a1" value="0"> 2</label>
+      <label><input type="radio" name="a1" value="1"> 4</label>
+      <label><input type="radio" name="a1" value="2"> 8</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">2. Чему равно дополнение B<sub>11</sub>?</p>
+      <label><input type="radio" name="a2" value="0"> −1</label>
+      <label><input type="radio" name="a2" value="1"> 1</label>
+      <label><input type="radio" name="a2" value="2"> 3</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">3. Какой знак у дополнения B<sub>12</sub>?</p>
+      <label><input type="radio" name="a3" value="0"> Минус</label>
+      <label><input type="radio" name="a3" value="1"> Плюс</label>
+      <label><input type="radio" name="a3" value="2"> Знак не важен</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">4. Чему равен det C?</p>
+      <label><input type="radio" name="a4" value="0"> 6</label>
+      <label><input type="radio" name="a4" value="1"> 12</label>
+      <label><input type="radio" name="a4" value="2"> 18</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">5. Какой элемент (1;3) у матрицы C<sup>−1</sup>?</p>
+      <label><input type="radio" name="a5" value="0"> 1/3</label>
+      <label><input type="radio" name="a5" value="1"> −1/3</label>
+      <label><input type="radio" name="a5" value="2"> 2/3</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">6. Чему равно x<sub>2</sub> в задании 5?</p>
+      <label><input type="radio" name="a6" value="0"> 0</label>
+      <label><input type="radio" name="a6" value="2"> 1</label>
+      <label><input type="radio" name="a6" value="1"> 2</label>
+    </div>
+  </div>
+  <button onclick="check('aq')">Проверить</button>
+  <button class="ghost" onclick="reset('aq')">Сбросить</button>
+  <div class="res" id="aq-res">Отвечай и нажми «Проверить».</div>
+</div>
+
+<div class="final">
+  <h3>Всё в одну строку</h3>
+  <p>Обратная матрица: A<sup>−1</sup> = (1 / det A)·A<sup>T</sup>, где A<sup>T</sup> — транспонированная таблица алгебраических дополнений со знаками (−1)<sup>i+j</sup>. Для B: det 4, B<sup>−1</sup> = ¼·[3 −1 −1; −1 3 −1; −1 −1 3]. Для C: det 18, C<sup>−1</sup> = 1/18·[12 0 −6; 0 6 0; 3 0 3]. Уравнение A·X = B решается как X = A<sup>−1</sup>·B: det A = 1, X = (2; 1).</p>
+</div>
+
+</div>
+</main>
+
+<p class="foot">Конспекты Honer AI · версия 2 · открывать в браузере телефона · можно сохранить в PDF через «Печать»</p>
+
+<script>
+function check(id){
+  var box=document.getElementById(id);
+  var qs=box.querySelectorAll('.q');
+  var total=qs.length, ok=0, answered=0;
+  qs.forEach(function(q){
+    var ans=q.getAttribute('data-a');
+    var labels=q.querySelectorAll('label');
+    var picked=null;
+    labels.forEach(function(l){
+      l.classList.remove('ok','bad');
+      var inp=l.querySelector('input');
+      if(inp.checked){picked=inp;}
+    });
+    if(picked){answered++;}
+    labels.forEach(function(l){
+      var inp=l.querySelector('input');
+      if(inp.value===ans){l.classList.add('ok');}
+      else if(picked && inp===picked){l.classList.add('bad');}
+    });
+    if(picked && picked.value===ans){ok++;}
+  });
+  var res=document.getElementById(id+'-res');
+  if(answered===0){res.textContent='Выбери хотя бы один ответ.';return;}
+  res.textContent='Правильно '+ok+' из '+total+'. '+(ok===total?'Отлично, метод освоен — можно писать на лист.':'Зелёным выделены верные варианты, красным — твой неверный.');
+}
+function reset(id){
+  var box=document.getElementById(id);
+  box.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+  box.querySelectorAll('input').forEach(function(i){i.checked=false;});
+  document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
