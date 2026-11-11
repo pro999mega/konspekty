@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Программируемые реле — конспект</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:14px 0 34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{padding:0 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:26px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+h3.sm{font-size:.98rem;color:#12294f;margin:16px 0 7px}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+.fml{margin-top:6px;background:#eaf2fd;border:1px dashed #a9c7ea;border-radius:14px;padding:9px 10px;
+  text-align:center;font-size:.93rem;font-weight:600;color:#12294f;overflow-wrap:anywhere}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.82rem;white-space:pre;overflow-wrap:normal;margin:12px 0;color:#1c2638;line-height:1.5}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+/* тетрадный блок */
+.nb{position:relative;margin:14px 0 18px;border-radius:16px;border:1px solid #e6dcc4;border-left:5px solid #c8b183;
+  background-color:#fffdf6;
+  background-image:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 26px,#e6e0cd 26px,#e6e0cd 27px);
+  padding:12px 14px 14px;font-size:.93rem}
+.nb .lbl{display:inline-block;margin:0 0 8px;padding:3px 10px;border-radius:999px;
+  background:#f6edd6;border:1px solid #e2d4b0;color:#7a5c1e;font-size:.76rem;font-weight:700;letter-spacing:.4px;
+  text-transform:uppercase}
+.nb ul{margin:2px 0 0 18px}
+.nb li{margin:4px 0;line-height:26px}
+.nb b{color:#12294f}
+.tema{border-top:1px dashed #dbe5f2;margin-top:26px;padding-top:6px}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+.foot a{color:#a9c2e6}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:0 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.72rem;padding:10px 11px}
+  .nb{font-size:.89rem}
+  .nb li{line-height:25px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">Электрика · автоматика</p>
+    <h1>⚙️ Программируемые реле</h1>
+    <p class="sub">Общие сведения · разновидности · программирование · устройство и подключение</p>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+<h1 class="t">⚙️ Программируемые реле: всё по четырём темам</h1>
+<p class="sub2">В начале каждой темы — короткий конспект в тетрадь, дальше — разбор и примеры</p>
+
+<div class="box info">
+  <h3>Как читать этот конспект</h3>
+  <ol>
+    <li><b>Тетрадный блок</b> (жёлтый, в линейку) — его можно переписать в тетрадь почти дословно, это минимум на опрос.</li>
+    <li><b>Подробности</b> ниже блока — таблицы, схемы подключения, примеры. Их читаешь, зубрить не обязательно.</li>
+    <li>В конце — <b>общие ловушки, термины и мини-тест</b> на 12 вопросов по всем темам.</li>
+  </ol>
+</div>
+
+<div class="tema">
+<h2>Тема 1. Общие сведения о программируемых реле</h2>
+
+<div class="nb">
+  <span class="lbl">📓 В тетрадь · тема 1</span>
+  <ul>
+    <li><b>Программируемое реле (ПР)</b> — цифровое устройство автоматики: принимает сигналы от датчиков и кнопок на <b>входы</b>, обрабатывает их по <b>программе</b> и включает нагрузку через <b>выходы</b>.</li>
+    <li>Пришло на замену <b>релейно-контакторным схемам</b>: вместо десятков реле, таймеров и проводов — одна программа.</li>
+    <li>Логика не «зашита» проводами: её задают в среде программирования и могут менять без переделки щита.</li>
+    <li>Внутри есть: питание, входы, процессор с памятью, выходы, дисплей и клавиши, порт для программирования.</li>
+    <li>Типовые задачи: насосы, вентиляция, освещение, жалюзи и ворота, тёплые полы, компрессоры, конвейеры, теплицы.</li>
+    <li>Питание — <b>230 В AC</b> или <b>24 В DC</b>; входы — дискретные 24 В и аналоговые (0–10 В, 4–20 мА, NTC); выходы — <b>релейные</b> или <b>транзисторные</b>.</li>
+    <li>Отличие от ПЛК: ПР — моноблок на 8–24 точки, дешевле и проще; ПЛК — модульный, на сотни точек, для сложных объектов.</li>
+  </ul>
+</div>
+
+<h3 class="sm">Определение и смысл</h3>
+<p><b>Программируемое реле</b> (его ещё называют интеллектуальным реле, mini-PLC, логическим модулем) — это компактный контроллер для несложной автоматики. Пользователь не паяет схему из промежуточных реле и реле времени, а собирает её на экране: блоки И, ИЛИ, НЕ, таймеры, счётчики, и загружает в устройство.</p>
+<p>Смысл в трёх вещах: <b>компактность</b> (одно устройство вместо десятка аппаратов), <b>гибкость</b> (изменил программу — изменил алгоритм), <b>наглядность</b> (на дисплее видно состояние входов и выходов, ошибку найти проще).</p>
+
+<h3 class="sm">Чем ПР отличается от «жёсткой» схемы и от ПЛК</h3>
+<div class="cmp">
+  <div class="cbox">
+    <h4>🔌 Релейно-контакторная схема</h4>
+    <ul>
+      <li>логика задана проводами</li>
+      <li>любое изменение — перемонтаж</li>
+      <li>много места в шкафу</li>
+      <li>диагностики почти нет</li>
+    </ul>
+  </div>
+  <div class="cbox">
+    <h4>⚙️ Программируемое реле</h4>
+    <ul>
+      <li>логика задана программой</li>
+      <li>изменение — правка и загрузка</li>
+      <li>один корпус на DIN-рейке</li>
+      <li>мониторинг входов/выходов</li>
+    </ul>
+  </div>
+</div>
+
+<div class="tw">
+  <table>
+    <tr><th>Признак</th><th>Программируемое реле</th><th>ПЛК</th></tr>
+    <tr><td>Точки ввода-вывода</td><td>обычно 8–24</td><td>десятки–сотни, модульно</td></tr>
+    <tr><td>Конструктив</td><td>моноблок на DIN-рейку</td><td>модульный, на шасси</td></tr>
+    <tr><td>Программирование</td><td>FBD, LD, простые среды</td><td>все языки МЭК 61131-3</td></tr>
+    <tr><td>Цена</td><td>невысокая</td><td>кратно дороже</td></tr>
+    <tr><td>Где применяют</td><td>местная автоматика, щиты, ЖКХ</td><td>линии, технологические процессы</td></tr>
+  </table>
+</div>
+
+<h3 class="sm">Основные характеристики, которые спрашивают</h3>
+<div class="tw">
+  <table>
+    <tr><th>Параметр</th><th>Что означает</th><th>Типично</th></tr>
+    <tr><td>Напряжение питания</td><td>чем питается сам модуль</td><td>230 В AC или 24 В DC</td></tr>
+    <tr><td>Число входов</td><td>сколько сигналов можно завести</td><td>6, 8, 12, 16</td></tr>
+    <tr><td>Число выходов</td><td>сколько нагрузок включить</td><td>4, 8, 10, 16</td></tr>
+    <tr><td>Тип выходов</td><td>реле / транзистор</td><td>реле 8–10 А, транзистор 0,5–2 А</td></tr>
+    <tr><td>Аналоговые входы</td><td>датчики давления, уровня, температуры</td><td>0–10 В, 4–20 мА, NTC</td></tr>
+    <tr><td>Память программы</td><td>сколько блоков поместится</td><td>от десятков до сотен блоков</td></tr>
+    <tr><td>Интерфейсы</td><td>связь с ПК и сетью</td><td>USB, RS-485 (Modbus), Ethernet</td></tr>
+  </table>
+</div>
+
+<h3 class="sm">Примеры моделей</h3>
+<div class="tw">
+  <table>
+    <tr><th>Модель</th><th>Производитель</th><th>Чем известна</th></tr>
+    <tr><td>LOGO!</td><td>Siemens</td><td>классика с 1996 г., дисплей, расширение модулями</td></tr>
+    <tr><td>Zelio Logic</td><td>Schneider Electric</td><td>компактные серии SR2/SR3, среда Zelio Soft</td></tr>
+    <tr><td>ПР200 / ПР205</td><td>ОВЕН (Россия)</td><td>дисплей, аналоговые входы, RS-485, среда Owen Logic</td></tr>
+    <tr><td>easyE4</td><td>Eaton</td><td>расширяемые модули, Ethernet</td></tr>
+    <tr><td>Millenium</td><td>Crouzet</td><td>минимальные размеры, простые задачи</td></tr>
+  </table>
+</div>
+
+<h3 class="sm">Как это развивалось</h3>
+<ul class="tl">
+  <li><b>до 1960-х:</b> релейно-контакторные схемы, реле времени с пневмо- и моторным приводом.</li>
+  <li><b>1968–1970-е:</b> первые ПЛК для промышленности (замена сотен реле программой).</li>
+  <li><b>1996:</b> Siemens выпускает LOGO! — программируемое реле для «небольшой» автоматики.</li>
+  <li><b>2000-е:</b> дисплеи, аналоговые входы, счётчики и ПИД в моноблоке.</li>
+  <li><b>сейчас:</b> USB/Ethernet, Modbus, облачный мониторинг, программирование с ноутбука за минуты.</li>
+</ul>
+</div>
+
+<div class="tema">
+<h2>Тема 2. Разновидности программируемых реле</h2>
+
+<div class="nb">
+  <span class="lbl">📓 В тетрадь · тема 2</span>
+  <ul>
+    <li>Классифицируют по: <b>конструктиву</b>, <b>питанию</b>, <b>типу выходов</b>, <b>числу точек</b>, <b>наличию дисплея</b>, <b>интерфейсам</b>.</li>
+    <li>По конструкции: <b>моноблочные</b> (всё в одном корпусе) и <b>модульные</b> (с расширением по шине).</li>
+    <li>По питанию: <b>230 В AC</b> (типовое для щитов) и <b>24 В DC</b> (безопасное, для датчиков и связи).</li>
+    <li>По выходам: <b>релейные</b> (переменный и постоянный ток, до 8–10 А), <b>транзисторные</b> (только DC, быстрые, для импульсов), <b>симисторные</b>.</li>
+    <li>По точкам: малые 6/4, средние 8/4 и 12/8, крупные 16/10 и больше — с модулями расширения.</li>
+    <li>По оснащению: с <b>дисплеем и клавишами</b> (настройка на месте) и «слепые» (только с ПК).</li>
+    <li>По связи: USB, RS-485 (Modbus RTU), Ethernet; есть модели с часами реального времени и аналоговыми входами.</li>
+  </ul>
+</div>
+
+<h3 class="sm">Четыре главных признака</h3>
+<div class="tw">
+  <table>
+    <tr><th>Признак</th><th>Варианты</th><th>Как выбрать</th></tr>
+    <tr><td>Конструктив</td><td>моноблок / модульное</td><td>точек мало — моноблок, будет рост — модульное</td></tr>
+    <tr><td>Питание</td><td>230 В AC / 24 В DC</td><td>есть свободная линия 230 В или блок питания 24 В</td></tr>
+    <tr><td>Выходы</td><td>реле / транзистор / симистор</td><td>лампа и пускатель — реле; импульсы, ШИМ — транзистор</td></tr>
+    <tr><td>Дисплей</td><td>с дисплеем / без</td><td>настройка у щита — с дисплеем</td></tr>
+    <tr><td>Связь</td><td>USB / RS-485 / Ethernet</td><td>связь с диспетчеризацией — RS-485/Ethernet</td></tr>
+  </table>
+</div>
+
+<div class="cmp">
+  <div class="cbox">
+    <h4>🧱 Моноблочное</h4>
+    <ul>
+      <li>входы-выходы и процессор в одном корпусе</li>
+      <li>дешевле, занимает меньше места</li>
+      <li>расширять почти нечем</li>
+    </ul>
+  </div>
+  <div class="cbox">
+    <h4>🧩 Модульное</h4>
+    <ul>
+      <li>базовый блок + модули расширения</li>
+      <li>наращивается по мере роста</li>
+      <li>дороже, нужно место в щите</li>
+    </ul>
+  </div>
+</div>
+
+<h3 class="sm">Типы выходов — важнее всего при выборе</h3>
+<div class="tw">
+  <table>
+    <tr><th>Выход</th><th>Что коммутирует</th><th>Плюсы</th><th>Минусы</th></tr>
+    <tr><td>Релейный</td><td>AC и DC, до 8–10 А</td><td>универсален, «сухой контакт»</td><td>медленный, износ контактов, щелчки</td></tr>
+    <tr><td>Транзисторный</td><td>только DC (24 В)</td><td>быстрый, без износа, для ШИМ</td><td>небольшой ток, нужен диод на катушке</td></tr>
+    <tr><td>Симисторный</td><td>AC 230 В</td><td>без щелчков, долговечный</td><td>ток утечки, боится перегрузки</td></tr>
+  </table>
+</div>
+<p>Правило: <b>реле — для ламп, пускателей, клапанов; транзистор — для импульсов, шаговых приводов, светодиодов и ШИМ</b>.</p>
+
+<h3 class="sm">Что ещё различается</h3>
+<ul>
+  <li><b>Часы реального времени</b> — нужны для расписаний (освещение по времени, полив). Не во всех моделях.</li>
+  <li><b>Аналоговые входы</b> — датчики давления, уровня, температуры (0–10 В, 4–20 мА, NTC).</li>
+  <li><b>Съёмный дисплей или панель</b> — у части моделей для удобной настройки.</li>
+  <li><b>Исполнение</b> — обычное и для жёстких условий (расширенный диапазон температур).</li>
+  <li><b>Память на карте</b> — перенос программы без ноутбука.</li>
+</ul>
+</div>
+
+<div class="tema">
+<h2>Тема 3. Системы и программирование</h2>
+
+<div class="nb">
+  <span class="lbl">📓 В тетрадь · тема 3</span>
+  <ul>
+    <li>Программируют в <b>среде производителя</b>: Owen Logic (ОВЕН), LOGO!Soft Comfort (Siemens), Zelio Soft (Schneider).</li>
+    <li>Языки по стандарту <b>МЭК 61131-3</b>; в ПР используют два: <b>FBD</b> (функциональные блоки) и <b>LD</b> (лестничные схемы).</li>
+    <li>Программа работает <b>циклически</b>: опрос входов → вычисление блоков сверху вниз → запись выходов → снова.</li>
+    <li>Базовые блоки: И, ИЛИ, НЕ, <b>RS/SR-триггер</b>, таймеры <b>TON / TOF</b>, счётчики, компаратор, генератор импульсов.</li>
+    <li>Таймер <b>TON</b> — задержка включения, <b>TOF</b> — задержка выключения.</li>
+    <li>Программу проверяют в <b>симуляторе</b>, затем загружают по USB/Ethernet и смотрят <b>онлайн-мониторинг</b>.</li>
+    <li>Один выход должен записываться в <b>одном месте</b> программы, иначе результат непредсказуем.</li>
+  </ul>
+</div>
+
+<h3 class="sm">Языки программирования</h3>
+<div class="tw">
+  <table>
+    <tr><th>Язык</th><th>Расшифровка</th><th>Как выглядит</th></tr>
+    <tr><td>LD</td><td>Ladder Diagram, лестничная логика</td><td>контакты и катушки, как релейная схема</td></tr>
+    <tr><td>FBD</td><td>Function Block Diagram</td><td>прямоугольники-блоки, соединённые линиями</td></tr>
+    <tr><td>ST</td><td>Structured Text</td><td>текст, похож на Pascal (в ПР редко)</td></tr>
+    <tr><td>SFC</td><td>Sequential Function Chart</td><td>шаги и переходы (в ПР редко)</td></tr>
+  </table>
+</div>
+<p>В программируемых реле чаще всего работают в <b>FBD</b> — наглядно видно, какой блок от чего зависит. <b>LD</b> удобен электрику: читается как знакомая схема с контактами.</p>
+
+<h3 class="sm">Цикл работы программы</h3>
+<div class="chain"><span>опрос входов</span> → <span>чтение датчиков</span> → <span>выполнение блоков</span> → <span>запись выходов</span> → <span>диагностика и связь</span> → <span>снова с начала</span></div>
+<p>Цикл короткий — единицы миллисекунд. Отсюда правило: для быстрых процессов (импульсы, счёт) берут транзисторные выходы и учитывают время цикла, а не «на глаз».</p>
+
+<h3 class="sm">Базовые блоки</h3>
+<div class="tw">
+  <table>
+    <tr><th>Блок</th><th>Что делает</th><th>Пример</th></tr>
+    <tr><td>AND (И)</td><td>выход = 1, когда все входы 1</td><td>пуск при «кнопка + концевик»</td></tr>
+    <tr><td>OR (ИЛИ)</td><td>выход = 1, если любой вход 1</td><td>свет от двух датчиков</td></tr>
+    <tr><td>NOT (НЕ)</td><td>инверсия</td><td>сигнал «нет аварии»</td></tr>
+    <tr><td>RS / SR триггер</td><td>память на 1 бит</td><td>самоподхват «Пуск/Стоп»</td></tr>
+    <tr><td>TON</td><td>задержка включения</td><td>насос стартует через 5 с</td></tr>
+    <tr><td>TOF</td><td>задержка выключения</td><td>вентилятор работает ещё 60 с</td></tr>
+    <tr><td>Счётчик</td><td>считает импульсы</td><td>учёт деталей, циклов</td></tr>
+    <tr><td>Компаратор</td><td>сравнение с уставкой</td><td>уровень выше 80% — стоп</td></tr>
+  </table>
+</div>
+
+<h3 class="sm">Пример: управление насосом по уровню</h3>
+<pre>Входы:  I1 — датчик «нижний уровень» (нет воды)
+        I2 — датчик «верхний уровень» (бак полон)
+        I3 — кнопка «Стоп»
+Выход:  Q1 — пускатель насоса
+
+Логика (FBD):
+  I1 ----+                +-- RS-триггер --+-- Q1
+  I2 ----|-- НЕ --------->| S            Q |--- (пускатель)
+  I3 ----|----------------| R            |
+                          +--------------+
+Защита: TON 3 с — если после пуска нет сигнала I1 «вода есть»,
+        насос останавливается и включается сигнал аварии Q2.</pre>
+<p>Смысл: насос включается по нижнему уровню, держится сам через триггер и выключается по верхнему уровню или кнопке «Стоп». Таймер ловит «сухой ход».</p>
+
+<h3 class="sm">Как программируют по шагам</h3>
+<ol>
+  <li>Составить <b>таблицу входов и выходов</b>: что к какой клемме и что должно срабатывать.</li>
+  <li>Собрать схему в среде: блоки, связи, уставки таймеров.</li>
+  <li>Проверить в <b>симуляторе</b> — без железа, меняя входы мышкой.</li>
+  <li>Загрузить в реле по USB/Ethernet/RS-485.</li>
+  <li>Проверить на месте в режиме <b>мониторинга</b>: какие входы реально приходят, какие выходы включаются.</li>
+  <li>Сохранить проект и, если есть, поставить <b>пароль</b> на программу.</li>
+</ol>
+
+<details><summary>Почему «двойная запись» выхода — ошибка</summary>Программа выполняется сверху вниз, и выход получает последнее записанное значение. Если Q1 назначать в двух местах, одно из них «затрёт» другое, и схема будет вести себя необъяснимо. Собирай логику для выхода в одном месте.</details>
+</div>
+
+<div class="tema">
+<h2>Тема 4. Устройство и подключение</h2>
+
+<div class="nb">
+  <span class="lbl">📓 В тетрадь · тема 4</span>
+  <ul>
+    <li>Устройство: корпус на <b>DIN-рейку 35 мм</b>, импульсный блок питания, <b>процессор и память</b>, входные <b>оптопары</b>, выходные <b>реле или транзисторы</b>, дисплей, клавиши, клеммы, порт программирования.</li>
+    <li>Питание подключают на клеммы <b>L / N</b> (230 В) или <b>+24 В / 0 В</b> — через отдельный автомат.</li>
+    <li>Дискретные входы: «сухой контакт» кнопки или сигнал 24 В от датчика; у каждой группы входов есть <b>общий провод</b>.</li>
+    <li>Датчики бывают <b>PNP</b> (коммутирует плюс) и <b>NPN</b> (коммутирует минус) — тип входа и датчика должны совпадать.</li>
+    <li>Выход реле — <b>сухой контакт</b>: через него питают лампу, катушку пускателя, клапан. Мощный двигатель напрямую не пускают — только через <b>пускатель или промежуточное реле</b>.</li>
+    <li>Индуктивную нагрузку (катушки, двигатели) защищают <b>диодом, варистором или RC-цепью</b>.</li>
+    <li>Силовые и сигнальные провода ведут <b>раздельно</b>, аналоговые — <b>экранированным</b> проводом.</li>
+    <li>После монтажа: прозвонить, проверить питание, затем в мониторинге проверить каждый вход и каждый выход.</li>
+  </ul>
+</div>
+
+<h3 class="sm">Что внутри корпуса</h3>
+<div class="tw">
+  <table>
+    <tr><th>Узел</th><th>Назначение</th></tr>
+    <tr><td>Импульсный блок питания</td><td>из 230 В делает внутренние 5/24 В</td></tr>
+    <tr><td>Процессор и память</td><td>хранит и выполняет программу, хранит уставки</td></tr>
+    <tr><td>Входные оптопары</td><td>гальваническая развязка входов от «мозга»</td></tr>
+    <tr><td>Выходные ключи</td><td>реле или транзисторы, включают нагрузку</td></tr>
+    <tr><td>Дисплей и клавиши</td><td>просмотр входов/выходов, настройка таймеров</td></tr>
+    <tr><td>Порт USB / разъём шины</td><td>программирование и модули расширения</td></tr>
+    <tr><td>Батарейка часов</td><td>чтобы время и расписание не сбивались</td></tr>
+    <tr><td>Клеммы</td><td>подключение питания, входов, выходов</td></tr>
+  </table>
+</div>
+
+<h3 class="sm">Схема подключения (общий вид)</h3>
+<pre>                         ┌─────────────────────────┐
+  230 В ──[QF]──┬── L ───┤ L                    Q1 ├─── к катушке пускателя КМ1
+                └── N ───┤ N                    Q2 ├─── к лампе H1
+                         │                         │
+  кнопка SB1 ────────────┤ I1                  Q3 ├─── к клапану Y1
+  датчик уровня ─────────┤ I2                      │
+  датчик давления ───────┤ I3                      │
+  общий провод ──────────┤ COM                ┌────┘
+                         │      USB / RS-485  │
+                         └────────────────────┘
+                              │
+                          ноутбук с программой
+
+  Автомат QF защищает и линию питания, и сам модуль.
+  Нагрузку на Q1…Q3 подключают через клеммы выходов и общий провод выходов.</pre>
+
+<h3 class="sm">Дискретные и аналоговые входы</h3>
+<div class="tw">
+  <table>
+    <tr><th>Вход</th><th>Сигнал</th><th>Что подключают</th></tr>
+    <tr><td>Дискретный</td><td>«есть / нет» 24 В</td><td>кнопки, концевики, реле, датчики движения</td></tr>
+    <tr><td>Аналоговый 0–10 В</td><td>напряжение</td><td>датчики давления, освещённости, потенциометр</td></tr>
+    <tr><td>Аналоговый 4–20 мА</td><td>токовая петля</td><td>датчики уровня, давления, влажности</td></tr>
+    <tr><td>NTC</td><td>сопротивление от температуры</td><td>термодатчики, тёплый пол</td></tr>
+  </table>
+</div>
+<p>Для токового сигнала 4–20 мА часто ставят <b>измерительный резистор</b> и заводят на вход 0–10 В — тогда 20 мА соответствует максимуму шкалы. Обрыв линии при 4–20 мА виден как «ток ниже 4 мА» — это удобный контроль исправности датчика.</p>
+
+<h3 class="sm">Подключение нагрузки</h3>
+<div class="tw">
+  <table>
+    <tr><th>Нагрузка</th><th>Как подключать</th><th>Что учесть</th></tr>
+    <tr><td>Лампа, светодиодная лента</td><td>через выход реле</td><td>пусковой ток лампы накаливания до 10×</td></tr>
+    <tr><td>Пускатель двигателя</td><td>катушка КМ через выход реле</td><td>катушка индуктивная — диод/RC</td></tr>
+    <tr><td>Двигатель 1–7 кВт</td><td>только через пускатель</td><td>выход реле напрямую не пускает</td></tr>
+    <tr><td>Клапан, соленоид</td><td>выход реле</td><td>большой пусковой ток, варистор</td></tr>
+    <tr><td>Шаговый привод, ШИМ</td><td>транзисторный выход</td><td>только DC, обязателен диод</td></tr>
+  </table>
+</div>
+
+<h3 class="sm">Правила монтажа</h3>
+<ul>
+  <li>Отдельный <b>автомат</b> на питание реле; номинал по току модуля.</li>
+  <li>Клеммы затягивать по инструкции, провод — по сечению клемм (обычно до 1,5–2,5 мм²).</li>
+  <li>Силовые и сигнальные провода — <b>в разных пучках</b>, пересекать под углом 90°.</li>
+  <li>Аналоговые линии — <b>экран</b>, экран заземляют с одной стороны.</li>
+  <li>Реле — в щите <b>вертикально</b>, с запасом на вентиляцию, не рядом с нагревателями.</li>
+  <li>Всегда маркировать провода и подписывать назначение входов.</li>
+</ul>
+
+<h3 class="sm">Порядок проверки после монтажа</h3>
+<ol>
+  <li>Визуально: клеммы, маркировка, ничего не болтается.</li>
+  <li>Прозвонить входы и выходы без питания — нет ли замыканий.</li>
+  <li>Подать питание, проверить, что реле включилось и дисплей светится.</li>
+  <li>В режиме <b>мониторинга</b> нажать каждую кнопку и проверить каждый датчик.</li>
+  <li>Проверить выходы с безопасной нагрузкой (лампа), затем — с реальной.</li>
+  <li>Записать проект, сохранить копию, при необходимости поставить пароль.</li>
+</ol>
+</div>
+
+<h2>Было → стало</h2>
+<div class="tw">
+  <table>
+    <tr><th>Ошибочное «было»</th><th>Правильное «стало»</th></tr>
+    <tr><td>ПР — это тот же ПЛК, только дешевле</td><td>ПР — моноблок на 8–24 точки, ПЛК — модульная система</td></tr>
+    <tr><td>Можно менять схему только перемонтажом</td><td>логику меняют программой, провода не трогают</td></tr>
+    <tr><td>Любой выход включает любой двигатель</td><td>двигатель — только через пускатель</td></tr>
+    <tr><td>Датчик PNP и NPN — без разницы</td><td>тип входа и датчика должны совпадать</td></tr>
+    <tr><td>Выход можно программировать в двух местах</td><td>у выхода одна точка записи</td></tr>
+    <tr><td>Индуктивную нагрузку подключают без защиты</td><td>диод, варистор или RC обязательны</td></tr>
+  </table>
+</div>
+
+<div class="box trap">
+  <h3>🪤 Ловушки</h3>
+  <ol>
+    <li><b>230 В на вход 24 В</b> — вход выгорает сразу. Проверяй маркировку клемм.</li>
+    <li><b>Питание и входы перепутаны</b> — реле не стартует или ломается. Сначала питание, потом сигналы.</li>
+    <li><b>PNP вместо NPN</b> — вход не видит датчик, хотя всё исправно.</li>
+    <li><b>Нагрузка больше тока выхода</b> — контакты привариваются, реле «залипает».</li>
+    <li><b>Катушка без диода</b> — помеха и ложные срабатывания, иногда отказ выхода.</li>
+    <li><b>Двойная запись выхода</b> в программе — непредсказуемое поведение.</li>
+    <li><b>Забыли про время цикла</b> — быстрые импульсы теряются.</li>
+    <li><b>Нет пароля и копии проекта</b> — после замены реле программу восстанавливать нечем.</li>
+    <li><b>Аналоговый провод рядом с силовым</b> — «плавающие» показания и рывки регулятора.</li>
+    <li><b>Проверка сразу на рабочей нагрузке</b> — ошибка монтажа убивает аппарат. Сначала лампа.</li>
+  </ol>
+</div>
+
+<h2>Термины</h2>
+<div class="tw">
+  <table>
+    <tr><th>Термин</th><th>Коротко</th></tr>
+    <tr><td>Программируемое реле</td><td>компактный контроллер для простой автоматики</td></tr>
+    <tr><td>Дискретный вход</td><td>вход «есть сигнал / нет сигнала»</td></tr>
+    <tr><td>Аналоговый вход</td><td>вход для плавного сигнала 0–10 В или 4–20 мА</td></tr>
+    <tr><td>Релейный выход</td><td>сухой контакт, коммутирует AC и DC</td></tr>
+    <tr><td>Транзисторный выход</td><td>быстрый ключ только для постоянного тока</td></tr>
+    <tr><td>FBD</td><td>язык программирования функциональными блоками</td></tr>
+    <tr><td>LD</td><td>лестничная логика, контакты и катушки</td></tr>
+    <tr><td>Таймер TON</td><td>задержка включения на заданное время</td></tr>
+    <tr><td>RS-триггер</td><td>блок памяти: включил — держит сам</td></tr>
+    <tr><td>Время цикла</td><td>время одного прохода программы</td></tr>
+    <tr><td>PNP / NPN</td><td>датчик коммутирует плюс или минус</td></tr>
+    <tr><td>DIN-рейка</td><td>профиль 35 мм для крепления аппаратов</td></tr>
+  </table>
+</div>
+
+<h2>Шпаргалка</h2>
+<pre>ПР = входы + программа + выходы в одном корпусе
+Логика — в программе, а не в проводах
+Питание: 230 В AC или 24 В DC; выходы: реле или транзистор
+Языки: FBD (блоки), LD (контакты), стандарт МЭК 61131-3
+Цикл: опрос входов → блоки → запись выходов
+Таймер TON — задержка включения, TOF — выключения
+Входы: сухой контакт 24 В, PNP/NPN, аналог 0–10 В, 4–20 мА
+Выходы: лампа, пускатель, клапан; двигатель — через пускатель
+Индуктивная нагрузка — диод или варистор
+Один выход — одна точка записи в программе
+После монтажа: мониторинг каждого входа и выхода</pre>
+
+<h2>Чек-лист самопроверки</h2>
+<ul class="chk">
+  <li>Даю определение ПР и называю три его плюса</li>
+  <li>Отличаю ПР от ПЛК по точкам и конструктиву</li>
+  <li>Перечисляю виды по питанию, выходам и конструктиву</li>
+  <li>Называю два языка программирования и стандарт МЭК 61131-3</li>
+  <li>Объясняю цикл работы программы</li>
+  <li>Знаю, что делают TON, TOF и RS-триггер</li>
+  <li>Перечисляю узлы устройства реле</li>
+  <li>Подключаю кнопку, PNP-датчик и аналоговый датчик</li>
+  <li>Помню про защиту индуктивной нагрузки</li>
+  <li>Знаю порядок проверки после монтажа</li>
+</ul>
+
+<div class="box test">
+  <h3>Мини-тест: 12 вопросов по всем темам</h3>
+  <div id="tq">
+    <div class="q" data-a="1">
+      <p class="qt">1. Что такое программируемое реле?</p>
+      <label><input type="radio" name="t1" value="0"> Автоматический выключатель с тепловым расцепителем</label>
+      <label><input type="radio" name="t1" value="1"> Цифровое устройство: входы, программа, выходы</label>
+      <label><input type="radio" name="t1" value="2"> Блок питания для датчиков</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">2. Главное преимущество ПР перед релейной схемой?</p>
+      <label><input type="radio" name="t2" value="0"> Не требует питания</label>
+      <label><input type="radio" name="t2" value="1"> Работает без датчиков</label>
+      <label><input type="radio" name="t2" value="2"> Логика задаётся программой, а не проводами</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">3. Какой стандарт описывает языки программирования контроллеров?</p>
+      <label><input type="radio" name="t3" value="0"> МЭК 61131-3</label>
+      <label><input type="radio" name="t3" value="1"> ГОСТ 12.1.005</label>
+      <label><input type="radio" name="t3" value="2"> ПУЭ</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">4. FBD — это язык…</p>
+      <label><input type="radio" name="t4" value="0"> текстовых команд</label>
+      <label><input type="radio" name="t4" value="1"> шагов и переходов</label>
+      <label><input type="radio" name="t4" value="2"> функциональных блоков</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">5. Что делает таймер TON?</p>
+      <label><input type="radio" name="t5" value="0"> Задерживает выключение</label>
+      <label><input type="radio" name="t5" value="1"> Задерживает включение</label>
+      <label><input type="radio" name="t5" value="2"> Считает импульсы</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">6. Как программа ПР работает по времени?</p>
+      <label><input type="radio" name="t6" value="0"> Один раз после включения</label>
+      <label><input type="radio" name="t6" value="1"> Только по команде с ПК</label>
+      <label><input type="radio" name="t6" value="2"> Циклически, снова и снова</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">7. Чем отличается ПЛК от программируемого реле?</p>
+      <label><input type="radio" name="t7" value="0"> ПЛК модульный и на много точек, ПР — моноблок</label>
+      <label><input type="radio" name="t7" value="1"> ПЛК не программируется</label>
+      <label><input type="radio" name="t7" value="2"> ПР работает только от 24 В</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">8. Какой выход подходит для ШИМ и быстрых импульсов?</p>
+      <label><input type="radio" name="t8" value="0"> Релейный</label>
+      <label><input type="radio" name="t8" value="1"> Симисторный</label>
+      <label><input type="radio" name="t8" value="2"> Транзисторный</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">9. Как пускают двигатель от программируемого реле?</p>
+      <label><input type="radio" name="t9" value="0"> Напрямую с выхода реле</label>
+      <label><input type="radio" name="t9" value="1"> Через пускатель или промежуточное реле</label>
+      <label><input type="radio" name="t9" value="2"> Через аналоговый вход</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">10. Что обязательно ставят на катушку индуктивной нагрузки?</p>
+      <label><input type="radio" name="t10" value="0"> Диод, варистор или RC-цепь</label>
+      <label><input type="radio" name="t10" value="1"> Второй автомат</label>
+      <label><input type="radio" name="t10" value="2"> Конденсатор последовательно</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">11. Датчик PNP на входе, рассчитанном на NPN — что будет?</p>
+      <label><input type="radio" name="t11" value="0"> Всё будет работать</label>
+      <label><input type="radio" name="t11" value="1"> Сгорит процессор</label>
+      <label><input type="radio" name="t11" value="2"> Вход не увидит сигнал</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">12. Что проверяют в первую очередь после монтажа?</p>
+      <label><input type="radio" name="t12" value="0"> Сразу пускают двигатель под нагрузкой</label>
+      <label><input type="radio" name="t12" value="1"> Прозвонку, питание и каждый вход в мониторинге</label>
+      <label><input type="radio" name="t12" value="2"> Стирают программу</label>
+    </div>
+  </div>
+  <button onclick="check('tq')">Проверить</button>
+  <button class="ghost" onclick="reset('tq')">Сбросить</button>
+  <div class="res" id="tq-res">Отвечай и нажми «Проверить».</div>
+</div>
+
+<div class="final">
+  <h3>Вся тема за 10 секунд</h3>
+  <p>Программируемое реле — моноблок на DIN-рейке: сигналы приходят на входы, процессор прогоняет программу по кругу (опрос → блоки → запись выходов), выходы включают лампы, пускатели и клапаны. Логику собирают в FBD или LD в среде производителя. Питание 230 В или 24 В, выходы релейные или транзисторные, датчики PNP/NPN и аналоговые 0–10 В / 4–20 мА. Двигатель — только через пускатель, индуктивная нагрузка — с диодом или варистором, один выход — одна точка записи, после монтажа — мониторинг каждого входа.</p>
+</div>
+
+</div>
+</main>
+
+<p class="foot">Конспект · программируемые реле · <a href="index.html?v=8">← в сборник</a></p>
+
+<script>
+function check(id){
+  var box=document.getElementById(id), qs=box.querySelectorAll('.q'), ok=0, bad=[];
+  qs.forEach(function(q,i){
+    var right=q.dataset.a, chosen=null;
+    q.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+    q.querySelectorAll('input[type=radio]').forEach(function(inp){ if(inp.checked){chosen=inp.value;} });
+    if(chosen===null){bad.push(i+1);return;}
+    if(chosen===right){
+      ok++;
+      q.querySelector('input[value="'+right+'"]').parentElement.classList.add('ok');
+    }else{
+      bad.push(i+1);
+      q.querySelector('input[value="'+chosen+'"]').parentElement.classList.add('bad');
+      q.querySelector('input[value="'+right+'"]').parentElement.classList.add('ok');
+    }
+  });
+  var res=document.getElementById(id+'-res');
+  if(bad.length===0){
+    res.textContent='✅ Верно всё: '+ok+' из '+qs.length+'. Тему можно сдавать.';
+  }else{
+    res.textContent='Результат: '+ok+' из '+qs.length+'. Разбери вопросы: '+bad.join(', ')+'.';
+  }
+}
+function reset(id){
+  var box=document.getElementById(id);
+  box.querySelectorAll('input[type=radio]').forEach(function(inp){inp.checked=false;});
+  box.querySelectorAll('label').forEach(function(l){l.classList.remove('ok','bad');});
+  document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
