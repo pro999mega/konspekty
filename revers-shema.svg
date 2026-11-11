@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 1000" width="1300" height="1000" font-family="Arial, Helvetica, sans-serif">
+  <title>Схема реверсивного управления асинхронным двигателем</title>
+  <style>
+    .w { stroke:#1f2937; stroke-width:2.5; fill:none; stroke-linecap:round; }
+    .thin { stroke:#1f2937; stroke-width:1.8; fill:none; }
+    .dash { stroke:#94a3b8; stroke-width:1.6; fill:none; stroke-dasharray:6 6; }
+    .dot { fill:#1f2937; }
+    .lbl { font-size:15px; fill:#111827; }
+    .sm { font-size:13px; fill:#475569; }
+    .cap { font-size:13px; fill:#1f2937; font-weight:600; }
+  </style>
+
+  <rect width="1300" height="1000" fill="#ffffff"/>
+  <rect x="16" y="16" width="1268" height="968" fill="none" stroke="#cbd5e1" stroke-width="2" rx="10"/>
+
+  <text x="650" y="56" text-anchor="middle" font-size="24" font-weight="700" fill="#0f172a">Схема реверсивного управления асинхронным двигателем</text>
+  <text x="650" y="82" text-anchor="middle" font-size="14" fill="#64748b">Силовая цепь — слева, цепь управления — справа. Питание 380 В, 50 Гц</text>
+
+  <!-- ================= СИЛОВАЯ ЧАСТЬ ================= -->
+  <text x="230" y="122" text-anchor="middle" class="cap">СИЛОВАЯ ЦЕПЬ</text>
+  <text x="140" y="112" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2937">A</text>
+  <text x="230" y="112" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2937">B</text>
+  <text x="320" y="112" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2937">C</text>
+
+  <!-- шины -->
+  <path class="w" d="M140 130 L140 150 M140 185 L140 250 M230 130 L230 150 M230 185 L230 250 M320 130 L320 150 M320 185 L320 320"/>
+  <!-- QF -->
+  <g class="w">
+    <circle cx="140" cy="150" r="4"/><circle cx="140" cy="185" r="4"/><path d="M152 183 L128 153"/>
+    <circle cx="230" cy="150" r="4"/><circle cx="230" cy="185" r="4"/><path d="M242 183 L218 153"/>
+    <circle cx="320" cy="150" r="4"/><circle cx="320" cy="185" r="4"/><path d="M332 183 L308 153"/>
+  </g>
+  <text x="348" y="175" class="lbl">АВ (QF) — автоматический выключатель</text>
+
+  <!-- К1 контакты -->
+  <g class="w">
+    <circle cx="140" cy="250" r="4"/><circle cx="140" cy="285" r="4"/><path d="M152 283 L128 253"/>
+    <circle cx="230" cy="250" r="4"/><circle cx="230" cy="285" r="4"/><path d="M242 283 L218 253"/>
+    <circle cx="320" cy="250" r="4"/><circle cx="320" cy="285" r="4"/><path d="M332 283 L308 253"/>
+  </g>
+  <text x="348" y="275" class="lbl">К1 (В) — контакты пускателя «вперёд»</text>
+  <g class="w">
+    <path d="M140 285 L140 340 M230 285 L230 340"/>
+  </g>
+
+  <!-- тепловые реле -->
+  <rect x="130" y="340" width="20" height="42" fill="#ffffff" stroke="#1f2937" stroke-width="1.8"/>
+  <rect x="220" y="340" width="20" height="42" fill="#ffffff" stroke="#1f2937" stroke-width="1.8"/>
+  <g class="w">
+    <path d="M140 382 L140 900 M230 382 L230 810 M320 285 L320 900"/>
+  </g>
+  <text x="348" y="330" class="lbl">РТ — нагреватели теплового реле (в двух фазах)</text>
+
+  <!-- ответвление на К2 -->
+  <g class="w">
+    <path d="M140 200 L560 200 L560 520 M230 215 L640 215 L640 520 M320 230 L720 230 L720 520"/>
+  </g>
+  <g class="dot">
+    <circle cx="140" cy="200" r="4"/><circle cx="230" cy="215" r="4"/><circle cx="320" cy="230" r="4"/>
+  </g>
+
+  <!-- К2 контакты -->
+  <g class="w">
+    <circle cx="560" cy="520" r="4"/><circle cx="560" cy="555" r="4"/><path d="M572 553 L548 523"/>
+    <circle cx="640" cy="520" r="4"/><circle cx="640" cy="555" r="4"/><path d="M652 553 L628 523"/>
+    <circle cx="720" cy="520" r="4"/><circle cx="720" cy="555" r="4"/><path d="M732 553 L708 523"/>
+    <path d="M560 555 L560 700 M640 555 L640 780 M720 555 L720 740"/>
+  </g>
+  <text x="548" y="540" text-anchor="end" class="lbl">К2 (Н)</text>
+
+  <!-- перекрёст фаз -->
+  <g class="w">
+    <path d="M560 700 L320 700 M720 740 L140 740 M640 780 L230 780"/>
+  </g>
+  <g class="dot">
+    <circle cx="320" cy="700" r="5"/><circle cx="140" cy="740" r="5"/><circle cx="230" cy="780" r="5"/>
+  </g>
+  <text x="470" y="690" class="sm">перекрёст двух фаз — реверс</text>
+
+  <!-- двигатель -->
+  <circle cx="230" cy="900" r="90" fill="#ffffff" stroke="#1f2937" stroke-width="2.5"/>
+  <text x="230" y="895" text-anchor="middle" font-size="30" font-weight="700" fill="#1f2937">M</text>
+  <text x="230" y="925" text-anchor="middle" font-size="16" fill="#1f2937">3~</text>
+  <text x="124" y="930" text-anchor="end" class="cap">U</text>
+  <text x="246" y="800" class="cap">V</text>
+  <text x="336" y="930" class="cap">W</text>
+  <text x="230" y="1006" text-anchor="middle" class="sm">асинхронный двигатель</text>
+
+  <!-- ================= ЦЕПЬ УПРАВЛЕНИЯ ================= -->
+  <text x="1000" y="122" text-anchor="middle" class="cap">ЦЕПЬ УПРАВЛЕНИЯ</text>
+  <text x="880" y="196" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2937">A</text>
+  <text x="1180" y="196" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2937">C</text>
+
+  <path class="w" d="M880 200 L880 240"/>
+  <rect x="866" y="240" width="28" height="44" fill="#ffffff" stroke="#1f2937" stroke-width="1.8"/>
+  <text x="858" y="268" text-anchor="end" class="sm">FU1</text>
+  <path class="w" d="M880 284 L880 345"/>
+
+  <!-- РТ1 -->
+  <g class="w">
+    <circle cx="880" cy="345" r="4"/><circle cx="880" cy="380" r="4"/><path d="M894 378 L870 347"/>
+  </g>
+  <text x="900" y="370" class="sm">РТ1 — контакт теплового реле</text>
+  <path class="w" d="M880 380 L880 415"/>
+
+  <!-- СТОП -->
+  <g class="w">
+    <circle cx="880" cy="415" r="4"/><circle cx="880" cy="450" r="4"/><path d="M896 448 L864 417"/>
+  </g>
+  <text x="900" y="440" class="sm" fill="#b91c1c">СТОП (нормально замкнутая, красная)</text>
+  <path class="w" d="M880 450 L880 480"/>
+
+  <!-- развилка -->
+  <circle cx="880" cy="480" r="5" class="dot"/>
+  <path class="w" d="M880 480 L1075 480"/>
+
+  <!-- ветвь В -->
+  <path class="w" d="M880 480 L880 500"/>
+  <g class="w">
+    <circle cx="880" cy="500" r="4"/><circle cx="880" cy="535" r="4"/><path d="M896 533 L864 502"/>
+  </g>
+  <text x="868" y="524" text-anchor="end" class="sm">ПУСК В</text>
+  <path class="w" d="M880 535 L880 580"/>
+  <!-- обводка К1.1 -->
+  <path class="w" d="M880 488 L935 488 L935 500 M935 535 L935 550 L880 550"/>
+  <g class="w">
+    <circle cx="935" cy="500" r="4"/><circle cx="935" cy="535" r="4"/><path d="M951 533 L919 502"/>
+  </g>
+  <text x="944" y="575" class="sm">К1.1</text>
+  <g class="dot"><circle cx="880" cy="488" r="4"/><circle cx="880" cy="550" r="4"/></g>
+
+  <rect x="856" y="580" width="48" height="40" fill="#ffffff" stroke="#1f2937" stroke-width="1.8"/>
+  <text x="880" y="605" text-anchor="middle" class="sm">К1</text>
+  <text x="848" y="590" text-anchor="end" class="sm">катушка К1 (В)</text>
+  <path class="w" d="M880 620 L880 665"/>
+
+  <g class="w">
+    <circle cx="880" cy="665" r="4"/><circle cx="880" cy="700" r="4"/><path d="M894 698 L870 667"/>
+  </g>
+  <text x="848" y="688" text-anchor="end" class="sm">К2.2</text>
+  <path class="w" d="M880 700 L880 735"/>
+
+  <g class="w">
+    <circle cx="880" cy="735" r="4"/><circle cx="880" cy="770" r="4"/><path d="M894 768 L870 737"/>
+  </g>
+  <text x="848" y="758" text-anchor="end" class="sm">ВКВ</text>
+  <path class="w" d="M880 770 L880 830"/>
+
+  <!-- ветвь Н -->
+  <path class="w" d="M1075 480 L1075 500"/>
+  <g class="w">
+    <circle cx="1075" cy="500" r="4"/><circle cx="1075" cy="535" r="4"/><path d="M1091 533 L1059 502"/>
+  </g>
+  <text x="1088" y="524" class="sm">ПУСК Н</text>
+  <path class="w" d="M1075 535 L1075 580"/>
+  <!-- обводка К2.1 -->
+  <path class="w" d="M1075 488 L1130 488 L1130 500 M1130 535 L1130 550 L1075 550"/>
+  <g class="w">
+    <circle cx="1130" cy="500" r="4"/><circle cx="1130" cy="535" r="4"/><path d="M1146 533 L1114 502"/>
+  </g>
+  <text x="1139" y="575" class="sm">К2.1</text>
+  <g class="dot"><circle cx="1075" cy="488" r="4"/><circle cx="1075" cy="550" r="4"/></g>
+
+  <rect x="1051" y="580" width="48" height="40" fill="#ffffff" stroke="#1f2937" stroke-width="1.8"/>
+  <text x="1075" y="605" text-anchor="middle" class="sm">К2</text>
+  <text x="1188" y="600" class="sm">катушка К2 (Н)</text>
+  <path class="w" d="M1075 620 L1075 665"/>
+
+  <g class="w">
+    <circle cx="1075" cy="665" r="4"/><circle cx="1075" cy="700" r="4"/><path d="M1089 698 L1065 667"/>
+  </g>
+  <text x="1088" y="688" class="sm">К1.2</text>
+  <path class="w" d="M1075 700 L1075 735"/>
+
+  <g class="w">
+    <circle cx="1075" cy="735" r="4"/><circle cx="1075" cy="770" r="4"/><path d="M1089 768 L1065 737"/>
+  </g>
+  <text x="1088" y="758" class="sm">ВКН</text>
+  <path class="w" d="M1075 770 L1075 830"/>
+
+  <!-- низ цепи управления -->
+  <path class="w" d="M880 830 L1180 830"/>
+  <g class="dot"><circle cx="880" cy="830" r="5"/><circle cx="1075" cy="830" r="5"/></g>
+  <path class="w" d="M1180 200 L1180 240"/>
+  <rect x="1166" y="240" width="28" height="44" fill="#ffffff" stroke="#1f2937" stroke-width="1.8"/>
+  <text x="1204" y="268" class="sm">FU2</text>
+  <path class="w" d="M1180 284 L1180 830"/>
+
+  <!-- легенда -->
+  <g class="sm">
+    <text x="430" y="872">АВ (QF) — автоматический выключатель, трёхполюсный</text>
+    <text x="430" y="894">К1 (В) и К2 (Н) — магнитные пускатели «вперёд» и «назад»</text>
+    <text x="430" y="916">РТ — тепловое реле: нагреватели в силовой цепи, контакт РТ1 — в управлении</text>
+    <text x="430" y="938">К1.1 / К2.1 — блок-контакты самоподхвата параллельно кнопкам пуска</text>
+    <text x="430" y="960">К1.2 / К2.2 — размыкающие блокировки от одновременного включения пускателей</text>
+    <text x="430" y="982">ВКВ / ВКН — концевые выключатели хода вверх и вниз (нормально замкнутые)</text>
+  </g>
+</svg>
