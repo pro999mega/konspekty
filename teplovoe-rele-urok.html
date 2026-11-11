@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тепловое реле — конспект занятия</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding:14px 0 34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{padding:0 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+h1.t{font-size:1.42rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+.fml{margin-top:6px;background:#eaf2fd;border:1px dashed #a9c7ea;border-radius:14px;padding:9px 10px;
+  text-align:center;font-size:.93rem;font-weight:600;color:#12294f;overflow-wrap:anywhere}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"☐ ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+.foot a{color:#a9c2e6}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:0 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.2rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">Электрика · занятие</p>
+    <h1>🌡 Тепловое реле — конспект занятия</h1>
+    <p class="sub">По аудиозаписи 28:35 · устройство по пунктам · уставка · режимы возврата · пример с двигателем</p>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+<h1 class="t">🌡 Тепловое реле: что разбирали на занятии</h1>
+<p class="sub2">Конспект по записи урока · расшифровка автоматическая, формулировки привёл в читаемый вид</p>
+
+<div class="box info">
+  <h3>Что учить в первую очередь</h3>
+  <ol>
+    <li><b>Устройство по пунктам:</b> нагреватель, биметаллические пластины, контакты, контактная группа, кнопки «Стоп» и «Тест», флажок срабатывания, колесико уставки.</li>
+    <li><b>Два режима возврата:</b> автоматический и ручной — и где переключатель.</li>
+    <li><b>Уставка = ток электродвигателя:</b> меньше — будет щёлкать, больше — не защитит.</li>
+  </ol>
+</div>
+
+<h2>Устройство: пункты, которые диктовали</h2>
+<p>На занятии записывали пронумерованный список элементов, чтобы потом отвечать по нему. Ниже — те пункты, что прозвучали в записи.</p>
+<div class="tw">
+  <table>
+    <tr><th>Пункт</th><th>Что записать</th><th>На что смотреть в реле</th></tr>
+    <tr><td>1</td><td>Нагреватель и биметаллическая пластина</td><td>спираль нагрева и пластины внутри корпуса</td></tr>
+    <tr><td>3</td><td>Клеммы подключения силовой цепи</td><td>куда приходят фазы питания</td></tr>
+    <tr><td>4</td><td>Нормально открытые и нормально закрытые контакты</td><td>две группы клемм вспомогательных цепей</td></tr>
+    <tr><td>5</td><td>Контактная группа</td><td>место, где контакты разъединяются; белый «язычок» посередине</td></tr>
+    <tr><td>6</td><td>Кнопка возврата в рабочее состояние (с выбором режима)</td><td>кнопка Reset и переключатель режима рядом</td></tr>
+    <tr><td>7</td><td>Флажок срабатывания</td><td>оранжевый указатель в окошке</td></tr>
+    <tr><td>8</td><td>Кнопка «Стоп»</td><td>кнопка на корпусе реле</td></tr>
+    <tr><td>9</td><td>Кнопка «Тест»</td><td>имитирует срабатывание без нагрева</td></tr>
+    <tr><td>10</td><td>Механизм выбора уставки</td><td>колесико со значениями тока</td></tr>
+  </table>
+</div>
+<p>Пункт 2 в записи не проговаривается — уточни у преподавателя, что он туда вписал.</p>
+
+<h2>Флажок срабатывания</h2>
+<p>На картинке сверху виден оранжевый флажок. Когда реле сработало, флажок появляется в окошке и подсвечивается — это сигнал, что реле находится в сработавшем состоянии. То есть причину отключения видно без приборов: посмотрел на окошко и понял, что двигатель отключало именно тепловое реле, а не что-то другое.</p>
+
+<h2>Режимы возврата в рабочее состояние</h2>
+<div class="cmp">
+  <div class="cbox">
+    <h4>🔄 1. Автоматический</h4>
+    <ul>
+      <li>реле сработало на отключение</li>
+      <li>пластины немного остыли</li>
+      <li>реле само вернулось в работу</li>
+    </ul>
+    <div class="fml">остыло → вернулось само</div>
+  </div>
+  <div class="cbox">
+    <h4>🖐 2. Ручной (механический)</h4>
+    <ul>
+      <li>реле остаётся в сработавшем состоянии</li>
+      <li>пока работник не переключит вручную</li>
+      <li>двигатель сам не запустится</li>
+    </ul>
+    <div class="fml">ждёт человека</div>
+  </div>
+</div>
+<p>Переключатель режима — синий кругляшок сбоку корпуса: повернул в одно положение — ручной, в другое — автоматический. В записи преподаватель показывает его на картинке и просит найти самому: сверху слева, у края.</p>
+
+<h2>Механизм выбора уставки</h2>
+<p>Это колесико со значениями тока (в записи — диапазон примерно от 2 до 5 А: 2; 2,2; 2,4 и так далее до 5). Значение выставляют <b>отвёрткой</b>, поворачивая колесико до нужной цифры.</p>
+<div class="chain"><span>крутим колесико</span> → <span>меняем зазор механизма отключения</span> → <span>пластине нужно больше или меньше изогнуться</span> → <span>раньше или позже сработает</span></div>
+<p>Механика простая: с одной стороны у механизма выступ чуть длиннее. Крутим в сторону <b>большего тока</b> — механизм отключения отодвигается, биметаллической пластине надо изогнуться сильнее, чтобы разомкнуть контакт. Крутим в сторону <b>меньшего</b> — механизм ближе, пластина дойдёт до него раньше.</p>
+
+<h2>Как выбрать значение уставки</h2>
+<p>Защищаем мы <b>двигатель</b>, значит и значение берём по двигателю — по его номинальному току, а не «на глазок».</p>
+<div class="tw">
+  <table>
+    <tr><th>Что поставили</th><th>Что будет</th></tr>
+    <tr><td>Ровно ток двигателя (5 А → 5 А)</td><td>правильно: отключит при перегрузке, не мешает работе</td></tr>
+    <tr><td>Меньше тока двигателя (двигатель 5 А, уставка 4 А)</td><td>постоянные срабатывания: поработал — отключился, включил — снова</td></tr>
+    <tr><td>Больше тока двигателя</td><td>двигатель греется при неисправности, а реле молчит — вплоть до поломки</td></tr>
+  </table>
+</div>
+<p>Почему нельзя «накинуть сверху»: если двигатель потребляет 5 А, то 6 А — это уже перегрузка. Причины бывают разные — заклинивание, лишняя нагрузка, подгоревшие витки, — но ток вырос, значит двигатель греется. Тепловое реле как раз и должно это увидеть.</p>
+
+<h2>Принцип работы</h2>
+<div class="chain"><span>ток выше уставки</span> → <span>нагрев пластин</span> → <span>изгиб</span> → <span>доходят до контакта</span> → <span>механизм отключения</span> → <span>размыкание</span></div>
+<p>При протекании тока биметаллические пластины нагреваются и изгибаются, доходят до контакта контактной группы и воздействуют на него — срабатывает механизм отключения.</p>
+<p>Важная деталь из записи: пластин <b>три</b>, и они соединены общей металлической пластинкой. Поэтому если греется только одна линия, всё равно сработает вся группа — «язычок» воздействует на контакт в любом случае.</p>
+<p>Срабатывание не мгновенное: при небольшом превышении тока пластина изгибается не сразу, на это может уйти от десятка секунд до пары минут. Зато кратковременную перегрузку реле переждёт — двигатель чуть нагрелся, нагрузка ушла, пластины остыли, работа продолжается.</p>
+
+<h2>Пример из практики (рассказ преподавателя)</h2>
+<p>Собирали схему пуска электродвигателя. Подключили всё вместе с тепловым реле, но <b>уставку не настроили</b>. Запускают — двигатель крутится, крутится и отключается. Включают снова — то же самое. На третий раз двигатель покрутился, и из теплового реле пошёл дым.</p>
+<p>Причина: двигатель был на 9 А, а реле рассчитано примерно на 1,5 А. Вывод, который прозвучал: уставку по току выбирают по значению тока электродвигателя, и это <b>точное</b> значение — не «примерно», не «с запасом».</p>
+
+<h2>Вопросы, которые задавали на занятии</h2>
+<ul class="tl">
+  <li><b>Откуда брать значение тока для уставки?</b> С двигателя, который защищаем, — по его номинальному току.</li>
+  <li><b>Что будет, если поставить меньше тока двигателя?</b> Реле будет отключать постоянно.</li>
+  <li><b>Что будет, если поставить больше?</b> При неисправности и перегрузке реле не сработает, двигатель перегреется и сломается.</li>
+  <li><b>Что находится между нагревателем и биметаллической пластиной?</b> Ответа в записи нет — преподаватель оставил это как вопрос на подумать. Надо найти самому.</li>
+</ul>
+
+<div class="box trap">
+  <h3>🪤 Ловушки из этой темы</h3>
+  <ol>
+    <li>Поставить уставку «с запасом» — самый частый способ сжечь двигатель.</li>
+    <li>Путать флажок срабатывания с кнопкой возврата: флажок только показывает, кнопка возвращает.</li>
+    <li>Забыть, в каком режиме стоит возврат: в ручном двигатель сам не запустится, и это не поломка.</li>
+    <li>Крутить колесико уставки без отвёртки и без фиксации — значение сбивается, реальный порог уезжает.</li>
+    <li>Ждать мгновенного срабатывания при небольшой перегрузке: у реле есть тепловая инерция, это его нормальная работа.</li>
+  </ol>
+</div>
+
+<h2>Шпаргалка</h2>
+<pre>Устройство: нагреватель · биметалл · НО/НЗ контакты · контактная группа
+Кнопки: возврат (Reset) · «Стоп» · «Тест» · флажок срабатывания
+Уставка = ток электродвигателя, точно, без запаса
+Меньше уставка — постоянные отключения
+Больше уставка — реле молчит, двигатель горит
+Возврат: авто (остыло — вернулось) / ручной (ждёт человека)
+Механика: пластина изгибается → контактная группа → механизм отключения
+Срабатывание не мгновенное: секунды — минуты</pre>
+
+<h2>Чек-лист самопроверки</h2>
+<ul class="chk">
+  <li>Перечисляю элементы реле по пунктам без подсказки</li>
+  <li>Показываю, где флажок срабатывания и что он значит</li>
+  <li>Объясняю разницу автоматического и ручного возврата</li>
+  <li>Нахожу на корпусе колесико уставки и переключатель режима</li>
+  <li>Ставлю уставку по току двигателя и объясняю, почему не выше</li>
+  <li>Рассказываю принцип работы по шагам</li>
+  <li>Помню, почему при небольшой перегрузке реле срабатывает не сразу</li>
+</ul>
+
+<details><summary>Подсказка: как отвечать на «что будет, если уставка больше тока двигателя»</summary>Коротко: реле не увидит перегрузку. Двигатель будет греться при неисправности или лишней нагрузке, изоляция разрушится, и реле не спасёт. Ответ строится от назначения реле — защита двигателя, а не провода и не сети.</details>
+
+<div class="box test">
+  <h3>Мини-тест: 8 вопросов</h3>
+  <div id="uq">
+    <div class="q" data-a="1">
+      <p class="qt">1. Что показывает оранжевый флажок в окошке реле?</p>
+      <label><input type="radio" name="u1" value="0"> Что реле включено</label>
+      <label><input type="radio" name="u1" value="1"> Что реле сработало</label>
+      <label><input type="radio" name="u1" value="2"> Что двигатель вращается</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">2. Сколько режимов возврата в рабочее состояние?</p>
+      <label><input type="radio" name="u2" value="0"> Один</label>
+      <label><input type="radio" name="u2" value="1"> Три</label>
+      <label><input type="radio" name="u2" value="2"> Два</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">3. В ручном режиме реле вернётся в работу когда?</p>
+      <label><input type="radio" name="u3" value="0"> Когда работник переключит вручную</label>
+      <label><input type="radio" name="u3" value="1"> Само после остывания</label>
+      <label><input type="radio" name="u3" value="2"> Через 5 минут по таймеру</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">4. По чему выбирают уставку?</p>
+      <label><input type="radio" name="u4" value="0"> По току автомата</label>
+      <label><input type="radio" name="u4" value="1"> По току электродвигателя</label>
+      <label><input type="radio" name="u4" value="2"> По мощности всей линии</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">5. Двигатель 5 А, уставку поставили 4 А. Что будет?</p>
+      <label><input type="radio" name="u5" value="0"> Ничего, будет работать нормально</label>
+      <label><input type="radio" name="u5" value="1"> Реле не сработает при перегрузке</label>
+      <label><input type="radio" name="u5" value="2"> Постоянные срабатывания</label>
+    </div>
+    <div class="q" data-a="0">
+      <p class="qt">6. Уставка больше тока двигателя. Чем это опасно?</p>
+      <label><input type="radio" name="u6" value="0"> Реле не защитит, двигатель перегреется</label>
+      <label><input type="radio" name="u6" value="1"> Реле будет часто отключать</label>
+      <label><input type="radio" name="u6" value="2"> Сгорит катушка пускателя</label>
+    </div>
+    <div class="q" data-a="1">
+      <p class="qt">7. Чем выставляют значение на колесике уставки?</p>
+      <label><input type="radio" name="u7" value="0"> Рукой без инструмента</label>
+      <label><input type="radio" name="u7" value="1"> Отвёрткой</label>
+      <label><input type="radio" name="u7" value="2"> Ключом на 10</label>
+    </div>
+    <div class="q" data-a="2">
+      <p class="qt">8. Почему при небольшой перегрузке реле срабатывает не сразу?</p>
+      <label><input type="radio" name="u8" value="0"> Контакты долго размыкаются</label>
+      <label><input type="radio" name="u8" value="1"> Оно вообще не сработает</label>
+      <label><input type="radio" name="u8" value="2"> Пластине нужно время, чтобы нагреться и изогнуться</label>
+    </div>
+  </div>
+  <button onclick="check('uq')">Проверить</button>
+  <button class="ghost" onclick="reset('uq')">Сбросить</button>
+  <div class="res" id="uq-res">Отвечай и нажми «Проверить».</div>
+</div>
+
+<div class="final">
+  <h3>Вся тема за 10 секунд</h3>
+  <p>Реле держит три биметаллические пластины рядом с нагревателем и контактную группу. Ток перегрузки греет пластины — они изгибаются и размыкают контакт, срабатывает механизм отключения. Флажок в окошке показывает, что реле сработало, кнопка возврата возвращает его в работу: в ручном режиме — только руками, в автоматическом — само после остывания. Уставка ставится точно по току электродвигателя и регулируется отвёрткой: меньше — постоянные отключения, больше — двигатель сгорит.</p>
+</div>
+
+</div>
+</main>
+
+<p class="foot">Конспект занятия · по аудиозаписи 28:35 · <a href="teplovoe-rele.html">общая теория</a> · <a href="index.html">← в сборник</a></p>
+
+<script>
+function check(id){
+  var box=document.getElementById(id),qs=box.querySelectorAll('.q'),ok=0,bad=[];
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i],right=q.getAttribute('data-a'),chosen=null;
+    var labels=q.querySelectorAll('label');
+    for(var j=0;j<labels.length;j++){labels[j].classList.remove('ok','bad');}
+    var sel=q.querySelector('input:checked');
+    if(!sel){bad.push(i+1);continue;}
+    chosen=sel.value;
+    if(chosen===right){
+      ok++;
+      sel.parentNode.classList.add('ok');
+    }else{
+      bad.push(i+1);
+      sel.parentNode.classList.add('bad');
+      for(var k=0;k<labels.length;k++){
+        var inp=labels[k].querySelector('input');
+        if(inp&&inp.value===right){labels[k].classList.add('ok');}
+      }
+    }
+  }
+  var res=document.getElementById(id+'-res');
+  if(bad.length===0){
+    res.textContent='✅ Верно всё: '+ok+' из '+qs.length+'. Тему занятия закрыл.';
+  }else{
+    res.textContent='Результат: '+ok+' из '+qs.length+'. Разбери вопросы: '+bad.join(', ')+'.';
+  }
+}
+function reset(id){
+  var box=document.getElementById(id);
+  var ins=box.querySelectorAll('input');
+  for(var i=0;i<ins.length;i++){ins[i].checked=false;}
+  var labels=box.querySelectorAll('label');
+  for(var j=0;j<labels.length;j++){labels[j].classList.remove('ok','bad');}
+  document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
