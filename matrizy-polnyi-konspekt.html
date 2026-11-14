@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Матрицы: полный конспект</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;padding-bottom:34px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1c2638;line-height:1.58;font-size:16px;
+  background:
+    radial-gradient(900px 520px at 10% -10%,rgba(79,124,255,.34),rgba(6,14,30,0) 62%),
+    radial-gradient(760px 480px at 100% 0%,rgba(122,84,255,.22),rgba(6,14,30,0) 58%),
+    linear-gradient(165deg,#06101f 0%,#0d1d38 48%,#08142a 100%);
+  background-attachment:fixed;min-height:100vh}
+.hd{position:sticky;top:0;z-index:20;padding:12px 10px 6px}
+.card{max-width:840px;margin:0 auto;border-radius:26px;padding:15px 17px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 20px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.kicker{margin:0 0 5px;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#93b8f0}
+h1{margin:0;font-size:18px;color:#fff;letter-spacing:.3px}
+.sub{margin:5px 0 0;font-size:12.5px;color:#a9c2e6}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tab{flex:0 1 auto;cursor:pointer;font:inherit;font-size:12.5px;font-weight:600;white-space:nowrap;padding:8px 14px;
+  border-radius:999px;color:#dce9ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  transition:transform .18s,background .2s,color .2s}
+.tab:active{transform:scale(.96)}
+.tab.on{background:linear-gradient(135deg,#fff,#e7f0ff);color:#12305f;border-color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.34)}
+main{max-width:840px;margin:0 auto;padding:6px 10px 0}
+.sheet{position:relative;background:#fff;border-radius:28px;padding:24px 18px 28px;
+  box-shadow:0 26px 60px rgba(0,0,0,.44)}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid #e2eaf7;border-radius:20px;pointer-events:none}
+.sheet::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,#16265c,#2f66c9 45%,#7fb6f0)}
+.sheet>*{position:relative;z-index:1}
+.sec{display:none}
+.sec.on{display:block}
+h1.t{font-size:1.38rem;line-height:1.28;color:#12294f;margin:0 0 6px}
+.sub2{color:#6b7c96;font-size:.85rem;margin:0 0 16px}
+h2{font-size:1.05rem;color:#12294f;margin:24px 0 10px;padding-left:12px;position:relative;letter-spacing:.2px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#2f66c9,#7fb6f0)}
+h3.mh{font-size:.93rem;color:#12294f;margin:12px 0 4px}
+p{margin:7px 0;overflow-wrap:break-word}
+ul,ol{margin:8px 0 8px 20px;padding:0}
+li{margin:5px 0;overflow-wrap:break-word}
+.box{border-radius:18px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+.box h3{margin:0 0 7px;font-size:.98rem}
+.info{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px solid #c6d9f3}
+.info h3{color:#12294f}
+.trap{background:linear-gradient(135deg,#fdeeee,#fbe4e4);border:1px solid #eebcbc}
+.trap h3{color:#a92c2c}
+.test{background:linear-gradient(135deg,#eaf7ee,#e3f4e9);border:1px solid #b3ddc0}
+.test h3{color:#1a6f3e}
+.final{background:linear-gradient(135deg,#eef5ff,#e5effd);border:1px dashed #a9c7ea;border-radius:18px;
+  padding:14px 16px;margin-top:20px}
+.final h3{margin:0 0 7px;font-size:1rem;color:#12294f}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;
+  border:1px solid #dbe5f2;border-radius:16px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #e8eef8}
+th{background:#f3f7fd;color:#12294f;font-weight:600;font-size:.86rem}
+tr:last-child td{border-bottom:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.cbox{border:1px solid #dbe5f2;border-radius:18px;padding:13px 15px;background:linear-gradient(180deg,#fbfdff,#f4f9ff)}
+.cbox h4{margin:0 0 6px;font-size:.95rem;color:#12294f}
+.cbox ul{margin:6px 0 8px 18px;font-size:.9rem}
+.fml{margin-top:6px;background:#eaf2fd;border:1px dashed #a9c7ea;border-radius:14px;padding:9px 10px;
+  text-align:center;font-size:.93rem;font-weight:600;color:#12294f;overflow-wrap:anywhere}
+pre{font-family:ui-monospace,Consolas,monospace;background:#f5f8fd;border:1px solid #dbe5f2;border-radius:16px;
+  padding:12px 14px;overflow-x:auto;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#1c2638}
+.chain{text-align:center;margin:14px 0}
+.chain span{background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:5px 12px;display:inline-block;
+  margin:3px 2px;font-size:.9rem;color:#12294f}
+.tl{list-style:none;margin:12px 0 12px 6px;padding:0;border-left:2px solid #dbe5f2}
+.tl li{position:relative;padding:0 0 10px 16px;font-size:.92rem}
+.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:10px;height:10px;border-radius:50%;
+  background:#2f66c9;box-shadow:0 0 0 3px #e8f1fd}
+.tl b{color:#12294f}
+.chk{list-style:none;margin-left:0}
+.chk li::before{content:"\2610 ";color:#2f66c9;font-weight:700}
+details{background:#f7fafd;border:1px solid #dbe5f2;border-radius:16px;padding:9px 13px;margin:8px 0;font-size:.92rem}
+summary{cursor:pointer;color:#12294f;font-weight:600}
+/* матрицы */
+.mx{display:inline-flex;position:relative;padding:6px 13px;margin:4px 2px;font-family:ui-monospace,Consolas,monospace;
+  font-size:.93rem;color:#12294f;vertical-align:middle}
+.mx::before,.mx::after{content:"";position:absolute;top:0;bottom:0;width:7px;border:2px solid #12294f;border-radius:5px}
+.mx::before{left:0;border-right:0}
+.mx::after{right:0;border-left:0}
+.mg{display:grid;grid-template-columns:repeat(var(--c),minmax(2.3em,auto));gap:3px 10px;text-align:right}
+.mrow{margin:10px 0;overflow-x:auto}
+.mlab{font-size:.88rem;color:#6b7c96;margin:8px 0 2px}
+.step{display:inline-block;background:#eaf2fd;border:1px solid #c6d9f3;border-radius:999px;padding:1px 9px;
+  font-size:.78rem;color:#12294f;font-weight:700;margin-right:6px;vertical-align:1px}
+.q{margin:15px 0;padding-bottom:6px;border-bottom:1px dotted #e2eaf6}
+.q:last-child{border-bottom:0}
+.qt{font-weight:600;margin:0 0 7px;font-size:.94rem}
+label{display:block;padding:9px 14px;border-radius:999px;border:1px solid #e2eaf6;margin:6px 0;cursor:pointer;
+  font-size:.91rem;transition:background .15s}
+label:active{background:#f3f7fd}
+label.ok{background:#dcf3e3;border-color:#8fcfa6}
+label.bad{background:#fbe0e0;border-color:#e9a3a3}
+input[type=radio]{margin-right:7px}
+button{font:inherit;font-weight:600;background:linear-gradient(135deg,#2f66c9,#1f3b8f);color:#fff;border:none;
+  border-radius:999px;padding:11px 22px;margin:10px 8px 0 0;cursor:pointer;box-shadow:0 8px 18px rgba(47,102,201,.28)}
+button.ghost{background:#eef5ff;color:#12294f;border:1px solid #c6d9f3;box-shadow:none}
+.res{font-weight:700;color:#12294f;margin-top:12px;font-size:.95rem}
+.foot{max-width:840px;margin:14px auto 0;text-align:center;font-size:11px;color:#8ea6c9;letter-spacing:.3px}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(max-width:430px){
+  body{font-size:15px}
+  .hd{padding:10px 8px 5px}
+  .card{border-radius:22px;padding:13px 14px 12px}
+  h1{font-size:16.5px}
+  .tabs{gap:6px;margin-top:10px}
+  .tab{font-size:11.5px;padding:7px 12px}
+  .sheet{border-radius:22px;padding:20px 13px 24px}
+  .sheet::before{inset:6px;border-radius:16px}
+  h1.t{font-size:1.18rem}
+  h2{font-size:1rem;margin:20px 0 9px}
+  th,td{font-size:.81rem;padding:7px 8px}
+  .box,.final{border-radius:15px;padding:12px 13px}
+  pre{font-size:.78rem;padding:10px 11px}
+  .mx{font-size:.84rem;padding:5px 10px}
+  .mg{grid-template-columns:repeat(var(--c),minmax(1.8em,auto));gap:2px 7px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="card">
+    <p class="kicker">Линейная алгебра</p>
+    <h1>🧮 Матрицы: полный конспект</h1>
+    <p class="sub">4 части · вся теория, примеры с решением, тесты</p>
+    <div class="tabs" id="tabs">
+      <button class="tab on" onclick="show('s-b',this)">📐 Основы</button>
+      <button class="tab" onclick="show('s-o',this)">✖️ Операции</button>
+      <button class="tab" onclick="show('s-d',this)">🔍 Определитель</button>
+      <button class="tab" onclick="show('s-v',this)">🔁 Обратная</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="sheet">
+
+<!-- ═══════════ ОСНОВЫ ═══════════ -->
+<section class="sec on" id="s-b">
+  <h1 class="t">📐 Матрицы: что это, виды, действия со строками</h1>
+  <p class="sub2">Часть 1 · обозначения, размер, особые виды, элементарные преобразования</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Размер.</b> m строк × n столбцов — от него зависит, что вообще можно делать.</li>
+      <li><b>Два действия над строками:</b> менять местами и прибавлять строку с множителем. На определитель влияет ещё умножение строки на число.</li>
+      <li><b>Ступентатый вид</b> — то, к чему приводят любую матрицу для ранга и решения систем.</li>
+    </ol>
+  </div>
+
+  <h2>Определение и обозначение</h2>
+  <p><b>Матрица</b> — прямоугольная таблица чисел. Числа внутри называются <b>элементами</b>, у каждого два индекса: a<sub>ij</sub> — i-я строка, j-й столбец.</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>a₁₁</span><span>a₁₂</span><span>a₁₃</span>
+<span>a₂₁</span><span>a₂₂</span><span>a₂₃</span>
+</div></div></div>
+  <p>Размер записывают так: <b>2×3</b> — 2 строки и 3 столбца. Матрицу размера m×n коротко пишут A = (a<sub>ij</sub>), где i = 1…m, j = 1…n.</p>
+
+  <h2>Главные виды</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Вид</th><th>Что это</th><th>Пример</th></tr>
+      <tr><td><b>Квадратная</b></td><td>строк столько же, сколько столбцов (n×n), есть порядок n</td><td>2×2, 3×3</td></tr>
+      <tr><td><b>Прямоугольная</b></td><td>m ≠ n</td><td>2×3</td></tr>
+      <tr><td><b>Вектор-строка</b></td><td>1×n</td><td>[1 2 3]</td></tr>
+      <tr><td><b>Вектор-столбец</b></td><td>m×1</td><td>(1; 2; 3)</td></tr>
+      <tr><td><b>Единичная E</b></td><td>диагональ 1, остальное 0; A·E = A</td><td>E₂ = [1 0; 0 1]</td></tr>
+      <tr><td><b>Нулевая O</b></td><td>все элементы 0</td><td>[0 0; 0 0]</td></tr>
+      <tr><td><b>Диагональная</b></td><td>ненулевые только на главной диагонали</td><td>[2 0; 0 5]</td></tr>
+      <tr><td><b>Треугольная</b></td><td>нули выше или ниже диагонали</td><td>[1 2; 0 3]</td></tr>
+      <tr><td><b>Симметричная</b></td><td>Aᵀ = A, то есть a<sub>ij</sub> = a<sub>ji</sub></td><td>[1 2; 2 5]</td></tr>
+      <tr><td><b>Ступенчатая</b></td><td>первый ненулевой элемент строки правее, чем в предыдущей</td><td>см. ниже</td></tr>
+    </table>
+  </div>
+
+  <h2>Равенство и матрица как преобразование</h2>
+  <p>Две матрицы равны, только если <b>одинаковый размер и все элементы совпадают</b>. Из этого решают уравнения: A = B ⟹ a<sub>11</sub> = b<sub>11</sub>, a<sub>12</sub> = b<sub>12</sub> и так далее.</p>
+  <p>Квадратная матрица задаёт линейное преобразование: точку (x; y) она переводит в (a·x + b·y; c·x + d·y). Строки матрицы показывают, куда переходят единичные векторы.</p>
+  <pre>A·(x; y)ᵀ,  где A = [ a b ; c d ]
+x′ = a·x + b·y
+y′ = c·x + d·y</pre>
+
+  <h2>Пример: уравнение с элементами</h2>
+  <p>Дано: [ x+1  2 ; 3  y−1 ] = [ 4  2 ; z  5 ].</p>
+  <pre>x + 1 = 4  →  x = 3
+2 = 2        ✓
+3 = z    →  z = 3
+y − 1 = 5  →  y = 6</pre>
+
+  <h2>Транспонирование Aᵀ</h2>
+  <p>Строки становятся столбцами, размер m×n превращается в n×m.</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>1</span><span>2</span><span>3</span>
+<span>4</span><span>5</span><span>6</span>
+</div></div></div>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:2">
+<span>1</span><span>4</span>
+<span>2</span><span>5</span>
+<span>3</span><span>6</span>
+</div></div></div>
+  <p>Свойства: (Aᵀ)ᵀ = A; (A + B)ᵀ = Aᵀ + Bᵀ; (A·B)ᵀ = Bᵀ·Aᵀ — <b>порядок меняется</b>.</p>
+
+  <h2>Элементарные преобразования строк</h2>
+  <ol>
+    <li><b>Перестановка</b> двух строк: определитель меняет знак.</li>
+    <li><b>Умножение</b> строки на k ≠ 0: определитель умножается на k.</li>
+    <li><b>Прибавление</b> к строке другой строки, умноженной на k: определитель не меняется.</li>
+  </ol>
+  <p>Если этими действиями одна матрица получена из другой, они <b>эквивалентны</b>: у них одинаковый ранг, а значит и одинаковые решения системы.</p>
+
+  <h2>Ступенчатый вид: полный проход</h2>
+  <p>Приводим 3×3 к ступенчатому виду сверху вниз:</p>
+  <pre>[ 1  2  1 | 4 ]
+[ 2  5  3 | 9 ]
+[ 3  7  4 |13 ]
+
+R2 − 2R1:  [ 1  2  1 | 4 ]
+           [ 0  1  1 | 1 ]
+           [ 3  7  4 |13 ]
+
+R3 − 3R1:  [ 1  2  1 | 4 ]
+           [ 0  1  1 | 1 ]
+           [ 0  1  1 | 1 ]
+
+R3 − R2:   [ 1  2  1 | 4 ]
+           [ 0  1  1 | 1 ]
+           [ 0  0  0 | 0 ]</pre>
+  <p>Число ненулевых строк — это ранг. Здесь ранг = 2, значит одна переменная свободная: решений бесконечно много.</p>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>Путать строки и столбцы: a<sub>23</sub> — это 2-я строка, 3-й столбец, а не наоборот.</li>
+      <li>Считать, что 2×2 и 2×2 равны всегда — нужно совпадение <b>всех</b> элементов.</li>
+      <li>Забывать, что размер меняется при транспонировании.</li>
+      <li>Переставлять столбцы в системе так же спокойно, как строки: столбцы соответствуют переменным, порядок меняется вместе с ними.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>A = (a_ij), i — строка, j — столбец, размер m×n
+Квадратная — m = n.  Единичная E — диагональ 1, прочее 0
+Транспонирование Aᵀ: строки ↔ столбцы.  (AB)ᵀ = BᵀAᵀ
+Свойства матрицы: A = B ⟹ a_ij = b_ij
+Ступенчатый вид нужен для ранга и решения систем</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Правильно называю размер и элемент a<sub>ij</sub></li>
+    <li>Перечисляю пять видов квадратных матриц</li>
+    <li>Привожу матрицу к ступенчатому виду за 2–3 строки</li>
+    <li>Транспонирую без ошибок</li>
+    <li>Помню, что (AB)ᵀ = BᵀAᵀ</li>
+  </ul>
+
+  <details><summary>Быстро: как выглядит матрица преобразования</summary>Столбцы — это куда попадают векторы (1;0) и (0;1). Строки — старый способ читать то же самое. Оба варианта — правильные и отличаются только соглашением.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 6 вопросов</h3>
+    <div id="bq">
+      <div class="q" data-a="1">
+        <p class="qt">1. Матрица 3×4 — что это значит?</p>
+        <label><input type="radio" name="b1" value="0"> 4 строки, 3 столбца</label>
+        <label><input type="radio" name="b1" value="1"> 3 строки, 4 столбца</label>
+        <label><input type="radio" name="b1" value="2"> 12 строк</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. У какой матрицы диагональ 1, остальное 0?</p>
+        <label><input type="radio" name="b2" value="0"> нулевая</label>
+        <label><input type="radio" name="b2" value="1"> диагональная</label>
+        <label><input type="radio" name="b2" value="2"> единичная</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Матрица 2×3 после транспонирования будет размера…</p>
+        <label><input type="radio" name="b3" value="0"> 3×2</label>
+        <label><input type="radio" name="b3" value="1"> 2×3</label>
+        <label><input type="radio" name="b3" value="2"> 6×1</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">4. Что такое a₂₃?</p>
+        <label><input type="radio" name="b4" value="0"> 3-я строка, 2-й столбец</label>
+        <label><input type="radio" name="b4" value="1"> 2-я строка, 3-й столбец</label>
+        <label><input type="radio" name="b4" value="2"> элемент вне матрицы</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Сколько ненулевых строк в ступенчатом виде — это…</p>
+        <label><input type="radio" name="b5" value="0"> определитель</label>
+        <label><input type="radio" name="b5" value="1"> след</label>
+        <label><input type="radio" name="b5" value="2"> ранг</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">6. Какое преобразование меняет знак определителя?</p>
+        <label><input type="radio" name="b6" value="0"> прибавление строки с множителем</label>
+        <label><input type="radio" name="b6" value="1"> перестановка двух строк</label>
+        <label><input type="radio" name="b6" value="2"> транспонирование</label>
+      </div>
+    </div>
+    <button onclick="check('bq')">Проверить</button>
+    <button class="ghost" onclick="reset('bq')">Сбросить</button>
+    <div class="res" id="bq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Матрица — таблица m×n, элемент a<sub>ij</sub>. Квадратная даёт определитель, транспонирование переворачивает таблицу. Приведение к ступенчатому виду сложением строк даёт ранг и решает системы.</p>
+  </div>
+</section>
+
+<!-- ═══════════ ОПЕРАЦИИ ═══════════ -->
+<section class="sec" id="s-o">
+  <h1 class="t">✖️ Операции над матрицами</h1>
+  <p class="sub2">Часть 2 · сложение, умножение на число, умножение матриц, свойства</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Сложение</b> — только одинакового размера, поэлементно.</li>
+      <li><b>Умножение A·B</b> — строка на столбец; требуется, чтобы столбцов A было столько же, сколько строк B.</li>
+      <li><b>A·B ≠ B·A</b> — это главная ловушка всей темы.</li>
+    </ol>
+  </div>
+
+  <h2>Сложение и вычитание</h2>
+  <p>Складывают поэлементно и <b>только одинаковые по размеру</b> матрицы.</p>
+  <pre>[ 1  2  3 ]   [ 4  5  6 ]   [ 5  7  9 ]
+[ 7  8  9 ] + [ 1  1  1 ] = [ 8  9 10 ]</pre>
+  <p>Свойства: A + B = B + A; (A + B) + C = A + (B + C); A + O = A.</p>
+
+  <h2>Умножение на число</h2>
+  <p>Каждый элемент умножается на это число.</p>
+  <pre>3 · [ 1  2 ]   [ 3  6 ]
+      [ 0 −1 ] = [ 0 −3 ]</pre>
+  <p>Свойства: (αβ)A = α(βA); α(A + B) = αA + αB; (α + β)A = αA + βA.</p>
+
+  <h2>Умножение матриц: правило</h2>
+  <p>A размера m×n, B размера n×k. Результат — m×k. Элемент c<sub>ij</sub> = сумма произведений i-й строки A на j-й столбец B.</p>
+  <div class="fml">c<sub>ij</sub> = a<sub>i1</sub>b<sub>1j</sub> + a<sub>i2</sub>b<sub>2j</sub> + … + a<sub>in</sub>b<sub>nj</sub></div>
+  <p>Мнемоника: <b>по горизонтали умножаем, по вертикали складываем</b>. Размеры «соседние» n должны совпасть: (m×<b>n</b>)·(<b>n</b>×k) = m×k.</p>
+
+  <h2>Пример 1: 2×2 на 2×2</h2>
+  <p>A = [ 2 1 ; 3 4 ], B = [ 1 0 ; 2 5 ].</p>
+  <pre>c11 = 2·1 + 1·2 = 4        c12 = 2·0 + 1·5 = 5
+c21 = 3·1 + 4·2 = 11       c22 = 3·0 + 4·5 = 20
+
+A·B = [ 4   5 ]
+      [ 11 20 ]</pre>
+
+  <h2>Пример 2: 2×3 на 3×2</h2>
+  <p>A = [ 1 2 1 ; 0 1 3 ], B = [ 1 2 ; 0 1 ; 2 1 ].</p>
+  <pre>c11 = 1·1 + 2·0 + 1·2 = 3      c12 = 1·2 + 2·1 + 1·1 = 5
+c21 = 0·1 + 1·0 + 3·2 = 6      c22 = 0·2 + 1·1 + 3·1 = 4
+
+A·B = [ 3 5 ]
+      [ 6 4 ]
+
+B·A = [ 1 2 ]   [ 1 2 1 ]   [ 1  4  7 ]
+      [ 0 1 ] · [ 0 1 3 ] = [ 0  1  3 ]
+      [ 2 1 ]               [ 2  5  5 ]</pre>
+  <p>Здесь A·B — 2×2, а B·A — 3×3. Результаты не только разные, у них разный размер: <b>коммутативности нет</b>.</p>
+
+  <h2>Пример 3: сколько разными способами складывать</h2>
+  <pre>C = [1 2 3] · (2; 1; 4) = 1·2 + 2·1 + 3·4 = 2 + 2 + 12 = 16</pre>
+  <p>Вектор-строка на вектор-столбец даёт число — это скалярное произведение.</p>
+
+  <h2>Свойства умножения</h2>
+  <div class="cmp">
+    <div class="cbox">
+      <h4>Работает всегда</h4>
+      <ul>
+        <li>A(BC) = (AB)C — ассоциативность</li>
+        <li>A(B + C) = AB + AC</li>
+        <li>A·E = E·A = A</li>
+        <li>A·O = O</li>
+      </ul>
+    </div>
+    <div class="cbox">
+      <h4>Не работает</h4>
+      <ul>
+        <li>AB ≠ BA</li>
+        <li>из AB = O не следует A = O или B = O</li>
+        <li>нельзя сокращать: AB = AC ещё не значит B = C</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Возведение в степень</h2>
+  <p>Только для квадратных: Aⁿ = A·A·…·A (n раз). A⁰ = E.</p>
+  <pre>A = [ 1 1 ; 0 1 ]
+
+A² = [ 1 1 ; 0 1 ]·[ 1 1 ; 0 1 ] = [ 1 2 ; 0 1 ]
+A³ = A²·A = [ 1 3 ; 0 1 ]
+Aⁿ = [ 1 n ; 0 1 ]</pre>
+
+  <h2>След матрицы</h2>
+  <p>Сумма диагональных элементов: tr A = a₁₁ + a₂₂ + … Для [2 1; 3 4] след = 2 + 4 = 6. Полезно: tr(AB) = tr(BA).</p>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li><b>Проверять размеры</b> до умножения: если столбцы A ≠ строки B, произведение не существует.</li>
+      <li>Умножать «в лоб» поэлементно: [1 2; 3 4]·[5 6; 7 8] ≠ [5 12; 21 32].</li>
+      <li>Писать AB = BA, не проверив — это ошибка почти всегда.</li>
+      <li>В степени перемножать элементы вместо матриц, хотя для «некоторых» матриц A² выглядит просто.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>A + B — только одинаковый размер, поэлементно
+αA — каждый элемент на α
+A·B: (m×n)·(n×k) = m×k, c_ij = строка i · столбец j
+AB ≠ BA;  A·E = A;  (AB)ᵀ = BᵀAᵀ
+Aⁿ только для квадратной, A⁰ = E
+tr A — сумма диагонали</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Сразу считаю размер результата</li>
+    <li>Умножаю 2×3 на 3×2 без ошибок</li>
+    <li>Помню, что AB ≠ BA</li>
+    <li>Знаю роль единичной матрицы</li>
+    <li>Считаю степень и след</li>
+  </ul>
+
+  <details><summary>Пример с необратимостью</summary>A = [1 0; 0 0], B = [0 0; 3 5]. AB = [0 0; 0 0], хотя ни A, ни B не нулевые. Правило «произведение равно нулю, значит один множитель ноль» для матриц не работает.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="oq">
+      <div class="q" data-a="2">
+        <p class="qt">1. Матрицу 2×3 можно умножить справа на матрицу…</p>
+        <label><input type="radio" name="o1" value="0"> 2×2</label>
+        <label><input type="radio" name="o1" value="1"> 3×3</label>
+        <label><input type="radio" name="o1" value="2"> 3×5</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">2. (2×3)·(3×4) даёт матрицу размера…</p>
+        <label><input type="radio" name="o2" value="0"> 3×3</label>
+        <label><input type="radio" name="o2" value="1"> 2×4</label>
+        <label><input type="radio" name="o2" value="2"> 4×2</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Верно ли AB = BA для любых матриц?</p>
+        <label><input type="radio" name="o3" value="0"> Нет</label>
+        <label><input type="radio" name="o3" value="1"> Да</label>
+        <label><input type="radio" name="o3" value="2"> Только для 2×2</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">4. A = [2 1; 3 4], B = [1 0; 2 5]. Чему равно c₁₁?</p>
+        <label><input type="radio" name="o4" value="0"> 2</label>
+        <label><input type="radio" name="o4" value="1"> 8</label>
+        <label><input type="radio" name="o4" value="2"> 4</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">5. A·E равно…</p>
+        <label><input type="radio" name="o5" value="0"> E</label>
+        <label><input type="radio" name="o5" value="1"> A</label>
+        <label><input type="radio" name="o5" value="2"> O</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. (AB)ᵀ равно…</p>
+        <label><input type="radio" name="o6" value="0"> BᵀAᵀ</label>
+        <label><input type="radio" name="o6" value="1"> AᵀBᵀ</label>
+        <label><input type="radio" name="o6" value="2"> AB</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">7. Если AB = O, то…</p>
+        <label><input type="radio" name="o7" value="0"> A = O</label>
+        <label><input type="radio" name="o7" value="1"> B = O</label>
+        <label><input type="radio" name="o7" value="2"> оба могут быть ненулевыми</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">8. След матрицы [5 2; 1 3] равен…</p>
+        <label><input type="radio" name="o8" value="0"> 7</label>
+        <label><input type="radio" name="o8" value="1"> 8</label>
+        <label><input type="radio" name="o8" value="2"> 17</label>
+      </div>
+    </div>
+    <button onclick="check('oq')">Проверить</button>
+    <button class="ghost" onclick="reset('oq')">Сбросить</button>
+    <div class="res" id="oq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>Сложение — поэлементно, только при одинаковом размере. Умножение — строка на столбец, размер (m×n)·(n×k) = m×k. Порядок менять нельзя: AB ≠ BA, а (AB)ᵀ = BᵀAᵀ.</p>
+  </div>
+</section>
+
+<!-- ═══════════ ОПРЕДЕЛИТЕЛЬ ═══════════ -->
+<section class="sec" id="s-d">
+  <h1 class="t">🔍 Определитель и ранг</h1>
+  <p class="sub2">Часть 3 · 2×2, 3×3, свойства, миноры и алгебраические дополнения, ранг</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>2×2:</b> ad − bc — считается в голове.</li>
+      <li><b>3×3:</b> правило треугольника или разложение по строке.</li>
+      <li><b>Смысл:</b> det = 0 — матрица вырождена, обратной нет, система либо несовместна, либо имеет бесконечно много решений.</li>
+    </ol>
+  </div>
+
+  <h2>det 2×2</h2>
+  <pre>A = [ a b ; c d ]
+det A = |A| = a·d − b·c
+
+Пример: [ 3 4 ; 2 5 ]  →  3·5 − 4·2 = 15 − 8 = 7</pre>
+
+  <h2>det 3×3: правило треугольника</h2>
+  <pre>A = [ a b c ; d e f ; g h i ]
+
+det = aei + bfg + cdh − ceg − bdi − afh
+      (три «плюсовых» диагонали минус три «минусовых»)</pre>
+
+  <h2>det 3×3: разложение по строке</h2>
+  <p>Разложение по первой строке — самый надёжный способ и то, что нужно для алгебраических дополнений:</p>
+  <div class="fml">det A = a·M₁₁ − b·M₁₂ + c·M₁₃</div>
+  <p>где M₁ⱼ — минор: определитель матрицы без строки 1 и столбца j. Знаки идут по шаблону + − +.</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>+</span><span>−</span><span>+</span>
+<span>−</span><span>+</span><span>−</span>
+<span>+</span><span>−</span><span>+</span>
+</div></div></div>
+  <p>Знак элемента — это (−1)<sup>i+j</sup>. Минор со знаком называется <b>алгебраическим дополнением</b>: A<sub>ij</sub> = (−1)<sup>i+j</sup>·M<sub>ij</sub>.</p>
+
+  <h2>Пример: один определитель тремя способами</h2>
+  <p>A = [ 2 1 1 ; 1 2 1 ; 1 1 2 ].</p>
+  <h3 class="mh">Способ 1 — треугольники</h3>
+  <pre>плюсы: 2·2·2 + 1·1·1 + 1·1·1 = 8 + 1 + 1 = 10
+минусы: 1·2·1 + 1·1·2 + 2·1·1 = 2 + 2 + 2 = 6
+det A = 10 − 6 = 4</pre>
+  <h3 class="mh">Способ 2 — разложение по первой строке</h3>
+  <pre>det A = 2·(2·2 − 1·1) − 1·(1·2 − 1·1) + 1·(1·1 − 2·1)
+      = 2·3 − 1·1 + 1·(−1)
+      = 6 − 1 − 1 = 4</pre>
+  <h3 class="mh">Способ 3 — приведение к треугольному виду</h3>
+  <pre>[ 2 1 1 ; 1 2 1 ; 1 1 2 ]
+R2 − ½R1, R3 − ½R1:  [ 2  1   1  ]
+                     [ 0  1,5 0,5]
+                     [ 0  0,5 1,5]
+R3 − (1/3)R2:        [ 2  1   1  ]
+                     [ 0  1,5 0,5]
+                     [ 0   0  4/3]
+det = 2 · 1,5 · 4/3 = 3 · 4/3 = 4</pre>
+  <p>Все три способа дают 4 — так и проверяют себя на контрольной.</p>
+
+  <h2>Пример: матрица с разложением по третьему столбцу</h2>
+  <p>B = [ 1 0 2 ; 0 3 0 ; −1 0 4 ]. Удобно разложить по второму столбцу — там два нуля.</p>
+  <pre>det B = +3 · (1·4 − 2·(−1)) = 3 · (4 + 2) = 18</pre>
+
+  <h2>Свойства определителя</h2>
+  <div class="tw">
+    <table>
+      <tr><th>Свойство</th><th>Что происходит с det</th></tr>
+      <tr><td>транспонирование</td><td>не меняется: |Aᵀ| = |A|</td></tr>
+      <tr><td>перестановка двух строк</td><td>меняет знак</td></tr>
+      <tr><td>умножение строки на k</td><td>det умножается на k</td></tr>
+      <tr><td>прибавление строки с множителем</td><td>не меняется</td></tr>
+      <tr><td>две одинаковые строки</td><td>det = 0</td></tr>
+      <tr><td>нулевая строка</td><td>det = 0</td></tr>
+      <tr><td>умножение всей A на k</td><td>det(kA) = kⁿ·det A</td></tr>
+      <tr><td>произведение</td><td>|A·B| = |A|·|B|</td></tr>
+      <tr><td>единичная</td><td>|E| = 1</td></tr>
+    </table>
+  </div>
+
+  <h2>Миноры и алгебраические дополнения</h2>
+  <p>Пример для C = [ 1 0 2 ; 0 3 0 ; −1 0 4 ]:</p>
+  <div class="tw">
+    <table>
+      <tr><th>Дополнение</th><th>Вычеркнули строку/столбец</th><th>Минор</th><th>Значение</th></tr>
+      <tr><td>C₁₁ = +</td><td>1–1</td><td>3·4 − 0·0</td><td><b>12</b></td></tr>
+      <tr><td>C₁₂ = −</td><td>1–2</td><td>0·4 − 0·(−1)</td><td><b>0</b></td></tr>
+      <tr><td>C₁₃ = +</td><td>1–3</td><td>0·0 − 3·(−1)</td><td><b>3</b></td></tr>
+      <tr><td>C₂₁ = −</td><td>2–1</td><td>0·4 − 2·0</td><td><b>0</b></td></tr>
+      <tr><td>C₂₂ = +</td><td>2–2</td><td>1·4 − 2·(−1)</td><td><b>6</b></td></tr>
+      <tr><td>C₂₃ = −</td><td>2–3</td><td>1·0 − 0·(−1)</td><td><b>0</b></td></tr>
+      <tr><td>C₃₁ = +</td><td>3–1</td><td>0·0 − 2·3</td><td><b>−6</b></td></tr>
+      <tr><td>C₃₂ = −</td><td>3–2</td><td>1·0 − 2·0</td><td><b>0</b></td></tr>
+      <tr><td>C₃₃ = +</td><td>3–3</td><td>1·3 − 0·0</td><td><b>3</b></td></tr>
+    </table>
+  </div>
+  <p>Проверка: сумма элементов строки матрицы A, умноженных на дополнения другой строки, равна 0 — этим пользуются, чтобы не считать лишнее.</p>
+
+  <h2>Ранг матрицы</h2>
+  <p><b>Ранг</b> — наибольший порядок ненулевого минора, то есть число независимых строк (или столбцов).</p>
+  <ul>
+    <li>Приводят матрицу к ступенчатому виду — ранг = число ненулевых строк.</li>
+    <li>Или ищут миноры возрастающего порядка: 2×2, потом 3×3 и так далее.</li>
+  </ul>
+  <pre>D = [ 1  2  3 ]
+    [ 2  4  6 ]
+    [ 1  1  1 ]
+
+R2 − 2R1 → [ 0 0 0 ];  R3 − R1 → [ 0 −1 −2 ]
+Ступенчатый вид: две ненулевые строки → ранг = 2
+(строка 2 была копией строки 1 в 2 раза, поэтому «пропала»)</pre>
+  <p>Связь с определителем: у квадратной матрицы порядка n ранг равен n тогда и только тогда, когда det ≠ 0. Если det = 0 — ранг меньше n, матрица вырождена.</p>
+
+  <h2>Система уравнений и det</h2>
+  <pre>Квадратная система A·x = b
+det A ≠ 0 → единственное решение (x = A⁻¹b)
+det A = 0 → либо нет решений, либо бесконечно много
+
+Правило Крамера:
+x_i = det A_i / det A, где A_i — A с заменой i-го столбца на b
+
+Пример: 2x + y = 5, x + y = 3
+det A = 2·1 − 1·1 = 1
+det A₁ = |5 1; 3 1| = 5 − 3 = 2 → x = 2
+det A₂ = |2 5; 1 3| = 6 − 5 = 1 → y = 1</pre>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li>Забыть знак дополнения: у (1;2), (2;1), (2;3), (3;2) минус.</li>
+      <li>Разложить по строке, в которой больше нулей — но сбиться в знаках. Считай шаблон явно.</li>
+      <li>Считать det только по диагонали: для 3×3 это ошибка.</li>
+      <li>Путать det(kA) = kⁿdet A с умножением одной строки.</li>
+      <li>Говорить «решения нет», когда det = 0: вариантов два — нет решений или бесконечно много.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>|a b; c d| = ad − bc
+3×3: aei + bfg + cdh − ceg − bdi − afh
+Разложение: det = Σ (−1)^(i+j) · a_ij · M_ij
+Перестановка строк → знак меняется; строка на k → det на k
+|Aᵀ| = |A|;  |AB| = |A||B|;  |kA| = kⁿ|A|;  |E| = 1
+det = 0 → вырождена, обратной нет
+Ранг = число ненулевых строк в ступенчатом виде
+Крамер: x_i = det A_i / det A</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Считаю det 2×2 и 3×3 двумя способами</li>
+    <li>Правильно ставлю знак дополнения</li>
+    <li>Помню про знак при перестановке строк</li>
+    <li>Считаю ранг через ступенчатый вид</li>
+    <li>Решаю систему правилом Крамера</li>
+  </ul>
+
+  <details><summary>Почему det = 0 означает вырожденность</summary>Определитель — это коэффициент изменения площади (объёма). Если он равен 0, матрица сплющивает пространство в линию или точку: часть информации о точке теряется, и вернуться назад уже невозможно.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="dq">
+      <div class="q" data-a="1">
+        <p class="qt">1. Чему равен det [4 3; 2 5]?</p>
+        <label><input type="radio" name="d1" value="0"> 26</label>
+        <label><input type="radio" name="d1" value="1"> 14</label>
+        <label><input type="radio" name="d1" value="2"> 6</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. det [2 1 1; 1 2 1; 1 1 2] равен…</p>
+        <label><input type="radio" name="d2" value="0"> 0</label>
+        <label><input type="radio" name="d2" value="1"> 10</label>
+        <label><input type="radio" name="d2" value="2"> 4</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. Что делает с определителем перестановка двух строк?</p>
+        <label><input type="radio" name="d3" value="0"> Меняет знак</label>
+        <label><input type="radio" name="d3" value="1"> Ничего</label>
+        <label><input type="radio" name="d3" value="2"> Обнуляет</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">4. Если det A = 0, то обратная матрица…</p>
+        <label><input type="radio" name="d4" value="0"> равна нулевой</label>
+        <label><input type="radio" name="d4" value="1"> не существует</label>
+        <label><input type="radio" name="d4" value="2"> равна E</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. Ранг матрицы [1 2 3; 2 4 6] равен…</p>
+        <label><input type="radio" name="d5" value="0"> 0</label>
+        <label><input type="radio" name="d5" value="1"> 2</label>
+        <label><input type="radio" name="d5" value="2"> 1</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">6. Какой знак у алгебраического дополнения A₂₃?</p>
+        <label><input type="radio" name="d6" value="0"> Минус</label>
+        <label><input type="radio" name="d6" value="1"> Плюс</label>
+        <label><input type="radio" name="d6" value="2"> Зависит от элемента</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">7. |A·B| равно…</p>
+        <label><input type="radio" name="d7" value="0"> |A| + |B|</label>
+        <label><input type="radio" name="d7" value="1"> |A|·|B|</label>
+        <label><input type="radio" name="d7" value="2"> |A| − |B|</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. [det 2E₃] при det E = 1 равно…</p>
+        <label><input type="radio" name="d8" value="0"> 2</label>
+        <label><input type="radio" name="d8" value="1"> 6</label>
+        <label><input type="radio" name="d8" value="2"> 8</label>
+      </div>
+    </div>
+    <button onclick="check('dq')">Проверить</button>
+    <button class="ghost" onclick="reset('dq')">Сбросить</button>
+    <div class="res" id="dq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>det 2×2 — ad − bc. Для 3×3 — разложение по строке со знаками + − +. Перестановка строк меняет знак, |Aᵀ| = |A|, |AB| = |A||B|. det = 0 — обратной нет. Ранг — число ненулевых строк в ступенчатом виде.</p>
+  </div>
+</section>
+
+<!-- ═══════════ ОБРАТНАЯ ═══════════ -->
+<section class="sec" id="s-v">
+  <h1 class="t">🔁 Обратная матрица и уравнение AX = B</h1>
+  <p class="sub2">Часть 4 · метод присоединённой матрицы, проверка, примеры 2×2 и 3×3</p>
+
+  <div class="box info">
+    <h3>Что учить в первую очередь</h3>
+    <ol>
+      <li><b>Условие:</b> обратная есть только у квадратной с det ≠ 0.</li>
+      <li><b>Формула:</b> A⁻¹ = (1/det A) · Aᵀ, где Aᵀ — транспонированная матрица дополнений.</li>
+      <li><b>Проверка:</b> A⁻¹·A = E — одно умножение, которое ловит все арифметические ошибки.</li>
+    </ol>
+  </div>
+
+  <h2>Определение</h2>
+  <p>A⁻¹ — такая матрица, что <b>A·A⁻¹ = A⁻¹·A = E</b>. Существует только если матрица квадратная и det A ≠ 0.</p>
+  <p>Свойства: (A⁻¹)⁻¹ = A; (AB)⁻¹ = B⁻¹A⁻¹; (Aᵀ)⁻¹ = (A⁻¹)ᵀ; det(A⁻¹) = 1/det A.</p>
+
+  <h2>Метод присоединённой матрицы: 4 шага</h2>
+  <div class="chain"><span>det</span> → <span>дополнения</span> → <span>транспонировать</span> → <span>разделить на det</span></div>
+  <ol>
+    <li>Посчитать det A. Ноль — обратной нет, дальше решать нечего.</li>
+    <li>Для каждого элемента посчитать алгебраическое дополнение A<sub>ij</sub> = (−1)<sup>i+j</sup>·M<sub>ij</sub>.</li>
+    <li>Поставить их в матрицу <b>по своим местам</b> и транспонировать — получится присоединённая A*.</li>
+    <li>Разделить <b>все</b> элементы на det A.</li>
+  </ol>
+
+  <h2>Пример 1: матрица 2×2</h2>
+  <p>A = [ 2 1 ; 1 1 ].</p>
+  <pre>Шаг 1: det A = 2·1 − 1·1 = 1
+
+Шаг 2: A₁₁ = +1        A₁₂ = −1
+       A₂₁ = −1        A₂₂ = +2
+
+Шаг 3: Aᵀ = [ 1 −1 ; −1 2 ]
+
+Шаг 4: делим на 1, значит A⁻¹ = [ 1 −1 ; −1 2 ]</pre>
+  <p><b>Проверка:</b></p>
+  <pre>(1;1): 2·1 + 1·(−1) = 1      (1;2): 2·(−1) + 1·2 = 0
+(2;1): 1·1 + 1·(−1) = 0      (2;2): 1·(−1) + 1·2 = 1
+Получили E ✓</pre>
+
+  <h2>Пример 2: стандартная матрица 3×3</h2>
+  <p>B = [ 2 1 1 ; 1 2 1 ; 1 1 2 ].</p>
+  <pre>Шаг 1: det B = 4  (считали в части про определитель)</pre>
+  <p>Шаг 2 — дополнения (матрица симметричная, поэтому дополнения повторяются по диагонали):</p>
+  <pre>B₁₁ = +3    B₁₂ = −1    B₁₃ = −1
+B₂₁ = −1    B₂₂ = +3    B₂₃ = −1
+B₃₁ = −1    B₃₂ = −1    B₃₃ = +3</pre>
+  <p>Шаг 3 — транспонирование ничего не меняет (матрица симметричная). Шаг 4 — делим на 4:</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>3/4</span><span>−1/4</span><span>−1/4</span>
+<span>−1/4</span><span>3/4</span><span>−1/4</span>
+<span>−1/4</span><span>−1/4</span><span>3/4</span>
+</div></div></div>
+  <pre>Проверка (1;1): 2·3/4 + 1·(−1/4) + 1·(−1/4) = 6/4 − 1/4 − 1/4 = 1  ✓
+Проверка (1;2): 2·(−1/4) + 1·3/4 + 1·(−1/4) = −2/4 + 3/4 − 1/4 = 0  ✓</pre>
+
+  <h2>Пример 3: матрица, где транспонирование реально меняет вид</h2>
+  <p>C = [ 1 0 2 ; 0 3 0 ; −1 0 4 ].</p>
+  <pre>Шаг 1: det C = 18 ≠ 0 → обратная есть</pre>
+  <p>Шаг 2 — дополнения из таблицы выше:</p>
+  <p class="mlab">Матрица дополнений</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>12</span><span>0</span><span>3</span>
+<span>0</span><span>6</span><span>0</span>
+<span>−6</span><span>0</span><span>3</span>
+</div></div></div>
+  <p class="mlab">После транспонирования</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>12</span><span>0</span><span>−6</span>
+<span>0</span><span>6</span><span>0</span>
+<span>3</span><span>0</span><span>3</span>
+</div></div></div>
+  <p>Шаг 4 — делим на 18:</p>
+  <div class="mrow"><div class="mx"><div class="mg" style="--c:3">
+<span>2/3</span><span>0</span><span>−1/3</span>
+<span>0</span><span>1/3</span><span>0</span>
+<span>1/6</span><span>0</span><span>1/6</span>
+</div></div></div>
+  <pre>Проверка (1;1): (2/3)·1 + 0·0 + (−1/3)·(−1) = 2/3 + 1/3 = 1  ✓
+Проверка (1;3): (2/3)·2 + 0·0 + (−1/3)·4 = 4/3 − 4/3 = 0      ✓</pre>
+
+  <h2>Решение уравнения A·X = B</h2>
+  <p>Умножаем обе части <b>слева</b> на A⁻¹: A⁻¹·A·X = A⁻¹·B, то есть <b>X = A⁻¹·B</b>. Порядок обязателен — справа A⁻¹·A уже не получится.</p>
+  <p>Дано: A = [ 2 1 ; 1 1 ], B = (5; 3).</p>
+  <pre>det A = 1, A⁻¹ = [ 1 −1 ; −1 2 ]
+
+x₁ = 1·5 + (−1)·3 = 2
+x₂ = (−1)·5 + 2·3 = 1
+
+Ответ: x₁ = 2, x₂ = 1
+Проверка: 2·2 + 1·1 = 5 ✓ ;  1·2 + 1·1 = 3 ✓</pre>
+  <p>Если уравнение записано как X·A = B, то умножают <b>справа</b>: X = B·A⁻¹.</p>
+
+  <h2>Проверка методом Гаусса</h2>
+  <p>Альтернатива присоединённой: приписать к A единичную матрицу и приводить к виду (E | A⁻¹).</p>
+  <pre>[ A | E ] → преобразования строк → [ E | A⁻¹ ]
+
+[ 2 1 | 1 0 ]  R1−R2  [ 1 0 | 1 −1 ]
+[ 1 1 | 0 1 ]  ────→  [ 1 1 | 0  1 ]
+                      R2−R1  [ 1 0 | 1 −1 ]
+                      ────→  [ 0 1 | −1 2 ]</pre>
+  <p>Правая часть совпала с присоединённым методом: A⁻¹ = [ 1 −1 ; −1 2 ].</p>
+
+  <div class="box trap">
+    <h3>🪤 Ловушки</h3>
+    <ol>
+      <li><b>Забыли транспонировать.</b> Матрица дополнений — ещё не присоединённая.</li>
+      <li>Делят только диагональ вместо всех элементов.</li>
+      <li>При det = 0 пишут «0» вместо «обратной не существует».</li>
+      <li>В A·X = B умножают справа: X = B·A⁻¹ — ошибка.</li>
+      <li>Не делают проверку A⁻¹·A = E.</li>
+      <li>Меняют знак не у всех дополнений с нужным индексом.</li>
+    </ol>
+  </div>
+
+  <h2>Шпаргалка</h2>
+  <pre>A⁻¹ = (1/det A) · Aᵀ  (Aᵀ — транспонированная матрица дополнений)
+A_ij = (−1)^(i+j) · M_ij
+det A = 0 → A⁻¹ не существует
+(AB)⁻¹ = B⁻¹A⁻¹ ;  (Aᵀ)⁻¹ = (A⁻¹)ᵀ
+A·X = B → X = A⁻¹B   (умножаем слева!)
+X·A = B → X = B·A⁻¹  (умножаем справа)
+Проверка: A⁻¹·A = E
+Гаусс: [A | E] → [E | A⁻¹]</pre>
+
+  <h2>Чек-лист самопроверки</h2>
+  <ul class="chk">
+    <li>Считаю det 3×3 разложением по строке</li>
+    <li>Ставлю верные знаки дополнений</li>
+    <li>Транспонирую матрицу дополнений</li>
+    <li>Делю на det все элементы</li>
+    <li>Делаю проверку A⁻¹·A = E</li>
+    <li>В A·X = B умножаю слева</li>
+  </ul>
+
+  <details><summary>Быстрый способ для 2×2</summary>[a b; c d]⁻¹ = 1/(ad − bc) · [d −b; −c a]. Меняем местами диагональ, у побочных элементов меняем знак, делим на определитель.</details>
+
+  <div class="box test">
+    <h3>Мини-тест: 8 вопросов</h3>
+    <div id="vq">
+      <div class="q" data-a="1">
+        <p class="qt">1. Когда обратная матрица существует?</p>
+        <label><input type="radio" name="v1" value="0"> Всегда</label>
+        <label><input type="radio" name="v1" value="1"> Когда матрица квадратная и det ≠ 0</label>
+        <label><input type="radio" name="v1" value="2"> Когда det = 0</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">2. Формула обратной через присоединённую:</p>
+        <label><input type="radio" name="v2" value="0"> A⁺ / det A</label>
+        <label><input type="radio" name="v2" value="1"> A · det A</label>
+        <label><input type="radio" name="v2" value="2"> Aᵀ / det A, где Aᵀ — транспонированная матрица дополнений</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">3. [a b; c d]⁻¹ = …</p>
+        <label><input type="radio" name="v3" value="0"> 1/(ad−bc) · [d −b; −c a]</label>
+        <label><input type="radio" name="v3" value="1"> 1/(ad−bc) · [a b; c d]</label>
+        <label><input type="radio" name="v3" value="2"> 1/(ad−bc) · [−a b; c −d]</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">4. Для [2 1; 1 1] обратная — это…</p>
+        <label><input type="radio" name="v4" value="0"> [2 1; 1 1]</label>
+        <label><input type="radio" name="v4" value="1"> [1 −1; −1 2]</label>
+        <label><input type="radio" name="v4" value="2"> [1 1; 1 2]</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">5. A·X = B, значит…</p>
+        <label><input type="radio" name="v5" value="0"> X = B·A⁻¹</label>
+        <label><input type="radio" name="v5" value="1"> X = A·B⁻¹</label>
+        <label><input type="radio" name="v5" value="2"> X = A⁻¹·B</label>
+      </div>
+      <div class="q" data-a="1">
+        <p class="qt">6. A⁻¹·A равно…</p>
+        <label><input type="radio" name="v6" value="0"> A</label>
+        <label><input type="radio" name="v6" value="1"> E</label>
+        <label><input type="radio" name="v6" value="2"> O</label>
+      </div>
+      <div class="q" data-a="0">
+        <p class="qt">7. (AB)⁻¹ равно…</p>
+        <label><input type="radio" name="v7" value="0"> B⁻¹A⁻¹</label>
+        <label><input type="radio" name="v7" value="1"> A⁻¹B⁻¹</label>
+        <label><input type="radio" name="v7" value="2"> не существует</label>
+      </div>
+      <div class="q" data-a="2">
+        <p class="qt">8. det(A⁻¹) равен…</p>
+        <label><input type="radio" name="v8" value="0"> det A</label>
+        <label><input type="radio" name="v8" value="1"> −det A</label>
+        <label><input type="radio" name="v8" value="2"> 1 / det A</label>
+      </div>
+    </div>
+    <button onclick="check('vq')">Проверить</button>
+    <button class="ghost" onclick="reset('vq')">Сбросить</button>
+    <div class="res" id="vq-res">Отвечай и нажми «Проверить».</div>
+  </div>
+
+  <div class="final">
+    <h3>Вся тема за 10 секунд</h3>
+    <p>A⁻¹ = (1/det A)·Aᵀ, где Aᵀ — транспонированная матрица алгебраических дополнений (−1)<sup>i+j</sup>·M<sub>ij</sub>. Для [2 1; 1 1] — det 1, обратная [1 −1; −1 2]. Уравнение A·X = B решают как X = A⁻¹B, умножая слева, и обязательно проверяют A⁻¹·A = E.</p>
+  </div>
+</section>
+
+</div>
+</main>
+
+<p class="foot">Личный сборник · матрицы · открывается в браузере телефона, можно сохранить в PDF через «Печать»</p>
+
+<script>
+function show(id,btn){
+  var secs=document.querySelectorAll('.sec');
+  for(var i=0;i<secs.length;i++){secs[i].classList.remove('on');}
+  document.getElementById(id).classList.add('on');
+  var tabs=document.querySelectorAll('.tab');
+  for(var j=0;j<tabs.length;j++){tabs[j].classList.remove('on');}
+  btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function check(id){
+  var box=document.getElementById(id);
+  var qs=box.querySelectorAll('.q');
+  var total=qs.length, ok=0, answered=0;
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i], ans=q.getAttribute('data-a');
+    var labels=q.querySelectorAll('label');
+    var picked=null;
+    for(var k=0;k<labels.length;k++){
+      labels[k].classList.remove('ok','bad');
+      var inp=labels[k].querySelector('input');
+      if(inp.checked){picked=inp;}
+    }
+    if(picked){answered++;}
+    for(var m=0;m<labels.length;m++){
+      var ip=labels[m].querySelector('input');
+      if(ip.value===ans){labels[m].classList.add('ok');}
+      else if(picked && ip===picked){labels[m].classList.add('bad');}
+    }
+    if(picked && picked.value===ans){ok++;}
+  }
+  var res=document.getElementById(id+'-res');
+  if(answered===0){res.textContent='Выбери хотя бы один ответ.';return;}
+  res.textContent='Правильно '+ok+' из '+total+'. '+(ok===total?'Отлично, тема закрыта — можно писать на лист.':'Зелёным выделены верные варианты, красным — твой неверный.');
+}
+function reset(id){
+  var box=document.getElementById(id);
+  var labs=box.querySelectorAll('label');
+  for(var i=0;i<labs.length;i++){labs[i].classList.remove('ok','bad');}
+  var ins=box.querySelectorAll('input');
+  for(var j=0;j<ins.length;j++){ins[j].checked=false;}
+  document.getElementById(id+'-res').textContent='Отвечай и нажми «Проверить».';
+}
+</script>
+</body>
+</html>
